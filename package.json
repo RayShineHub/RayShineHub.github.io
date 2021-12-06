@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "author": "pengfeishine",
   "scripts": {
-    "dev": "vuepress dev .",
-    "build": "vuepress build .",
-    "upcdn": "vuepress build . && node ./scripts/upcdn.js",
+    "dev": "vuepress dev src",
+    "build": "vuepress build src",
+    "upcdn": "vuepress build src && node ./scripts/upcdn.js",
 		"deploy": "bash deploy.sh"
   },
   "devDependencies": {
