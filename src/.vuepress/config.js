@@ -31,6 +31,11 @@ module.exports = {
     lineNumbers: true
   },
   mode:"auto",
+	locales: {
+	  "/": {
+	    "lang": 'zh-CN'
+	  }
+	},
   themeConfig: {
     //首页样式
     back:{

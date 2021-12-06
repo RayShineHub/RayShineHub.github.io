@@ -106,7 +106,7 @@ export default {
     var itoday= new Date();
     var week = itoday.getDay();
     this.motto = this.$themeConfig.mottos[week];
-    
+    AOS.init()
   },
   computed: {
     homeBlogCfg () {
@@ -154,7 +154,6 @@ export default {
     })
     this.recoShow = true
     this._setPage(this._getStoragePage())
-		await AOS.init()
   },
   methods: {
     onClick(){

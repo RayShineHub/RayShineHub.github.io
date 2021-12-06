@@ -14,9 +14,9 @@ module.exports = {
         }
      },
     "vuepress-plugin-boxx":{},
-	"meting":{
-		
-		// aplayer,
-		// mobile,
-	}
+		"meting":{
+			
+			// aplayer,
+			// mobile,
+		}
 }
