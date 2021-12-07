@@ -1,0 +1,49 @@
+# 任务名称
+
+name: Deploy Pages
+
+# 触发条件
+on:
+  # 当项目文件 push 到 main 分支后
+  push:
+    branches: [ prod ]
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # job名称
+  build-and-deploy:
+    # 服务器环境：最新版 Ubuntu
+    runs-on: ubuntu-latest
+
+    # action奇妙的步骤
+    steps:
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      # 编译&生成静态文件
+      - name: build
+        run: npm install && npm run build
+
+      # 部署到github.io静态网站
+      - name: Deploy File To GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
+          
+          
+      # 部署到远程服务器
+      - name: Deploy File To Remote Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: 'root'
+          server: '${{ secrets.SERVER_IP_ALIYUN }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
+          local_path: './dist/*'
+          remote_path: '/www/server/nginx/html/blog'
+        
