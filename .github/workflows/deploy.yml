@@ -51,18 +51,18 @@ jobs:
       - name: Deploy File To GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          CLEAN: true
-          REPOSITORY_NAME: RayShineHub/RayShine.github.io
-          BRANCH: main
-          FOLDER: dist
+          token: ${{ secrets.BLOG_DEPLOY }}
+          clean: true
+          repository-name: RayShineHub/RayShine.github.io
+          branch: gh-pages
+          folder: dist
           
           
       # 部署到远程服务器
       - name: Deploy File To Remote Server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          username: 'root'
+          username: 'root-bt'
           server: '${{ secrets.SERVER_IP_ALIYUN }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
           local_path: './dist/*'
