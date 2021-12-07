@@ -66,7 +66,7 @@ module.exports = {
     blogConfig: {
       category: {
         location: 2, // 在导航栏菜单中所占的位置，默认2
-        text: "文章" // 默认 “分类”Category
+        text: "博客" // 默认 “分类”Category
       },
       tag: {
         location: 3, // 在导航栏菜单中所占的位置，默认3
@@ -74,13 +74,13 @@ module.exports = {
       },
     },
     valineConfig: {
-		appId: 'C1QftJERODGumPjT0jYf4lU1-gzGzoHsz',// your appId
-		appKey: 'ArQ4h9IPpKU31g1XkDRgmX0n', // your appKey
-		placeholder: '请务必填写联系方式，方便及时回复！',
-		pageSize: 20,
-		enableQQ: true,
-		recordIP:true,
-		visitor:true
+			appId: 'C1QftJERODGumPjT0jYf4lU1-gzGzoHsz',// your appId
+			appKey: 'ArQ4h9IPpKU31g1XkDRgmX0n', // your appKey
+			placeholder: '请务必填写联系方式，方便及时回复！',
+			pageSize: 20,
+			enableQQ: true,
+			recordIP:true,
+			visitor:true
     },
     nav,
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
