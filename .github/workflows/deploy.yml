@@ -77,7 +77,7 @@ jobs:
       - name: Deploy Docs To Remote Server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          username: 'root-bt'
+          username: 'root'
           server: '${{ secrets.SERVER_IP_ALIYUN }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
           local_path: './dist/*'
