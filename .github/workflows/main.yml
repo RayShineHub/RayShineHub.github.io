@@ -35,3 +35,15 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
+          
+          
+      # 部署到远程服务器
+      - name: Deploy File To Remote Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: 'root'
+          server: '${{ secrets.SERVER_IP_ALIYUN }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
+          local_path: './dist/*'
+          remote_path: '/www/server/nginx/html/blog'
+        
