@@ -7,9 +7,6 @@ on:
   # 当项目文件 push 到 main 分支后
   push:
     branches: [ prod ]
-		
-	merge:
-	  branches: [ prod ]
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
