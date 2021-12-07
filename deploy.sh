@@ -3,32 +3,13 @@
 # 确保脚本抛出遇到的错误
 set -e
 
-# 生成静态文件
-npm run build
-
-# 进入生成的文件夹
-#cd docs/.vuepress/dist
-
-# 如果是发布到自定义域名
-# echo 'www.yida-zyj.xyz' > CNAME
-
-#git init
-#git add -A
-#git commit -m 'deploy'
-
-# 如果你想要部署到 https://USERNAME.github.io  
-#git push -f https://gitee.com/xxxxx/xxxx.git master
-
-# git push -f https://github.com/yida-zyj/yida-zyj.github.io.git master
-
-# 如果发布到 https://USERNAME.github.io/<REPO>  REPO=github上的项目
-# git push -f git@github.com:USERNAME/<REPO>.git master:gh-pages
-
-#cd -
-
+# 提交到main分支
+git add -A
+git commit -m 'deploy'
+git push
 
 # 发布到github的prod分支，触发工作流同步到Linux服务器
-# git checkout prod
-# git merge origin main
-# git push
-# git checkout main
+git checkout prod
+git merge origin main
+git push
+git checkout main

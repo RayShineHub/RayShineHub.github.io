@@ -6,7 +6,8 @@
     "dev": "vuepress dev src",
     "build": "vuepress build src",
     "upcdn": "vuepress build src && node ./scripts/upcdn.js",
-		"deploy": "bash deploy.sh"
+		"deploy": "bash deploy.sh",
+		"push": "bash push.sh"
   },
   "devDependencies": {
 		"jquery": "^3.5.1",
