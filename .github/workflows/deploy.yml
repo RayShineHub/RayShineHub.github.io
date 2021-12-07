@@ -51,7 +51,9 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: RayShineHub/RayShine.github.io@gh-pages
+          CLEAN: true
+          REPOSITORY_NAME: RayShineHub/RayShine.github.io
+          BRANCH: main
           FOLDER: dist
           
           
