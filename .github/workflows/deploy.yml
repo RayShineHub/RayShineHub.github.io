@@ -51,6 +51,7 @@ jobs:
       - name: Deploy File To GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
+          git-config-name: 邵鹏飞
           token: ${{ secrets.BLOG_DEPLOY }}
           clean: true
           repository-name: RayShineHub/RayShine.github.io
