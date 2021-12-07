@@ -10,6 +10,6 @@ git push
 
 # 发布到github的prod分支，触发工作流同步到Linux服务器
 git checkout prod
-git merge origin main
+git merge -m "deploy" origin main
 git push
 git checkout main
