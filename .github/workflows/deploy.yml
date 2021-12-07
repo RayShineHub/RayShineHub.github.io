@@ -82,7 +82,7 @@ jobs:
           server: '${{ secrets.SERVER_IP_ALIYUN }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
           local_path: './dist/*'
-          remote_path: '/www/server/nginx/html/blog'
+          remote_path: ''
           
 
         
