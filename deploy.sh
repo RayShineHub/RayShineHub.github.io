@@ -25,3 +25,10 @@ npm run build
 # git push -f git@github.com:USERNAME/<REPO>.git master:gh-pages
 
 #cd -
+
+
+# 发布到github的prod分支，触发工作流同步到Linux服务器
+# git checkout prod
+# git merge origin main
+# git push
+# git checkout main
