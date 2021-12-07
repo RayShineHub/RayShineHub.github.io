@@ -48,7 +48,7 @@ jobs:
 
       # 部署到github.io静态网站
       - name: Deploy File To GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4.1.7
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: RayShineHub/RayShine.github.io@gh-pages
