@@ -30,7 +30,7 @@ module.exports = {
   markdown: {
     lineNumbers: true
   },
-  mode:"auto",
+  mode:"dark",
 	locales: {
 	  "/": {
 	    "lang": 'zh-CN'
@@ -95,9 +95,24 @@ module.exports = {
     // 作者
     author: "pengfei.shao",
     // 备案号
-    record: 'xxxxxxxxxxx',
+    record: '辽ICP备2021012735',
+		// 备案连接地址
+		recordLink: '',
     // 项目开始时间
     startYear: "2020",
+		"socials":{
+		  "github" : "https://github.com/GodLikeZeal", //github
+		  "gitlub" : false, //gitlub
+		  "gitee" : "https://gitee.com/GodLikeZeal", //gitee
+		  "jianshu" : "https://www.jianshu.com/u/e2d051b6d2e9", //简书
+		  "zhihu" : "https://www.zhihu.com/people/qian-ge-diao-63", //知乎
+		  "toutiao" : false, //知乎
+		  "juejin": "https://juejin.im/user/2796746683716990", //掘金
+		  "segmentfault" : "https://segmentfault.com/u/zeal_5eecb699bdb08", //思否
+		  "csdn" : false, //CSDN
+		  "wechat" : "你的微信", //微信
+		  "qq" : "你的QQ" //QQ
+		},
     friendLink: [
       {
         title: "午后南杂",

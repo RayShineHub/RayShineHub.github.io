@@ -1,8 +1,24 @@
 <template>
   <!-- 公共布局 -->
-  <Common :sidebar="false">
+  <Common :sidebar="false" :style="$themeConfig.fullscreen? {
+        'max-width': '2080px',
+        'margin': '0 auto',
+        'padding': '0'
+      } : {}">
     <div class="container">
-
+			<div v-if='$themeConfig.fullscreen'
+			:class="$themeConfig.fullscreen?'sjfullPic hclass':'hclass'"
+			:style="$themeConfig.fullscreen? {
+			  'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:$coverRandom) +')'
+			} : {}" >
+			<!-- <h1 style="font-family: Regular,cursive;color: #fff;letter-spacing: 1rem">流时的间</h1> -->
+			</div>
+			 <div :style="$themeConfig.fullscreen? {
+			  'max-width': '860px',
+			  'margin': '0 auto',
+			  'padding': '4.6rem 2.5rem 0'
+			} : {}">
+			</div>
       <div class="author-social">
         <ModuleTransition delay="0.04" duration="0.5">
           <img
@@ -64,11 +80,37 @@ export default {
   },
 
 
-  methods: {},
+  methods: {
+		timestamp(url){
+		  var getTimestamp=new Date().getTime();
+		  if(url.indexOf("?")>-1){
+		    url=url+"&timestamp="+getTimestamp
+		  }else{
+		    url=url+"?timestamp="+getTimestamp
+		  }
+		  return url
+		},
+	},
 
   watch: {}
 }
 </script>
+
+<style>
+.sjfullPic {
+  margin-top: -3.6rem !important;
+  width: 100% !important;
+  height: 50vh;
+  background-position: 50% 50% !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+.hclass{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
 
 <style src="../styles/theme.styl" lang="stylus"></style>
 
@@ -120,10 +162,10 @@ export default {
 .author-social
   position relative;
   display: flex;
-  height 100vh;
+  height 80vh;
   flex-direction: column;
   text-align: center;
-  margin-top -23rem
+  margin-top -30rem
 
   .personal-img
     width: 8rem;
@@ -132,7 +174,7 @@ export default {
     margin: 8rem auto;
 
   .socials
-    margin 3rem 0
+    margin 7rem 0
 
     h1
       margin 3rem 0
