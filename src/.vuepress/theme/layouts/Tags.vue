@@ -69,7 +69,7 @@ export default {
   created () {
     this.currentTag = this.$recoLocales.tag.all
     this.allTagName = this.$recoLocales.tag.all
-    if (this.$tags.list.length > 0) {
+    if (this.$tags.list && this.$tags.list.length > 0) {
       this.currentTag = this.$route.query.tag ? this.$route.query.tag : this.currentTag
     }
   },
