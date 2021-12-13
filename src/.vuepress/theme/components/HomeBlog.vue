@@ -77,8 +77,7 @@ import ModuleTransition from '@theme/components/ModuleTransition'
 import PersonalInfo from '@theme/components/PersonalInfo'
 import { getOneColor } from '@theme/helpers/other'
 import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
-import 'aos/dist/aos.css';
-import AOS from 'aos'
+
 
 export default {
   mixins: [pagination, moduleTransitonMixin],
@@ -154,7 +153,7 @@ export default {
     })
     this.recoShow = true
     this._setPage(this._getStoragePage())
-		AOS.init()
+		// AOS.init()
   },
   methods: {
     onClick(){

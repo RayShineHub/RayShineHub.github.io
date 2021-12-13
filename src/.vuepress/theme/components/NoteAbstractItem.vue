@@ -24,7 +24,7 @@
     <div 
     :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ $coverRandom +') center/cover no-repeat'}"
      class="cover-wrap" :class="num%2==0?'flyl':'flyr'">
-    <!-- 显示时间 -->
+    <!-- 显示时间 add by spf-->
     <i v-if="item.frontmatter.date"
       class="tip-date iconfont reco-date">
       <span>{{ item.frontmatter.date | formatDateValue }}</span>
@@ -182,6 +182,10 @@ export default {
 	  visibility visible
 	  -webkit-transform: translate(-35px,0);
 	  transform: translate(-35px,0);
+	// &:hover a
+	// 	visibility visible
+	// 	-webkit-transform: scaleX(1);
+	// 	transform: scaleX(1);
   .title
     position: relative;
     font-size: 1.28rem;
@@ -206,10 +210,10 @@ export default {
       transition: .3s ease-in-out;
     &:hover a
       color $accentColor
-    &:hover:after
-      visibility visible
-      -webkit-transform: scaleX(1);
-      transform: scaleX(1);
+		&:hover:after 
+			visibility visible
+			-webkit-transform: scaleX(1);
+			transform: scaleX(1);
   .tags
     .tag-item
       &.active

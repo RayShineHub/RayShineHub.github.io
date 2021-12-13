@@ -14,6 +14,7 @@
         <span
           ref="siteName"
           class="site-name"
+					:class="{pagefull: !isFull}"
           v-if="$siteTitle">{{ $siteTitle }}</span>
 					<!-- :style="{color: isFixed ? '' : '#eee'}" -->
       </router-link>
@@ -22,6 +23,7 @@
       <div
         ref="links"
         class="links"
+				:class="{pagefull: !isFull}"
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
 
@@ -64,14 +66,14 @@ export default {
       pageYOffset: 44,
       isFixed: false,
       isVisible: false,
-	  audio: {
-		  name: 'Let It Go.m3u8',
-		  artist: 'Idina Menzel',
-		  url: 'https://cdn.moefe.org/music/hls/frozen.m3u8',
-		  cover: 'https://p1.music.126.net/n72JJkPg2-ENxhB-DsZ2AA==/109951163115400390.jpg?param=300y300', // prettier-ignore
-		  lrc: 'https://cdn.moefe.org/music/lrc/frozen.lrc',
-		  type: 'customHls',
-		},
+			audio: {
+				name: 'Let It Go.m3u8',
+				artist: 'Idina Menzel',
+				url: 'https://cdn.moefe.org/music/hls/frozen.m3u8',
+				cover: 'https://p1.music.126.net/n72JJkPg2-ENxhB-DsZ2AA==/109951163115400390.jpg?param=300y300', // prettier-ignore
+				lrc: 'https://cdn.moefe.org/music/lrc/frozen.lrc',
+				type: 'customHls',
+			},
     }
   },
   props: {
@@ -111,7 +113,10 @@ export default {
 
     isAlgoliaSearch () {
       return this.algolia && this.algolia.apiKey && this.algolia.indexName
-    }
+    },
+		isFull () {
+			return this.$frontmatter.home || (this.$frontmatter.isFull || this.isVisible) ? true :false
+		}
   },
 
   methods: {
@@ -152,10 +157,16 @@ function css (el, property) {
   return win.getComputedStyle(el, null)[property]
 }
 </script>
+<style scoped="scoped">
+
+</style>
 
 <style lang="stylus">
 $navbar-vertical-padding = 0.7rem
 $navbar-horizontal-padding = 1.5rem
+
+.pagefull
+    color var(--text-color) !important
 
 .navbar
   position relative
@@ -252,3 +263,4 @@ $navbar-horizontal-padding = 1.5rem
     .links
       padding-left .2rem
 </style>
+

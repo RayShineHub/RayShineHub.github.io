@@ -2,6 +2,8 @@ import postMixin from '@theme/mixins/posts'
 import localMixin from '@theme/mixins/locales'
 import { addLinkToHead } from '@theme/helpers/utils'
 import { registerCodeThemeCss } from '@theme/helpers/other'
+import 'aos/dist/aos.css';
+import AOS from 'aos'
 
 export default ({
   Vue,
@@ -14,4 +16,7 @@ export default ({
     addLinkToHead('//at.alicdn.com/t/font_1030519_2ciwdtb4x65.css')
     registerCodeThemeCss(siteData.themeConfig.codeTheme)
   }
+	
+	AOS.init()
+	
 }
