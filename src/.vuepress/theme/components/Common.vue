@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import aos from 'aos'
 import Navbar from '@theme/components/Navbar'
 import Sidebar from '@theme/components/Sidebar'
 import PersonalInfo from '@theme/components/PersonalInfo'
@@ -150,15 +151,17 @@ export default {
       ]
     }
   },
-
+	beforeMount () {
+		aos.init()
+	},
   mounted () {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
     })
-
     this.hasKey()
     this.hasPageKey()
     this.handleLoading()
+		
   },
 
   methods: {

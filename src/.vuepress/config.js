@@ -97,7 +97,7 @@ module.exports = {
     // 备案号
     record: '辽ICP备2021012735',
 		// 备案连接地址
-		recordLink: '',
+		recordLink: '#',
     // 项目开始时间
     startYear: "2020",
 		"socials":{
