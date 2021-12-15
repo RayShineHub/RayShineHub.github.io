@@ -9,7 +9,7 @@ yarn build
 
 
 # 提交到main分支
-git checkout main
+#git checkout main
 git add -A
 git commit -m 'deploy'
 git push
