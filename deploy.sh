@@ -18,4 +18,5 @@ read -p "请输入本次发版内容：" msg
 git merge -m $msg origin main
 git push
 git checkout main
+git pull
 
