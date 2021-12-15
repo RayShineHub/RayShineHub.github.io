@@ -93,7 +93,7 @@ module.exports = {
     // 最后更新时间
     lastUpdated: "Last Updated",
     // 作者
-    author: "pengfei.shao",
+    author: "rayshine",
     // 备案号
     record: '辽ICP备2021012735',
 		// 备案连接地址
