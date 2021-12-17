@@ -49,7 +49,7 @@ jobs:
 
       # 部署到github.io静态网站
       - name: Deploy Docs To GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           # git-config-name: 邵鹏飞
           token: ${{ secrets.BLOG_DEPLOY }}
