@@ -53,7 +53,7 @@ jobs:
         with:
           # git-config-name: 邵鹏飞
           token: ${{ secrets.BLOG_DEPLOY }}
-          clean: true
+          # clean: true
           # repository-name: RayShineHub/RayShineHub.github.io
           branch: gh-pages
           folder: dist
