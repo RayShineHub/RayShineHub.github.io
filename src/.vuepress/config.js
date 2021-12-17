@@ -40,15 +40,15 @@ module.exports = {
     //首页样式
     back:{
       isRandom: true,
-      bgImage: 'https://zyj_yida.gitee.io/source/img/indexbg/1.jpg',
+      bgImage: 'http://source.shaopf.com/blog/home/1.jpg',
       bgUrls: [
-        'https://zyj_yida.gitee.io/source/img/indexbg/1.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/2.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/3.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/4.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/5.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/6.jpg',
-        'https://zyj_yida.gitee.io/source/img/indexbg/7.jpg'
+        'http://source.shaopf.com/blog/home/1.jpg',
+        'http://source.shaopf.com/blog/home/2.jpg',
+        'http://source.shaopf.com/blog/home/3.jpg',
+        'http://source.shaopf.com/blog/home/4.jpg',
+        'http://source.shaopf.com/blog/home/5.jpg',
+        'http://source.shaopf.com/blog/home/6.jpg',
+        'http://source.shaopf.com/blog/home/7.jpg'
       ]
     },
 		noFoundPageByTencent: false,
@@ -84,7 +84,7 @@ module.exports = {
     },
     nav,
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
-    authorAvatar: "https://zyj_yida.gitee.io/source/img/ico/head.jpg",
+    authorAvatar: "http://source.shaopf.com/blog/avatar/avatar.jpg",
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,

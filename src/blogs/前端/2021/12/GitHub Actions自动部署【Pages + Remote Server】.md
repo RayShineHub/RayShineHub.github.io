@@ -461,7 +461,7 @@ systemctl enable sshd.service
 
 `deploy.yml` 文件为 `GitHub Actions` 执行的命令文件，`·workflow` 触发之后，`GitHub` 会自动读取项目根目录中的 `.github/workflows/***.yml` 去执行。
 
-![](http://source.shaopf.com/Github Actions yml目录结构.png)
+![GitHub Actions yml目录结构](http://source.shaopf.com/Github Actions yml目录结构.png)
 
 
 
@@ -474,9 +474,7 @@ name: Deploy Pages
 
 # 触发条件
 on:
-  # 当项目文件 push 到 prod 分支后
-  # *注：因为有些时候大家将代码 push 到 main 分支后，并不想同步发版到博客，所以这里我监听的动作是 prod 分支发生改变
-  #  		可以是 push ，或者可以是 merge 。
+  # 当项目文件 push 到 main 分支后
   push:
     branches: [ prod ]
 
@@ -622,7 +620,9 @@ yarn deploy
 
 - 发布成功截图
 
-![博客发布成功](http://source.shaopf.com/博客发布成功.png)
+
+
+
 
 ## 最终结果
 
