@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>【GitHub Actions】自动部署 | 一ξひβθ光 i</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <link rel="icon" href="/favicon.ico">
+    <script language="javascript" type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/mouseClick.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/bg.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/noConsole.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/fairyDustCursor.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script>
+			document.write(
+				unescape(
+					"%3Cspan id='cnzz_stat_icon_1280664116' style='position: fixed;bottom: 0px;' %3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php?id=1280664116&show=pic' type='text/javascript'%3E%3C/script%3E"
+				)
+			);
+		</script>
+    <meta name="description" content="乾坤未定 你我皆是黑马">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.0a045ba6.css" as="style"><link rel="preload" href="/assets/js/app.4b5ea586.js" as="script"><link rel="preload" href="/assets/js/5.502337ab.js" as="script"><link rel="preload" href="/assets/js/1.acf672a0.js" as="script"><link rel="preload" href="/assets/js/21.11c76c16.js" as="script"><link rel="preload" href="/assets/js/15.6d9c2827.js" as="script"><link rel="preload" href="/assets/js/12.67db7004.js" as="script"><link rel="prefetch" href="/assets/js/10.f96bcb66.js"><link rel="prefetch" href="/assets/js/11.27e34163.js"><link rel="prefetch" href="/assets/js/13.e3e4a0cb.js"><link rel="prefetch" href="/assets/js/14.8bd56c78.js"><link rel="prefetch" href="/assets/js/16.6867ab71.js"><link rel="prefetch" href="/assets/js/17.163be4e2.js"><link rel="prefetch" href="/assets/js/18.4dcbcc92.js"><link rel="prefetch" href="/assets/js/19.e9cd7c11.js"><link rel="prefetch" href="/assets/js/2.e5fb2f24.js"><link rel="prefetch" href="/assets/js/20.0f7b1484.js"><link rel="prefetch" href="/assets/js/22.a2dab8ee.js"><link rel="prefetch" href="/assets/js/23.308fa557.js"><link rel="prefetch" href="/assets/js/24.74838bb6.js"><link rel="prefetch" href="/assets/js/25.8d3ab20a.js"><link rel="prefetch" href="/assets/js/26.2b136490.js"><link rel="prefetch" href="/assets/js/27.3e6e76d8.js"><link rel="prefetch" href="/assets/js/28.b939b560.js"><link rel="prefetch" href="/assets/js/29.371e7518.js"><link rel="prefetch" href="/assets/js/3.2473ced7.js"><link rel="prefetch" href="/assets/js/6.38da5607.js"><link rel="prefetch" href="/assets/js/7.0b14bcfa.js"><link rel="prefetch" href="/assets/js/8.70d02c11.js"><link rel="prefetch" href="/assets/js/9.6dec2185.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0a045ba6.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-a46c8ccc><div data-v-a46c8ccc><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-a46c8ccc data-v-a46c8ccc><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-0541ff4e data-v-a46c8ccc data-v-a46c8ccc><h3 class="title" style="display:none;" data-v-0541ff4e data-v-0541ff4e>一ξひβθ光 i</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-0541ff4e data-v-0541ff4e><input type="password" value="" data-v-0541ff4e> <span data-v-0541ff4e>Konck! Knock!</span> <button data-v-0541ff4e>OK</button></label> <div class="footer" style="display:none;" data-v-0541ff4e data-v-0541ff4e><span data-v-0541ff4e><i class="iconfont reco-theme" data-v-0541ff4e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-0541ff4e>vuePress-theme-reco</a></span> <span data-v-0541ff4e><i class="iconfont reco-copyright" data-v-0541ff4e></i> <a data-v-0541ff4e><span data-v-0541ff4e>rayshine</span>
+            
+          <span data-v-0541ff4e>2020 - </span>
+          2021
+        </a></span></div></div> <div class="hide" data-v-a46c8ccc><header class="navbar" data-v-2ba4ce5d data-v-a46c8ccc><div class="nav-sub" data-v-2ba4ce5d><div class="sidebar-button" data-v-2ba4ce5d><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active" data-v-2ba4ce5d><img src="https://zyj_yida.gitee.io/source/img/ico/logo.png" alt="一ξひβθ光 i" class="logo" data-v-2ba4ce5d> <span class="site-name pagefull" data-v-2ba4ce5d>一ξひβθ光 i</span></a> <div class="links pagefull" style="max-width:;" data-v-2ba4ce5d><div class="color-picker" data-v-2ba4ce5d><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box" data-v-2ba4ce5d><i class="iconfont reco-search" style="color:#fff;"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide" data-v-2ba4ce5d><div class="nav-item"><a href="/" class="nav-link" style="color:#fff;"><i class="iconfont reco-home" style="color:#fff;"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont reco-category" style="color:#fff;"></i>
+      博客
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  服务端
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link" style="color:#fff;"><i class="iconfont reco-tag" style="color:#fff;"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link" style="color:#fff;"><i class="iconfont reco-date" style="color:#fff;"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont fas fa-coffee" style="color:#fff;"></i>
+      收藏
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external" style="color:#fff;hover:red;"><i class="iconfont fas fa-bread-slice" style="color:#fff;"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link" style="color:#fff;"><i class="iconfont reco-account" style="color:#fff;"></i>
+  关于我
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont reco-message" style="color:#fff;"></i>
+      联系我
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/shaopengfei1" target="_blank" rel="noopener noreferrer" class="nav-link external" style="color:#fff;hover:red;"><i class="iconfont reco-github" style="color:#fff;"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></div></header> <div class="sidebar-mask" data-v-a46c8ccc></div> <aside class="sidebar" data-v-a46c8ccc><div class="personal-info-wrapper" data-v-3684f454 data-v-a46c8ccc><img src="http://source.shaopf.com/blog/avatar/avatar.jpg" alt="author-avatar" class="personal-img" data-v-3684f454> <h3 class="name" data-v-3684f454>
+    rayshine
+  </h3> <div class="num" data-v-3684f454><div data-v-3684f454><h3 data-v-3684f454>8</h3> <h6 data-v-3684f454>文章</h6></div> <div data-v-3684f454><h3 data-v-3684f454>9</h3> <h6 data-v-3684f454>标签</h6></div></div> <hr data-v-3684f454></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link" style="color:#fff;"><i class="iconfont reco-home" style="color:#fff;"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont reco-category" style="color:#fff;"></i>
+      博客
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link" style="color:#fff;"><i class="iconfont undefined" style="color:#fff;"></i>
+  服务端
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link" style="color:#fff;"><i class="iconfont reco-tag" style="color:#fff;"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link" style="color:#fff;"><i class="iconfont reco-date" style="color:#fff;"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont fas fa-coffee" style="color:#fff;"></i>
+      收藏
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external" style="color:#fff;hover:red;"><i class="iconfont fas fa-bread-slice" style="color:#fff;"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link" style="color:#fff;"><i class="iconfont reco-account" style="color:#fff;"></i>
+  关于我
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title" style="color:#fff;"><span class="title"><i class="iconfont reco-message" style="color:#fff;"></i>
+      联系我
+    </span> <span class="arrow right" style="border-top:6px solid rgba(255,255,255,0.9);"></span></a> <ul class="nav-dropdown" style="background-color:rgba(0,0,0,0.2);display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/shaopengfei1" target="_blank" rel="noopener noreferrer" class="nav-link external" style="color:#fff;hover:red;"><i class="iconfont reco-github" style="color:#fff;"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-0541ff4e data-v-a46c8ccc><h3 class="title" style="display:none;" data-v-0541ff4e data-v-0541ff4e>【GitHub Actions】自动部署</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-0541ff4e data-v-0541ff4e><input type="password" value="" data-v-0541ff4e> <span data-v-0541ff4e>Konck! Knock!</span> <button data-v-0541ff4e>OK</button></label> <div class="footer" style="display:none;" data-v-0541ff4e data-v-0541ff4e><span data-v-0541ff4e><i class="iconfont reco-theme" data-v-0541ff4e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-0541ff4e>vuePress-theme-reco</a></span> <span data-v-0541ff4e><i class="iconfont reco-copyright" data-v-0541ff4e></i> <a data-v-0541ff4e><span data-v-0541ff4e>rayshine</span>
+            
+          <span data-v-0541ff4e>2020 - </span>
+          2021
+        </a></span></div></div> <div data-v-a46c8ccc><main class="page"><div class="page-title" style="display:none;"><div><h1>【GitHub Actions】自动部署</h1> <div data-v-6f36df16><i class="iconfont reco-account" data-v-6f36df16><span data-v-6f36df16>rayshine</span></i> <i class="iconfont reco-date" data-v-6f36df16><span data-v-6f36df16>2021-12-08</span></i> <i class="iconfont reco-eye" data-v-6f36df16><span id="/blogs/%E5%89%8D%E7%AB%AF/2021/12/GitHub%20Actions%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E3%80%90Pages%20+%20Remote%20Server%E3%80%91.html" data-flag-title="Your Article Title" class="leancloud-visitors" data-v-6f36df16><a class="leancloud-visitors-count" style="font-size:.9rem;font-weight:normal;color:#999;"></a></span></i> <i class="iconfont reco-tag tags" data-v-6f36df16><span class="tag-item" data-v-6f36df16>GitHub Actions</span><span class="tag-item" data-v-6f36df16>GitHub Pages</span><span class="tag-item" data-v-6f36df16>CentOS7 SFTP配置</span></i></div></div></div> <div class="theme-reco-content content__default" style="display:none;"><div id="boxx" data-v-e16ac808><div data-v-e16ac808><p v-if="true" class="custom-block-title" data-v-e16ac808></p> <p v-if="true" data-v-e16ac808></p></div></div> <p>将 <a href="https://www.vuepress.cn" target="_blank" rel="noopener noreferrer">vuepress<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 博客的本地构建过程转移到 <a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">github-actions<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 中，同时支持将构建结果自动部署到  <code>GitHub Pages</code> 及 <code>linux服务器</code></p> <h2 id="开头"><a href="#开头" class="header-anchor">#</a> 开头</h2> <p>最近学了挺多东西，一直苦于没有一个很好的知识储备平台，所以自己动手搭建了一个 <a href="https://vuepress-theme-reco.recoluan.com/" target="_blank" rel="noopener noreferrer">recoluan<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 大佬基于 <a href="https://www.vuepress.cn" target="_blank" rel="noopener noreferrer">vuepress<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 封装的 <span class="badge success" style="vertical-align:middle;" data-v-73f5620a>清新脱俗</span>  的主题博客，准备将自己学习到的知识都记录并分享给大家。</p> <p>但是，当在我写完一篇文章时，并想将文章同步到  <code>GitHub Pages</code> 或者  <code>自定义服务器</code> 上时，感觉还是特别的麻烦，流程非常繁琐：</p> <ul><li><strong>优化前流程</strong> <ol><li>写一篇文章</li> <li>生成静态文件：<code>npm run build</code></li> <li>切换  <code>gh-pages</code>  分支</li> <li>复制静态文件到  <code>gh-pages</code>  分支</li> <li>访问网址验证是否成功</li></ol></li></ul> <p>于是终于一顿冲浪，让我找到了 <em><strong>Lasy</strong></em> 的 <a href="https://vuepress-theme-reco.recoluan.com/views/other/github-actions.html" target="_blank" rel="noopener noreferrer">使用 GitHub Actions 自动部署博客<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <ul><li><strong>优化后流程</strong> <ol><li>写一篇文章</li> <li>上传到 <code>Github</code> 仓库 <code>main</code> 分支</li> <li>刷新网页，OK，慢慢享受吧</li></ol></li></ul> <p>好，不多说了，我相信博主们已经对 <a href="https://vuepress-theme-reco.recoluan.com/" target="_blank" rel="noopener noreferrer">vuepress-theme-reco<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>非常熟悉了，在这里就不多说了，如果有项目配置不明白的地方，请移步<a href="https://vuepress-theme-reco.recoluan.com/views/1.x/" target="_blank" rel="noopener noreferrer">vuepress-theme-reco@1.x官方文档<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><strong>本文主要给大家分享下本次搭建  <code>GitHub Actions</code>  自动部署的方法。</strong></p> <h2 id="准备工作"><a href="#准备工作" class="header-anchor">#</a> 准备工作</h2> <ol><li><em><strong>一个完善的可以 <code>yarn build</code> 成功的博客工程，但要注意你编译后的文件路径为 <code>/dist</code>，workflow中会用到。</strong></em></li> <li><em><strong>一个 <code>GitHub repo</code> 。</strong></em></li> <li><em><strong>一台支持 <code>SFTP</code> 的远程Linux服务器，并且配置好通过 <code>SFTP</code> 密钥登录。</strong></em></li></ol> <h3 id="_1、创建一个blog项目并编译"><a href="#_1、创建一个blog项目并编译" class="header-anchor">#</a> 1、创建一个blog项目并编译</h3> <p>创建项目这里不多说了，唯一一点是在不说的过程中出现的问题，我提一嘴</p> <div class="custom-block warning"><p class="custom-block-title">注意，**node_models** 中依赖的版本需要锁定！！！</p> <p>不管vuepress项目是以 <code>npm run build</code> 来编译，还是使用 <code>yarn build</code> 来编译，一定要在项目中生成  <strong>lock</strong> 文件，<strong>缓存</strong> 并 <strong>锁定</strong> 好你项目中每个依赖的版本以及依赖之间的关系，这个特别重要，因为GitHub中的依赖版本不一定能兼容本地工程的依赖版本，如有不懂，请移步 <a href="https://yarn.bootcss.com/docs/yarn-lock/" target="_blank" rel="noopener noreferrer">yarn.lock官方网站<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。</p></div> <p>这里附上我的  <span class="badge success" style="vertical-align:middle;" data-v-73f5620a>config.js</span>   配置文件供大家参考</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> nav <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./config/nav&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> pluginsConf <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./plugins/index'</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  base<span class="token operator">:</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+  title<span class="token operator">:</span> <span class="token string">&quot;一ξひβθ光 i&quot;</span><span class="token punctuation">,</span>
+  description<span class="token operator">:</span> <span class="token string">'乾坤未定 你我皆是黑马'</span><span class="token punctuation">,</span>
+	dest<span class="token operator">:</span> <span class="token string">'dist'</span><span class="token punctuation">,</span>
+  head<span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token punctuation">[</span><span class="token string">&quot;meta&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>name<span class="token operator">:</span> <span class="token string">&quot;viewport&quot;</span><span class="token punctuation">,</span>content<span class="token operator">:</span> <span class="token string">&quot;width=device-width,initial-scale=1,user-scalable=no&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;link&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> rel<span class="token operator">:</span> <span class="token string">&quot;icon&quot;</span><span class="token punctuation">,</span> href<span class="token operator">:</span> <span class="token string">&quot;/favicon.ico&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">&quot;language&quot;</span><span class="token operator">:</span> <span class="token string">&quot;javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;text/javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">&quot;language&quot;</span><span class="token operator">:</span> <span class="token string">&quot;javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;text/javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/js/mouseClick.js&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">&quot;language&quot;</span><span class="token operator">:</span> <span class="token string">&quot;javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;text/javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/js/bg.js&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		<span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">&quot;language&quot;</span><span class="token operator">:</span> <span class="token string">&quot;javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;text/javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/js/noConsole.js&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		<span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">&quot;language&quot;</span><span class="token operator">:</span> <span class="token string">&quot;javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;text/javascript&quot;</span><span class="token punctuation">,</span><span class="token string">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/js/fairyDustCursor.js&quot;</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		<span class="token punctuation">[</span><span class="token string">&quot;script&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> src<span class="token operator">:</span> <span class="token string">&quot;https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		<span class="token comment">//友盟+站长统计</span>
+		<span class="token punctuation">[</span><span class="token string">'script'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+			document.write(
+				unescape(
+					...
+				)
+			);
+		</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">]</span> 
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  theme<span class="token operator">:</span> <span class="token string">&quot;reco&quot;</span><span class="token punctuation">,</span>
+  markdown<span class="token operator">:</span> <span class="token punctuation">{</span>
+    lineNumbers<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  mode<span class="token operator">:</span><span class="token string">&quot;dark&quot;</span><span class="token punctuation">,</span>
+	locales<span class="token operator">:</span> <span class="token punctuation">{</span>
+	  <span class="token string">&quot;/&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+	    <span class="token string">&quot;lang&quot;</span><span class="token operator">:</span> <span class="token string">'zh-CN'</span>
+	  <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  themeConfig<span class="token operator">:</span> <span class="token punctuation">{</span>
+		noFoundPageByTencent<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    indexTitle<span class="token operator">:</span><span class="token string">&quot;人生来来往往，来日并不方长。&quot;</span><span class="token punctuation">,</span>
+    indexDes<span class="token operator">:</span><span class="token string">&quot;Life comes and goes, but the future is not long.&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">//是否全屏样式 true，false</span>
+    fullscreen<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    modePicker<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    type<span class="token operator">:</span> <span class="token string">&quot;blog&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 博客设置</span>
+    blogConfig<span class="token operator">:</span> <span class="token punctuation">{</span>
+      category<span class="token operator">:</span> <span class="token punctuation">{</span>
+        location<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token comment">// 在导航栏菜单中所占的位置，默认2</span>
+        text<span class="token operator">:</span> <span class="token string">&quot;博客&quot;</span> <span class="token comment">// 默认 “分类”Category</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      tag<span class="token operator">:</span> <span class="token punctuation">{</span>
+        location<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token comment">// 在导航栏菜单中所占的位置，默认3</span>
+        text<span class="token operator">:</span> <span class="token string">&quot;标签&quot;</span> <span class="token comment">// 默认 “标签”Tag</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    valineConfig<span class="token operator">:</span> <span class="token punctuation">{</span>
+			appId<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span><span class="token comment">// your appId</span>
+			appKey<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span> <span class="token comment">// your appKey</span>
+			placeholder<span class="token operator">:</span> <span class="token string">'请务必填写联系方式，方便及时回复！'</span><span class="token punctuation">,</span>
+			pageSize<span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+			enableQQ<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+			recordIP<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+			visitor<span class="token operator">:</span><span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    nav<span class="token punctuation">,</span>
+    logo<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    authorAvatar<span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 搜索设置</span>
+    search<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    searchMaxSuggestions<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    <span class="token comment">// 自动形成侧边导航</span>
+    sidebar<span class="token operator">:</span> <span class="token string">&quot;auto&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 最后更新时间</span>
+    lastUpdated<span class="token operator">:</span> <span class="token string">&quot;Last Updated&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 作者</span>
+    author<span class="token operator">:</span> <span class="token string">&quot;RayShine&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 备案号</span>
+    record<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+		<span class="token comment">// 备案连接地址</span>
+		recordLink<span class="token operator">:</span> <span class="token string">'#'</span><span class="token punctuation">,</span>
+    <span class="token comment">// 项目开始时间</span>
+    startYear<span class="token operator">:</span> <span class="token string">&quot;2020&quot;</span><span class="token punctuation">,</span>
+		<span class="token string">&quot;socials&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+		  <span class="token string">&quot;github&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;https://github.com/RayShineHub&quot;</span><span class="token punctuation">,</span> <span class="token comment">//github</span>
+		  <span class="token string">&quot;gitlub&quot;</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//gitlub</span>
+		  <span class="token string">&quot;gitee&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span> <span class="token comment">//gitee</span>
+		  <span class="token string">&quot;jianshu&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span> <span class="token comment">//简书</span>
+		  <span class="token string">&quot;zhihu&quot;</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//知乎</span>
+		  <span class="token string">&quot;toutiao&quot;</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//知乎</span>
+		  <span class="token string">&quot;juejin&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//掘金</span>
+		  <span class="token string">&quot;segmentfault&quot;</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//思否</span>
+		  <span class="token string">&quot;csdn&quot;</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//CSDN</span>
+		  <span class="token string">&quot;wechat&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;你的微信&quot;</span><span class="token punctuation">,</span> <span class="token comment">//微信</span>
+		  <span class="token string">&quot;qq&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;你的QQ&quot;</span> <span class="token comment">//QQ</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+    friendLink<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        title<span class="token operator">:</span> <span class="token string">&quot;午后南杂&quot;</span><span class="token punctuation">,</span>
+        desc<span class="token operator">:</span> <span class="token string">&quot;Enjoy when you can, and endure when you must.&quot;</span><span class="token punctuation">,</span>
+        email<span class="token operator">:</span> <span class="token string">&quot;1156743527@qq.com&quot;</span><span class="token punctuation">,</span>
+        link<span class="token operator">:</span> <span class="token string">&quot;https://www.recoluan.com&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        title<span class="token operator">:</span> <span class="token string">&quot;vuepress-theme-reco&quot;</span><span class="token punctuation">,</span>
+        desc<span class="token operator">:</span> <span class="token string">&quot;A simple and beautiful vuepress Blog &amp; Doc theme.&quot;</span><span class="token punctuation">,</span>
+        avatar<span class="token operator">:</span>
+          <span class="token string">&quot;https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png&quot;</span><span class="token punctuation">,</span>
+        link<span class="token operator">:</span> <span class="token string">&quot;https://vuepress-theme-reco.recoluan.com&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment">//首页格言</span>
+    mottos<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;人生来来往往，来日并不方长。&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Life comes and goes, but the future is not long.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;他心里的苦越多，一丝甜就能填满。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;The more bitterness in his heart, the sweetness can fill it.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;梦想不会逃跑，会逃跑的永远都是自己。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Dream will not run away, will always be their own escape.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;涉江而过，芙蓉千朵。诗也简单，心也简单。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Crossing the river, there are thousands of Hibiscus. Poetry is simple, heart is simple.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;一别两三年，忽然又夏天。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Two or three years later, it was summer again.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;未成定局的事就不要弄的人尽皆知。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Don't do anything that's not settled but everyone knows it.&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;zh&quot;</span><span class="token operator">:</span> <span class="token string">&quot;也许明天的我会痛恨自己，但今夜的我仍在前行。&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;en&quot;</span><span class="token operator">:</span> <span class="token string">&quot;I might hate myself tomorrow, but I'm on my way tonight.&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  plugins<span class="token operator">:</span> pluginsConf
+ <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br></div></div><p>个人推荐使用 <code>yarn</code> 来安装依赖，具体有什么好处呢？又有什么作用呢？</p> <p><strong>特点</strong>：</p> <ol><li>极其快速：Yarn会缓存它下载的每个包，所以无需重复下载。它还能并行化操作以最大化资源利用率。</li> <li>特别安全：Yarn会在每个安装包被执行前校验其完整性。</li> <li>超级可靠：Yarn使用格式详尽而又简洁的lockfile文件和确定性算法来安装依赖，能够保证在一个系统上的运行的安装过程也会以同样的方式运行在其他系统上。</li></ol> <h3 id="_2、github-创建仓库"><a href="#_2、github-创建仓库" class="header-anchor">#</a> 2、<a href="https://www.github.com" target="_blank" rel="noopener noreferrer">GitHub<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 创建仓库</h3> <ul><li>首先，准备工作，你得有一个自己的 <code>github</code> 帐号，其次，你得安装了 <code>git</code> 工具，最后你还得有自己的本地项目。</li> <li>在 <code>github</code> 上创建自己的远程 <code>Pages</code> 专属代码仓库。</li></ul> <p>**1、进入我的仓库 **</p> <p><img src="http://source.shaopf.com/%E6%88%91%E7%9A%84GitHub%E4%BB%93%E5%BA%93.png" alt="我的GitHub仓库"></p> <p><strong>2、新建仓库</strong></p> <p><img src="http://source.shaopf.com/create-github-pages-repo.png" alt="创建用于发布的GitHub Pages的代码仓库"></p> <div class="custom-block danger"><p><strong>注意</strong></p> <ul><li>一定要把仓库名称命名为 <code>用户名.github.io</code> ，这样在创建 <code>GitHub Pages</code> 是才能直接访问。</li> <li>一定要将仓库权限设置为 <code>Public</code> 公开。</li> <li>一定要勾选下方任意一个初始化文件，不然仓库提交/拉取代码时，不够方便。</li></ul></div> <h3 id="_3、远程服务器配置sftp及密钥登录"><a href="#_3、远程服务器配置sftp及密钥登录" class="header-anchor">#</a> 3、远程服务器配置<code>SFTP</code>及<code>密钥</code>登录</h3> <p>由于vsftp采用明文传输，用户名密码可通过抓包得到，为了安全性，需使用sftp，锁定目录且不允许sftp用户登到服务器。由于sftp使用的是ssh协议，需保证用户只能使用sftp，不能ssh到机器进行操作，且使用密钥登陆、不是22端口。</p> <h4 id="_1-创建-sftp服务用户组-并创建-sftp服务根目录"><a href="#_1-创建-sftp服务用户组-并创建-sftp服务根目录" class="header-anchor">#</a> 1. 创建 <code>sftp服务用户组</code> 并创建 <code>sftp服务根目录</code></h4> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 创建SFTP用户组</span>
+<span class="token function">groupadd</span> <span class="token function">sftp</span>
+<span class="token comment"># 创建该用户组的根目录</span>
+<span class="token function">mkdir</span> /home/sftp
+<span class="token comment"># 设置该目录所属账户</span>
+<span class="token function">chown</span> -R root:sftp /home/sftp
+<span class="token comment"># 授权该目录 775 权限</span>
+<span class="token function">chmod</span> -R 0755 /home/sftp
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>此目录及上级目录的所有者必须为 <code>root</code>，权限不高于 <code>755</code> ，此目录的组最好设定为 <code>sftp</code> 。</p> <h4 id="_2、修改-sshd-配置文件"><a href="#_2、修改-sshd-配置文件" class="header-anchor">#</a> 2、修改 <code>sshd</code> 配置文件</h4> <ul><li>先备份再修改</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 备份配置文件</span>
+<span class="token function">cp</span> /etc/ssh/sshd_config,_bk<span class="token punctuation">}</span> 
+<span class="token comment"># 保证原来22端口可以继续使用</span>
+<span class="token function">sed</span> -i <span class="token string">'s@#Port 22@Port 22@'</span> /etc/ssh/sshd_config 
+
+
+<span class="token comment"># 修改sshd_config文件内容</span>
+<span class="token function">vi</span> /etc/ssh/sshd_config
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><ul><li>注释掉下面这行代码</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>Subsystem   <span class="token function">sftp</span>  /usr/libexec/openssh/sftp-server
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><ul><li>添加如下代码</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 必须将 Subsystem 这行代码修改为下面这行，不然重启ssh会报错</span>
+Subsystem <span class="token function">sftp</span> internal-sftp -l INFO -f AUTH
+Match Group <span class="token function">sftp</span>
+ChrootDirectory /home/sftp/%u
+X11Forwarding no
+AllowTcpForwarding no
+ForceCommand internal-sftp -l INFO -f AUTH
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>凡是在 <code>用户组sftp</code> 里的用户，都可以使用sftp服务；使用sftp服务连接上之后，可访问目录为 <code>/home/sftp/username</code>。</p> <ul><li>举个例子</li></ul> <p>1、<span class="badge error" style="vertical-align:middle;" data-v-73f5620a>test</span>  是一个 <code>sftp组</code> 的用户，它通过 <code>sftp</code> 连接服务器上之后，只能看到 <code>/home/sftp/test</code> 目录下的内容。</p> <p>2、<span class="badge error" style="vertical-align:middle;" data-v-73f5620a>test2</span> 也是一个 <code>sftp组</code> 的用户，它通过 <code>sftp</code> 连接服务器之后，只能看到 <code>/data/sftp/test2</code> 目录下的内容。</p> <h4 id="_3、创建-sftp用户"><a href="#_3、创建-sftp用户" class="header-anchor">#</a> 3、创建 <code>sftp用户</code></h4> <ul><li>创建test sftp <code>家目录</code> ：test目录的所有者必须是 <code>root</code>，组别最好设定为 <code>sftp组</code>，权限不高于 <code>755</code>。</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token function">mkdir</span> /home/sftp/test
+<span class="token function">chmod</span> 0755 /home/sftp/test
+<span class="token function">chown</span> root:sftp /dahometa/sftp/test
+<span class="token comment"># 添加用户，参数 -g sftp 指定用户组 -s /sbin/nologin禁止用户通过命令行登录</span>
+<span class="token function">useradd</span> -g <span class="token function">sftp</span> -s /sbin/nologin <span class="token builtin class-name">test</span> 
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ul><li>创建test用户密钥对：</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 创建完用户之后，需要在用户的根目录创建 .ssh 文件夹，存放ssh密钥</span>
+<span class="token function">mkdir</span> /home/test/.ssh
+<span class="token comment"># 生成密钥对</span>
+ssh-keygen -t rsa
+<span class="token comment"># 将公钥添加到 authorized_keys 入口文件</span>
+<span class="token function">cat</span> /root/.ssh/id_rsa.pub <span class="token operator">&gt;&gt;</span> /home/test/.ssh/authorized_keys
+<span class="token comment"># 设置test文件夹所有者设为 test.sftp</span>
+<span class="token function">chown</span> -R test.sftp /home/test
+<span class="token comment"># 设置 authorized_keys 权限为600</span>
+<span class="token function">chmod</span> <span class="token number">600</span> /home/test/.ssh/authorized_keys
+<span class="token comment"># 设置 .ssh 文件夹目录为 700</span>
+<span class="token function">chmod</span> <span class="token number">700</span> /home/test/.ssh
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><ul><li>在test目录下创建一个可以写入的source目录：将目录所有者设为 <code>test</code></li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token function">mkdir</span> /home/sftp/test/source
+<span class="token function">chown</span> -R test:sftp /home/sftp/test/source
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="custom-block danger"><p class="custom-block-title">注意</p> <p><code>sftp</code> 服务的根目录的所有者必须是 <code>root</code>，权限不能超过 <code>755</code> (上级目录也必须遵循此规则)，<code>sftp</code> 的用户目录所有者也必须是<code>root</code> ，且最高权限不能超过 <code>755</code>。</p></div> <ul><li>设置 ssh，打开密钥登录功能</li></ul> <p>编辑 <code>sshd_config</code>  文件</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token function">vi</span> /etc/ssh/sshd_config
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>进行如下设置：</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>RSAAuthentication <span class="token function">yes</span>
+PubkeyAuthentication <span class="token function">yes</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>另外，请留意 <code>root</code> 用户能否通过 <code>SSH</code> 登录：</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>PermitRootLogin <span class="token function">yes</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h4 id="_4、重启-sshd-服务-查看服务状态"><a href="#_4、重启-sshd-服务-查看服务状态" class="header-anchor">#</a> 4、重启 <code>SSHD</code> 服务，查看服务状态</h4> <ul><li><code>CentOS 7</code> 以下：</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 查看状态</span>
+<span class="token function">service</span> sshd status
+
+<span class="token comment"># 启动服务</span>
+<span class="token function">service</span> sshd start
+
+<span class="token comment"># 重启服务</span>
+<span class="token function">service</span> sshd restart
+
+<span class="token comment"># 关闭服务</span>
+<span class="token function">service</span> sshd stop
+
+<span class="token comment"># 设置开机自启动 (–level 指定系统在2345运行级别时)。</span>
+<span class="token function">chkconfig</span> --level <span class="token number">2345</span> sshd on
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><ul><li><code>CentOS 7</code>及以上</li></ul> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 查看状态</span>
+systemctl status sshd.service
+
+<span class="token comment"># 启动服务</span>
+systemctl start sshd.service
+
+<span class="token comment"># 重启服务</span>
+systemctl restart sshd.service
+
+<span class="token comment"># 关闭服务</span>
+systemctl stop sshd.service
+
+<span class="token comment"># 设置开机自启动</span>
+systemctl <span class="token builtin class-name">enable</span> sshd.service
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h2 id="上流程"><a href="#上流程" class="header-anchor">#</a> 上流程</h2> <h3 id="_1、在项目根目录下创建-deploy-yml-文件"><a href="#_1、在项目根目录下创建-deploy-yml-文件" class="header-anchor">#</a> 1、在项目根目录下创建 <code>deploy.yml</code> 文件</h3> <p><code>deploy.yml</code> 文件为 <code>GitHub Actions</code> 执行的命令文件，<code>·workflow</code> 触发之后，<code>GitHub</code> 会自动读取项目根目录中的 <code>.github/workflows/***.yml</code> 去执行。</p> <p>![GitHub Actions yml目录结构](http://source.shaopf.com/Github Actions yml目录结构.png)</p> <h3 id="_2、编写脚本-deploy-yml"><a href="#_2、编写脚本-deploy-yml" class="header-anchor">#</a> 2、编写脚本 <code>deploy.yml</code></h3> <div class="language-yml line-numbers-mode"><pre class="language-yml"><code><span class="token comment"># 任务名称</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy Pages
+
+<span class="token comment"># 触发条件</span>
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token comment"># 当项目文件 push 到 main 分支后</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span> <span class="token punctuation">[</span> prod <span class="token punctuation">]</span>
+
+
+<span class="token comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span>
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token comment"># job名称</span>
+  <span class="token key atrule">build-and-deploy</span><span class="token punctuation">:</span>
+    <span class="token comment"># 服务器环境：最新版 Ubuntu</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+
+    <span class="token comment"># action奇妙的步骤</span>
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token comment"># 拉取代码</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">persist-credentials</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+          
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Use Node.js
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v1
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token string">&quot;14&quot;</span>
+          
+          
+      <span class="token comment"># 缓存 node_modules</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Cache dependencies
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/cache@v2
+        <span class="token key atrule">id</span><span class="token punctuation">:</span> yarn<span class="token punctuation">-</span>cache
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+            **/node_modules</span>
+          <span class="token key atrule">key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> runner.os <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">-</span>yarn<span class="token punctuation">-</span>$<span class="token punctuation">{</span><span class="token punctuation">{</span> hashFiles('<span class="token important">**/yarn.lock')</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">restore-keys</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+            ${{ runner.os }}-yarn-</span>
+
+      <span class="token comment"># 如果缓存没有命中的话，编译&amp;生成静态文件，可以用yarn或npm</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> build
+        <span class="token key atrule">if</span><span class="token punctuation">:</span> steps.yarn<span class="token punctuation">-</span>cache.outputs.cache<span class="token punctuation">-</span>hit <span class="token tag">!=</span> 'true'
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> yarn <span class="token important">&amp;&amp;</span> yarn build
+
+      <span class="token comment"># 部署到github.io静态网站</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy Docs To GitHub Pages
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> JamesIves/github<span class="token punctuation">-</span>pages<span class="token punctuation">-</span>deploy<span class="token punctuation">-</span>action@releases/v4
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token comment"># git-config-name: 邵鹏飞</span>
+          <span class="token comment"># token: ${{ secrets.BLOG_DEPLOY }}</span>
+          <span class="token key atrule">clean</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+          <span class="token comment"># repository-name: RayShineHub/RayShineHub.github.io</span>
+          <span class="token key atrule">branch</span><span class="token punctuation">:</span> gh<span class="token punctuation">-</span>pages
+          <span class="token key atrule">folder</span><span class="token punctuation">:</span> dist
+          
+      <span class="token comment"># 部署到gitee.io静态网站</span>
+      <span class="token comment">#- name: Deploy Docs To Gitee Pages</span>
+      <span class="token comment">#  uses: wearerequired/git-mirror-action@v1</span>
+      <span class="token comment">#  env:</span>
+      <span class="token comment">#    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}</span>
+      <span class="token comment">#    #SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}</span>
+      <span class="token comment">#  with:</span>
+      <span class="token comment">#    source-repo: &quot;git@github.com:wearerequired/git-mirror-action.git&quot;</span>
+      <span class="token comment">#    destination-repo: &quot;git@bitbucket.org:wearerequired/git-mirror-action.git&quot;</span>
+      <span class="token comment">#- name: reload</span>
+      <span class="token comment">#  uses: mizuka-wu/gitee-pages-action@v1.0.0</span>
+      <span class="token comment">#  with:</span>
+      <span class="token comment">#    repository: linzowo/linzowo</span>
+      <span class="token comment">#    cookie: ${{ secrets.GITEE_COOKIE }}</span>
+      <span class="token comment">#    branch: gh_pages</span>
+          
+      <span class="token comment"># 部署到远程服务器</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy Docs To Remote Server
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> wlixcc/SFTP<span class="token punctuation">-</span>Deploy<span class="token punctuation">-</span>Action@v1.0
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+        	<span class="token comment"># 远程服务器SFTP用户</span>
+          <span class="token key atrule">username</span><span class="token punctuation">:</span> <span class="token string">'blog_sftp'</span>
+          <span class="token comment"># 远程服务器IP地址</span>
+          <span class="token key atrule">server</span><span class="token punctuation">:</span> <span class="token string">'${{ secrets.SERVER_IP_ALIYUN }}'</span>
+          <span class="token comment"># 远程服务器ssh私钥</span>
+          <span class="token key atrule">ssh_private_key</span><span class="token punctuation">:</span> <span class="token string">'${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'</span>
+          <span class="token comment"># 项目编译后输出文件路径</span>
+          <span class="token key atrule">local_path</span><span class="token punctuation">:</span> <span class="token string">'./dist/*'</span>
+          <span class="token comment"># SFTP用户家目录下可以写入的文件夹路径 eg：/home/sftp/blog</span>
+          <span class="token key atrule">remote_path</span><span class="token punctuation">:</span> <span class="token string">'/blog'</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br></div></div><div class="custom-block danger"><p class="custom-block-title">严重</p> <p>部署到远程服务器时需要用到远程服务器的 <code>SFTP用户名</code>、<code>IP地址</code>、<code>ssh私钥</code>，这些内容都是对于服务器来讲比较重要的信息，所以不建议将这些内容 <span class="badge error" style="vertical-align:middle;" data-v-73f5620a>明文</span>  存放到 <code>GitHub</code> 中，所以将他们保存到 <code>Github仓库密钥</code> 中，供 <code>GitHub</code> 使用。</p> <p><img src="http://source.shaopf.com/GitHub%E4%BB%93%E5%BA%93%E5%AF%86%E9%92%A5.png" alt="GitHub仓库密钥"></p></div> <h3 id="_3、在项目根目录下创建自动编译及-github-代码提交脚本"><a href="#_3、在项目根目录下创建自动编译及-github-代码提交脚本" class="header-anchor">#</a> 3、在项目根目录下创建自动编译及 <code>GitHub</code> 代码提交脚本</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token shebang important">#!/usr/bin/env sh</span>
+
+<span class="token comment"># 确保脚本抛出遇到的错误</span>
+<span class="token builtin class-name">set</span> -e
+
+<span class="token comment">#	检验build是否成功</span>
+<span class="token function">yarn</span> build
+<span class="token function">rm</span> -rf ./dist   <span class="token comment"># ./dist是build之后文件夹的位置，即config.js中配置的dest，详见vuepress官网</span>
+
+<span class="token comment"># 提交到main分支</span>
+<span class="token function">git</span> <span class="token function">add</span> -A
+<span class="token function">git</span> commit -m <span class="token string">'deploy'</span>
+<span class="token function">git</span> push
+
+<span class="token comment"># 发布到github的prod分支，触发工作流同步到Linux服务器</span>
+<span class="token function">git</span> checkout prod
+<span class="token builtin class-name">read</span> -p <span class="token string">&quot;请输入本次发版内容：&quot;</span> msg
+<span class="token function">git</span> merge -m <span class="token variable">$msg</span> origin main
+<span class="token function">git</span> push
+<span class="token function">git</span> checkout main
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h3 id="_4、在-package-json-中加入命令-deploy"><a href="#_4、在-package-json-中加入命令-deploy" class="header-anchor">#</a> 4、在 <code>package.json</code> 中加入命令 <code>deploy</code></h3> <div class="language-json line-numbers-mode"><pre class="language-json"><code>  <span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;vuepress dev src&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;vuepress build src&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;upcdn&quot;</span><span class="token operator">:</span> <span class="token string">&quot;vuepress build src &amp;&amp; node ./scripts/upcdn.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;deploy&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bash deploy.sh&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;push&quot;</span><span class="token operator">:</span> <span class="token string">&quot;bash push.sh&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h3 id="_5、md文件编写完成并运行-deploy-命令发布"><a href="#_5、md文件编写完成并运行-deploy-命令发布" class="header-anchor">#</a> 5、md文件编写完成并运行 <code>deploy</code> 命令发布</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">yarn</span> deploy
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><ul><li>发布成功截图</li></ul> <h2 id="最终结果"><a href="#最终结果" class="header-anchor">#</a> 最终结果</h2> <p><img src="http://source.shaopf.com/github-action-success.png" alt="workflow运行成功"></p></div> <footer class="page-edit" style="display:none;"><!----> <div class="last-updated"><span class="prefix">Last Updated: </span> <span class="time">2021/12/17 下午3:32:22</span></div></footer> <!----> <!----> <!----></main> <!----></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div><!----></div></div>
+    <script src="/assets/js/app.4b5ea586.js" defer></script><script src="/assets/js/5.502337ab.js" defer></script><script src="/assets/js/1.acf672a0.js" defer></script><script src="/assets/js/21.11c76c16.js" defer></script><script src="/assets/js/15.6d9c2827.js" defer></script><script src="/assets/js/12.67db7004.js" defer></script>
+  </body>
+</html>
