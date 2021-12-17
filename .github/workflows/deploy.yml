@@ -45,7 +45,7 @@ jobs:
       # 如果缓存没有命中的话，编译&生成静态文件，可以用yarn或npm
       - name: build
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn ci && yarn build
+        run: yarn && yarn build
 
       # 部署到github.io静态网站
       # - name: Deploy Docs To GitHub Pages
