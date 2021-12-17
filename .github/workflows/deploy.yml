@@ -4,7 +4,7 @@ name: Deploy Pages
 
 # 触发条件
 on:
-  # 当项目文件 push 到 main 分支后
+  # 当项目文件 push 到 prod 分支后，可以是 push 可以是 merge
   push:
     branches: [ prod ]
 
