@@ -56,7 +56,7 @@ jobs:
           clean: true
           # repository-name: RayShineHub/RayShineHub.github.io
           branch: gh-pages
-          folder: dist
+          folder: 'RayShineBlog/dist'
           
       # 部署到gitee.io静态网站
       #- name: Deploy Docs To Gitee Pages
