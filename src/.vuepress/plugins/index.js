@@ -13,10 +13,5 @@ module.exports = {
              content: "复制成功!"
         }
      },
-    "vuepress-plugin-boxx":{},
-		"meting":{
-			
-			// aplayer,
-			// mobile,
-		}
+    "vuepress-plugin-boxx":{}
 }

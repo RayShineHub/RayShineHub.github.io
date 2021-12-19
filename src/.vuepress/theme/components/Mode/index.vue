@@ -1,7 +1,8 @@
 <template>
 	<div v-click-outside="hideMenu" class="color-picker" v-if="$themeConfig.modePicker !== false" >
 		<a class="color-button" @click.prevent="showMenu = !showMenu">
-			<i class="iconfont reco-color"></i>
+			<i class="iconfont reco-color" 
+			:style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ? {'color':'#fff'}:{}"></i>
 		</a>
 		<transition name="menu-transition" mode="out-in">
 			<div v-show="showMenu" class="color-picker-menu">
@@ -72,7 +73,8 @@ export default {
 		height: 100%;
 		.iconfont {
 			font-size 1.4rem
-			color: $lightColor10
+			// color: $lightColor10
+			color var(--text-color-sub)
 		}
 	}
 

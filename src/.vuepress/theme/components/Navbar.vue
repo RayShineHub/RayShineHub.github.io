@@ -101,7 +101,7 @@ export default {
     }
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
-    window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
+    window.addEventListener('scroll', this.throttle(this.handleScroll, 300))
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.throttle(this.handleScroll, 200))
@@ -115,17 +115,20 @@ export default {
       return this.algolia && this.algolia.apiKey && this.algolia.indexName
     },
 		isFull () {
-			return this.$frontmatter.home || (this.$frontmatter.isFull || this.isVisible) ? true :false
+			return this.$frontmatter.layout || this.$frontmatter.home || (this.$frontmatter.isFull || this.isVisible) ? true :false
 		}
   },
 
   methods: {
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
+			// this.$frontmatter['isFixed'] = window.pageYOffset > 44
       this.throttle(this.handleVisible(), 200)
     },
     handleVisible () {
       this.isVisible = window.pageYOffset < this.pageYOffset && window.pageYOffset > 0
+			// debugger
+			// this.$frontmatter['isFixed'] = window.pageYOffset < 44
       this.pageYOffset = window.pageYOffset
     },
     throttle (func, delay) {

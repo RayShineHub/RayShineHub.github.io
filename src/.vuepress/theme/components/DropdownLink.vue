@@ -6,16 +6,16 @@
     <a
       class="dropdown-title"
       @click="toggle"
-      :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"
+      :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"
     >
       <span class="title">
-        <i :class="`iconfont ${item.icon}`" :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"></i>
+        <i :class="`iconfont ${item.icon}`" :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
         {{ item.text }}
       </span>
       <span
         class="arrow"
         :class="open ? 'down' : 'right'"
-        :style="$themeConfig.fullscreen ?{'border-top':'6px solid rgba(255,255,255,0.9)'}:{}"
+        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'border-top':'6px solid rgba(255,255,255,0.9)'}:{}"
       ></span>
     </a>
 
@@ -23,7 +23,7 @@
       <ul
         class="nav-dropdown"
         v-show="open"
-        :style="$themeConfig.fullscreen ?{'background-color':'rgba(0,0,0,0.2)'}:{}"
+        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'background-color':'rgba(0,0,0,0.2)'}:{}"
       >
         <li
           class="dropdown-item"

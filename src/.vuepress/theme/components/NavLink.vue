@@ -1,22 +1,23 @@
 <template>
   <router-link
     class="nav-link"
-    :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"
+    :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"
     :to="link"
     v-if="!isExternal(link)"
     :exact="exact">
-    <i :class="`iconfont ${item.icon}`" :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"></i>
+    <i :class="`iconfont ${item.icon}`" :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
     {{ item.text }}
   </router-link>
   <a
-    :style="$themeConfig.fullscreen ?{'color':'#fff','hover':'red'}:{}"
+    :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff','hover':'red'}:{}"
     v-else
     :href="link"
     class="nav-link external"
     :target="isMailto(link) || isTel(link) ? null : '_blank'"
     :rel="isMailto(link) || isTel(link) ? null : 'noopener noreferrer'"
   >
-    <i :class="`iconfont ${item.icon}`" :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"></i>
+    <i :class="`iconfont ${item.icon}`" 
+		:style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
     {{ item.text }}
     <OutboundLink/>
   </a>

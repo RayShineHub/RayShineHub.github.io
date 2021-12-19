@@ -1,6 +1,7 @@
 <template>
   <div class="search-box">
-    <i class="iconfont reco-search" :style="$themeConfig.fullscreen ?{'color':'#fff'}:{}"></i>
+    <i class="iconfont reco-search" 
+		:style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
     <input
       @input="query = $event.target.value"
       aria-label="Search"
@@ -164,7 +165,7 @@ export default {
     height: 2rem
     color lighten($textColor, 25%)
     display inline-block
-    border 1px solid $lightColor10
+    border 1px solid var(--text-color-sub)
     border-radius $borderRadius
     font-size 0.9rem
     line-height 2rem
