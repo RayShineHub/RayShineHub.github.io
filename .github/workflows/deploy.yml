@@ -74,15 +74,27 @@ jobs:
       #    cookie: ${{ secrets.GITEE_COOKIE }}
       #    branch: gh_pages
           
-      # 部署到远程服务器
-      - name: Deploy Docs To Remote Server
+					
+					
+					
+      # 部署到阿里云远程服务器
+      - name: Deploy blog To Aliyun Remote Server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          username: 'blog_sftp'
+          username: '${{ secrets.SERVER_SFTP_USERNAME }}'
           server: '${{ secrets.SERVER_IP_ALIYUN }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
           local_path: './dist/*'
-          remote_path: '/blog' #一定要是当前用户目录下存在的用户
-          
-
-        
+          remote_path: '/blog'
+					
+					
+					
+      # 部署到腾讯云远程服务器
+      - name: Deploy blog To Tencent Remote Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: '${{ secrets.SERVER_SFTP_USERNAME }}'
+          server: '${{ secrets.SERVER_IP_TENCENT }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_TENCENT }}'
+          local_path: './dist/*'
+          remote_path: '/blog'
