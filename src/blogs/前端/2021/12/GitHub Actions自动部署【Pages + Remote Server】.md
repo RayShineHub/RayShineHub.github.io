@@ -376,7 +376,34 @@ chown -R test:sftp /home/sftp/test/source
 
 ::: danger 注意
 
-`sftp` 服务的根目录的所有者必须是 `root`，权限不能超过 `755` (上级目录也必须遵循此规则)，`sftp` 的用户目录所有者也必须是`root` ，且最高权限不能超过 `755`。
+1、 `sftp` 服务的根目录的所有者必须是 `root`，权限不能超过 `755` (上级目录也必须遵循此规则)，`sftp` 的用户目录所有者也必须是`root` ，且最高权限不能超过 `755`。
+
+2、目前 `workflow` 推送到远程服务器，如果是目录，会遇到权限不足的问题，就需要用 `test` 用户登录 `FXP` 工具将目录结构上传一份，再用 `workflow` 推送后就没有问题了。
+
+3、如果大家用了 `CentOS8` 或者 `Openssl 1.1.1` 及以上版本，使用命令 `ssh-keygen -t rsa` 生成ssh，默认是以新的格式生成，id_rsa的第一行变成了 `BEGIN OPENSSH PRIVATE KEY` 而不再是 `BEGIN RSA PRIVATE KEY` ，这是一种新的密钥格式， 而且很多软件对这种格式的密钥都是不支持的。
+
+`GitHub`目前不支持，所以就要用到一种转换命令将 [`BEGIN OPENSSH PRIVATE KEY` 转换为 `BEGIN RSA PRIVATE KEY` 格式](http://www.mayanpeng.cn/archives/132.html)，为大家提供了两种解决方案。
+
+- 一、生成新的RSA-PEM格式公私密钥
+- 二、转换格式
+
+目前我这边要求不是很高，也不是生产环境，所以直接采用了第一种解决方案，重新生成了新的公私密钥；
+
+大概其实是用了命令 `ssh-keygen -m PEM -t rsa -b 4096` 来生成
+
+| 参数解释                                                     |
+| :----------------------------------------------------------- |
+| -m： 参数指定密钥的格式，PEM（也就是RSA格式）是之前使用的旧格式 |
+| -b：指定密钥长度；                                           |
+| -e：读取openssh的私钥或者公钥文件；                          |
+| -C：添加注释；                                               |
+| -f：指定用来保存密钥的文件名；                               |
+| -i：读取未加密的ssh-v2兼容的私钥/公钥文件，然后在标准输出设备上显示openssh兼容的私钥/公钥； |
+| -l：显示公钥文件的指纹数据；                                 |
+| -N：提供一个新密语；                                         |
+| -P：提供（旧）密语；                                         |
+| -q：静默模式；                                               |
+| -t：指定要创建的密钥类型                                     |
 
 :::
 
@@ -453,6 +480,19 @@ systemctl enable sshd.service
 
 
 
+#### 5、`SFTP` 测试
+
+- 测试命令如下
+
+```bash
+
+sftp -oIdentityFile=/home/blog_sftp/.ssh/id_rsa.pem test@yourHost -oProt=22
+
+
+```
+
+
+
 ## 上流程
 
 
@@ -461,7 +501,7 @@ systemctl enable sshd.service
 
 `deploy.yml` 文件为 `GitHub Actions` 执行的命令文件，`·workflow` 触发之后，`GitHub` 会自动读取项目根目录中的 `.github/workflows/***.yml` 去执行。
 
-![GitHub Actions yml目录结构](http://source.shaopf.com/Github Actions yml目录结构.png)
+![GitHub Actions yml目录结构](http://source.shaopf.com/github-Actions-yml目录结构.png)
 
 
 
