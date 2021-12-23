@@ -485,10 +485,7 @@ systemctl enable sshd.service
 - 测试命令如下
 
 ```bash
-
 sftp -oIdentityFile=/home/blog_sftp/.ssh/id_rsa.pem test@yourHost -oProt=22
-
-
 ```
 
 
@@ -501,7 +498,7 @@ sftp -oIdentityFile=/home/blog_sftp/.ssh/id_rsa.pem test@yourHost -oProt=22
 
 `deploy.yml` 文件为 `GitHub Actions` 执行的命令文件，`·workflow` 触发之后，`GitHub` 会自动读取项目根目录中的 `.github/workflows/***.yml` 去执行。
 
-![GitHub Actions yml目录结构](http://source.shaopf.com/github-Actions-yml目录结构.png)
+![](http://source.shaopf.com/github-actions-yml目录结构.png)
 
 
 
