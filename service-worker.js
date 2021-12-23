@@ -31,7 +31,7 @@ self.__precacheManifest = [
   },
   {
     "url": "about/index.html",
-    "revision": "e4b2436050553fe75ad1504b42bb2a64"
+    "revision": "890db0061b1438532bf20a18de46faca"
   },
   {
     "url": "assets/css/0.styles.5d034003.css",
@@ -203,23 +203,23 @@ self.__precacheManifest = [
   },
   {
     "url": "categories/前端/index.html",
-    "revision": "71ae9528f954e59239b36846b8e202ba"
+    "revision": "481a073d3811eb4edfb1dcac2e77c356"
   },
   {
     "url": "categories/后端/index.html",
-    "revision": "69826ced72e043c5c4e581198c68443c"
+    "revision": "bfa3e13d7474f1494d81862f9cdc61cd"
   },
   {
     "url": "categories/心得感悟/index.html",
-    "revision": "7929d1d39f38ef6371c5617b18b3273c"
+    "revision": "ef76a88f1b9f975e1ef7d22b8e7cf879"
   },
   {
     "url": "categories/收藏/index.html",
-    "revision": "886258202c2ed4ba5149dde039fc22c5"
+    "revision": "9935ca737725369edf67ce34eaf76d57"
   },
   {
     "url": "categories/服务端/index.html",
-    "revision": "84d103a295bf0c98b604d612ac9465f9"
+    "revision": "4b1585b18dd849f8fbcfd0b2a3fa3e21"
   },
   {
     "url": "hero.png",
@@ -227,7 +227,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "c04048a3b13d60c3348adb4230e432a0"
+    "revision": "416a19c87bad918477af42a56c12650d"
   },
   {
     "url": "js/bg.js",
@@ -271,47 +271,47 @@ self.__precacheManifest = [
   },
   {
     "url": "tag/CentOS7 SFTP配置/index.html",
-    "revision": "9972220681935cff3573265accfe7e8a"
+    "revision": "3d69a87c9564ea77b4454fd5fdc98328"
   },
   {
     "url": "tag/Freemarker/index.html",
-    "revision": "e2f98be7bcb5ed98618530501ed078ae"
+    "revision": "78babb0c0218908dedbf54930b25b19f"
   },
   {
     "url": "tag/GitHub Actions/index.html",
-    "revision": "dc6601bbf4bd429b5af7d4b88f5a4130"
+    "revision": "47bd1132aa7297eaa4f147ced4844f93"
   },
   {
     "url": "tag/GitHub Pages/index.html",
-    "revision": "d31f725b74bfb32659d964b232276a49"
+    "revision": "f0a20fd6874eacb7bb95a26dea572696"
   },
   {
     "url": "tag/index.html",
-    "revision": "878f3a4004b90ecdb80faaba23f10c60"
+    "revision": "0f6e9672e3750a39603e80e4562f6324"
   },
   {
     "url": "tag/Linux/index.html",
-    "revision": "d5cc38fe3d337060508e5945ce3a746d"
+    "revision": "d95a916cb0b19f817574cc59cf5a703d"
   },
   {
     "url": "tag/Mysql/index.html",
-    "revision": "bdcee24dfcc3f4de9aaa8a80801d30e0"
+    "revision": "c77309b94aec445747062171d78564ff"
   },
   {
     "url": "tag/SSHD/index.html",
-    "revision": "60a4b178bc29b1c3108acef1cd44c6a3"
+    "revision": "bd08a49692f74f8a0db17f814558e671"
   },
   {
     "url": "tag/vue/index.html",
-    "revision": "c2d05d809aad8d4f072cd0e2f0f6c509"
+    "revision": "fcefef0eb38d6e3d001a721f6045f2c0"
   },
   {
     "url": "tag/webpack/index.html",
-    "revision": "8dc24166c9ef17624c1eb9298e7ba1e1"
+    "revision": "d95120b69f43989b166f8603c413da8f"
   },
   {
     "url": "timeline/index.html",
-    "revision": "e1ebcd1c8655eefccddc8f83c0cb28c2"
+    "revision": "b2926e71b5d98687fa4adb9bf5f53456"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
