@@ -97,4 +97,4 @@ jobs:
           server: '${{ secrets.SERVER_IP_TENCENT }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_TENCENT }}'
           local_path: './dist/*'
-          remote_path: '/blog/docs' 
+          remote_path: '/blog/docs'
