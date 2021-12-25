@@ -51,15 +51,15 @@ jobs:
         run: yarn build
 
       # 部署到github.io静态网站
-      - name: Deploy Docs To GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.7
-        with:
-          # git-config-name: 邵鹏飞
-          token: ${{ secrets.BLOG_DEPLOY }}
-          clean: true
-          # repository-name: RayShineHub/RayShineHub.github.io
-          branch: gh-pages
-          folder: dist
+      # - name: Deploy Docs To GitHub Pages
+      #   uses: JamesIves/github-pages-deploy-action@4.1.7
+      #   with:
+      #     # git-config-name: 邵鹏飞
+      #     token: ${{ secrets.BLOG_DEPLOY }}
+      #     clean: true
+      #     # repository-name: RayShineHub/RayShineHub.github.io
+      #     branch: gh-pages
+      #     folder: dist
           
       # 部署到gitee.io静态网站
       #- name: Deploy Docs To Gitee Pages
@@ -79,14 +79,14 @@ jobs:
           
           
       # 部署到阿里云远程服务器
-      - name: Deploy blog To Aliyun Remote Server
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
-        with:
-          username: '${{ secrets.SERVER_SFTP_USERNAME }}'
-          server: '${{ secrets.SERVER_IP_ALIYUN }}'
-          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
-          local_path: './dist/*'
-          remote_path: '/blog'
+      # - name: Deploy blog To Aliyun Remote Server
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.0
+      #   with:
+      #     username: '${{ secrets.SERVER_SFTP_USERNAME }}'
+      #     server: '${{ secrets.SERVER_IP_ALIYUN }}'
+      #     ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
+      #     local_path: './dist/*'
+      #     remote_path: '/blog'
           
           
       # 部署到腾讯云远程服务器
