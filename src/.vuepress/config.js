@@ -1,5 +1,7 @@
-const nav = require("./config/nav");
+const nav = require("./config/nav")
 const pluginsConf = require('./plugins/index')
+const baseImgUrl = "http://source.shaopf.com/blog"
+
 
 module.exports = {
   base: "/",
@@ -40,44 +42,44 @@ module.exports = {
     //首页样式
     back:{
       isRandom: true,
-      bgImage: 'http://source.shaopf.com/blog/home/1.jpg',
+      bgImage: baseImgUrl + '/home/1.jpg',
       bgUrls: [
-        'http://source.shaopf.com/blog/home/1.jpg',
-        'http://source.shaopf.com/blog/home/2.jpg',
-        'http://source.shaopf.com/blog/home/3.jpg',
-        'http://source.shaopf.com/blog/home/4.jpg',
-        'http://source.shaopf.com/blog/home/5.jpg',
-        'http://source.shaopf.com/blog/home/6.jpg',
-        'http://source.shaopf.com/blog/home/7.jpg',
-				'http://source.shaopf.com/blog/imgs/city/1.jpg',
-				'http://source.shaopf.com/blog/imgs/city/2.jpg',
-				'http://source.shaopf.com/blog/imgs/city/3.jpg',
-				'http://source.shaopf.com/blog/imgs/city/4.jpg',
-				'http://source.shaopf.com/blog/imgs/city/5.jpg',
-				'http://source.shaopf.com/blog/imgs/city/6.jpg',
-				'http://source.shaopf.com/blog/imgs/city/7.jpg',
-				'http://source.shaopf.com/blog/imgs/city/8.jpg',
-				'http://source.shaopf.com/blog/imgs/city/9.jpg',
-				'http://source.shaopf.com/blog/imgs/others/1.jpg',
-				'http://source.shaopf.com/blog/imgs/others/2.png',
-				'http://source.shaopf.com/blog/imgs/others/3.png',
-				'http://source.shaopf.com/blog/imgs/others/4.jpg',
-				'http://source.shaopf.com/blog/imgs/others/5.jpg',
-				'http://source.shaopf.com/blog/imgs/others/6.jpg',
-				'http://source.shaopf.com/blog/imgs/others/7.jpg',
-				'http://source.shaopf.com/blog/imgs/others/8.png',
-				'http://source.shaopf.com/blog/imgs/others/9.png',
-				'http://source.shaopf.com/blog/imgs/others/10.jpg',
-				'http://source.shaopf.com/blog/imgs/others/11.jpg',
-				'http://source.shaopf.com/blog/imgs/others/12.jpg',
-				'http://source.shaopf.com/blog/imgs/others/13.png',
-				'http://source.shaopf.com/blog/imgs/others/14.jpg',
-				'http://source.shaopf.com/blog/imgs/others/15.jpg',
-				'http://source.shaopf.com/blog/imgs/others/16.jpg',
-				'http://source.shaopf.com/blog/imgs/others/17.jpg',
-				'http://source.shaopf.com/blog/imgs/others/18.jpg',
-				'http://source.shaopf.com/blog/imgs/others/19.jpg',
-				'http://source.shaopf.com/blog/imgs/others/20.png'
+        baseImgUrl + '/home/1.jpg',
+        baseImgUrl + '/home/2.jpg',
+        baseImgUrl + '/home/3.jpg',
+        baseImgUrl + '/home/4.jpg',
+        baseImgUrl + '/home/5.jpg',
+        baseImgUrl + '/home/6.jpg',
+        baseImgUrl + '/home/7.jpg',
+				baseImgUrl + '/imgs/city/1.jpg',
+				baseImgUrl + '/imgs/city/2.jpg',
+				baseImgUrl + '/imgs/city/3.jpg',
+				baseImgUrl + '/imgs/city/4.jpg',
+				baseImgUrl + '/imgs/city/5.jpg',
+				baseImgUrl + '/imgs/city/6.jpg',
+				baseImgUrl + '/imgs/city/7.jpg',
+				baseImgUrl + '/imgs/city/8.jpg',
+				baseImgUrl + '/imgs/city/9.jpg',
+				baseImgUrl + '/imgs/others/1.jpg',
+				baseImgUrl + '/imgs/others/2.png',
+				baseImgUrl + '/imgs/others/3.png',
+				baseImgUrl + '/imgs/others/4.jpg',
+				baseImgUrl + '/imgs/others/5.jpg',
+				baseImgUrl + '/imgs/others/6.jpg',
+				baseImgUrl + '/imgs/others/7.jpg',
+				baseImgUrl + '/imgs/others/8.png',
+				baseImgUrl + '/imgs/others/9.png',
+				baseImgUrl + '/imgs/others/10.jpg',
+				baseImgUrl + '/imgs/others/11.jpg',
+				baseImgUrl + '/imgs/others/12.jpg',
+				baseImgUrl + '/imgs/others/13.png',
+				baseImgUrl + '/imgs/others/14.jpg',
+				baseImgUrl + '/imgs/others/15.jpg',
+				baseImgUrl + '/imgs/others/16.jpg',
+				baseImgUrl + '/imgs/others/17.jpg',
+				baseImgUrl + '/imgs/others/18.jpg',
+				baseImgUrl + '/imgs/others/19.jpg',
+				baseImgUrl + '/imgs/others/20.png'
       ]
     },
 		noFoundPageByTencent: false,
@@ -113,7 +115,7 @@ module.exports = {
     },
     nav,
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
-    authorAvatar: "http://source.shaopf.com/blog/avatar/avatar.jpg",
+    authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,
@@ -122,7 +124,7 @@ module.exports = {
     // 最后更新时间
     lastUpdated: "Last Updated",
     // 作者
-    author: "RayShine",
+    author: "Ray Shine",
     // 备案号
     record: '辽ICP备2021012735',
 		// 备案连接地址
