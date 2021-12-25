@@ -93,7 +93,7 @@ jobs:
       - name: Deploy blog To Tencent Remote Server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          username: '${{ secrets.SERVER_SFTP_USERNAME }}'
+          username: '${{ secrets.SERVER_SFTP_USERNAME_TENCENT }}'
           server: '${{ secrets.SERVER_IP_TENCENT }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_TENCENT }}'
           local_path: './dist/*'
