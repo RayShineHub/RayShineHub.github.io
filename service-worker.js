@@ -27,11 +27,11 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "78140cc2de122cbe334cc0367d3a797f"
+    "revision": "59d23b1b3243a30dd589dfae7c39c03a"
   },
   {
     "url": "about/index.html",
-    "revision": "1a5e124862c51caf9242c9dc3b37c4ed"
+    "revision": "8cac173343836b315e01467deb51d290"
   },
   {
     "url": "assets/css/0.styles.5d034003.css",
@@ -94,16 +94,16 @@ self.__precacheManifest = [
     "revision": "ef88b773a1301d94d27cff7f4f3429b7"
   },
   {
-    "url": "assets/js/21.eae99169.js",
-    "revision": "87fdd74c7fb02424184ce3c2e1e1888b"
+    "url": "assets/js/21.ad6a8e50.js",
+    "revision": "ae47ce3c7dc617eac805a2c70948bd87"
   },
   {
-    "url": "assets/js/22.2012ed68.js",
-    "revision": "345e2cbed98535120eb12136af5bfa34"
+    "url": "assets/js/22.b692aacf.js",
+    "revision": "92f6979e24e3ae3b167ed7fc7f787b9e"
   },
   {
-    "url": "assets/js/23.b0272e83.js",
-    "revision": "4517218b296898e1efd5f9f33cfd729e"
+    "url": "assets/js/23.37b9d861.js",
+    "revision": "9e84808c0443946e494f2ba5229313d9"
   },
   {
     "url": "assets/js/24.b6b8c5e0.js",
@@ -154,8 +154,8 @@ self.__precacheManifest = [
     "revision": "81a93560c2d396ef1f4b1d4829c52055"
   },
   {
-    "url": "assets/js/app.6e56f5ff.js",
-    "revision": "ead0c1c6f909e95b72bf49d156977451"
+    "url": "assets/js/app.bfa86458.js",
+    "revision": "e3157ae8842ea4151a78e337ae107fdb"
   },
   {
     "url": "authorAvatar.png",
@@ -167,59 +167,59 @@ self.__precacheManifest = [
   },
   {
     "url": "blogs/others/收藏/bilibili/恋爱告急.html",
-    "revision": "c3f3c9bfed4ea8f17dd70cb0420890f9"
-  },
-  {
-    "url": "blogs/前端/2021/12/GitHub Actions自动部署【Pages + Remote Server】.html",
-    "revision": "4b35fb26c2b52c42ad83accdc84efcb7"
+    "revision": "3db758a125d39bc291e2aea3fd06a163"
   },
   {
     "url": "blogs/前端/2021/12/Vue隐藏滚动条.html",
-    "revision": "4c9698ce03f8d666c6bf2eeb4d810242"
+    "revision": "e033fa184e61b3c4d029149a2246b7f7"
   },
   {
     "url": "blogs/前端/2021/12/webpack.html",
-    "revision": "caf188c3cef565e6417cd80df24ae2b4"
+    "revision": "abf58cd81194f1f9f0af7eb0b3efb318"
+  },
+  {
+    "url": "blogs/前端/2022/01/GitHub Actions自动部署【Pages + Remote Server】.html",
+    "revision": "6e24b6ace6fe0911d8d63d5e0b0e1cda"
   },
   {
     "url": "blogs/后端/2020/08/示例二.html",
-    "revision": "efd8bae8918715ef50ec99cdd44ea100"
+    "revision": "2845f52e657703e2b1fc1ab953aab7d3"
   },
   {
     "url": "blogs/后端/2021/04/Mysql函数.html",
-    "revision": "bba491fd2e4db24e44c0179124380c4c"
+    "revision": "57e4c6706362fea519acae0f3982ba7d"
   },
   {
     "url": "blogs/文章/八佰.html",
-    "revision": "9b5805b4789a0b0025b981582447c8ab"
+    "revision": "7768c326b25ba4040929595ce213f822"
   },
   {
     "url": "blogs/服务端/2021/12/SSHD查询、启动、重启.html",
-    "revision": "573224941c4ad9447e12e089ec8365d7"
+    "revision": "119e93db07a477cb7e58dc23f7af5a83"
   },
   {
     "url": "categories/index.html",
-    "revision": "2f78923a51797b9175d2b6344c60ee1e"
+    "revision": "374eb6bb515fd8cbcf6d8159ab17fffa"
   },
   {
     "url": "categories/前端/index.html",
-    "revision": "0482fabfa663e2b8aac3255c15c5792c"
+    "revision": "d45ea285f2e0c9c8e2a36f2e473df25a"
   },
   {
     "url": "categories/后端/index.html",
-    "revision": "b7c10504087d501e4392bc3bf606fd18"
+    "revision": "58e1f01773cad97929094f6d911406db"
   },
   {
     "url": "categories/心得感悟/index.html",
-    "revision": "e6aaf4d26c632bbc2091716dee2c1c78"
+    "revision": "822aaf83cb6b0ef471e99a4f9cb9b8df"
   },
   {
     "url": "categories/收藏/index.html",
-    "revision": "b98d07f21570a3b6c4e87cac675acbf4"
+    "revision": "ed616ad55384890629d904444c89ca6d"
   },
   {
     "url": "categories/服务端/index.html",
-    "revision": "b86cbda13bac9941455374ce75757ae2"
+    "revision": "09b8a9dd50f7d993c199fe5dc699f833"
   },
   {
     "url": "hero.png",
@@ -227,7 +227,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "d98baa39741af33f04900ac50eb3f05a"
+    "revision": "6e7d686635d06c969f555032d4c80df6"
   },
   {
     "url": "js/bg.js",
@@ -244,6 +244,10 @@ self.__precacheManifest = [
   {
     "url": "js/daoVoice.js",
     "revision": "7c191021f39298c1f82e021f5d2fc957"
+  },
+  {
+    "url": "js/dayNightSwitch.js",
+    "revision": "b3412bec8ef700dc29f2c6ae409a46ac"
   },
   {
     "url": "js/fairyDustCursor.js",
@@ -271,47 +275,47 @@ self.__precacheManifest = [
   },
   {
     "url": "tag/CentOS7 SFTP配置/index.html",
-    "revision": "f12d90be81cc9befd1cfc03c7f7cec81"
+    "revision": "26cb8d0166a457e2ef7a296406bc68ab"
   },
   {
     "url": "tag/Freemarker/index.html",
-    "revision": "7967d394c5375067feed636e15a19b4a"
+    "revision": "117caa57767e4d2b085d7dece90e6304"
   },
   {
     "url": "tag/GitHub Actions/index.html",
-    "revision": "6e2203611d3920cacc374065f2bd3b01"
+    "revision": "960a020a6346e04312c4acc345e3759b"
   },
   {
     "url": "tag/GitHub Pages/index.html",
-    "revision": "393c50b5a64700ab137e9ac74f74987a"
+    "revision": "972175bb8b7cde8c280afa8f94652486"
   },
   {
     "url": "tag/index.html",
-    "revision": "30320ae1efc9bb272d1c362f5d21f743"
+    "revision": "90bf51cdb4b58b646889f54572f4dcd5"
   },
   {
     "url": "tag/Linux/index.html",
-    "revision": "50d668bf7bb307c9b2fc3f3bec0ab8c8"
+    "revision": "0e68a9e569e61f8e0fed662ecb6a62c0"
   },
   {
     "url": "tag/Mysql/index.html",
-    "revision": "2c358ee98d590082bee3756126a99106"
+    "revision": "f92b22c7664604ac4301bbba59026b6b"
   },
   {
     "url": "tag/SSHD/index.html",
-    "revision": "9d47d4d3b0ace6bb10db7d120b423eee"
+    "revision": "6bac27a733cbc422a4eac23a90d8e2fe"
   },
   {
     "url": "tag/vue/index.html",
-    "revision": "a72075fc85987543a69c93069f767950"
+    "revision": "dcfcc32de024ffa3cd5e8fbef92f70d8"
   },
   {
     "url": "tag/webpack/index.html",
-    "revision": "6e8aa5398518990a6f8f8bdcb29113e4"
+    "revision": "b8e8efb6737e162c385599280856e3cb"
   },
   {
     "url": "timeline/index.html",
-    "revision": "7e974b8db55de1901d80131c7cf8a5cd"
+    "revision": "05d06defdce24305fee614f390ea00c7"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
