@@ -83,8 +83,8 @@ module.exports = {
       ]
     },
 		noFoundPageByTencent: false,
-    indexTitle:"人生来来往往，来日并不方长。",
-    indexDes:"Life comes and goes, but the future is not long.",
+    indexTitle:"看走眼的东西，要及时扔掉。抓不住的东西，伸手都是多余。",
+    indexDes:"Throw away the wrong things in time, what you can't grasp is superfluous.",
     //是否全屏样式 true，false
     fullscreen: true,
     //全屏模式下才应用 分类图片 不填或者默认为随机
@@ -161,12 +161,12 @@ module.exports = {
     ],
     //首页格言
     mottos: [{
-      "zh": "人生来来往往，来日并不方长。",
-      "en": "Life comes and goes, but the future is not long."
+      "zh": "看走眼的东西，要及时扔掉。抓不住的东西，伸手都是多余。",
+      "en": "Throw away the wrong things in time, what you can't grasp is superfluous."
       },
       {
-        "zh": "他心里的苦越多，一丝甜就能填满。",
-        "en": "The more bitterness in his heart, the sweetness can fill it."
+        "zh": "有结果的付出叫投资，没结果的付出叫代价。",
+        "en": "Pay with results is called pay, pay without results is called price."
       },
       {
         "zh": "梦想不会逃跑，会逃跑的永远都是自己。",
@@ -177,15 +177,15 @@ module.exports = {
         "en": "Crossing the river, there are thousands of Hibiscus. Poetry is simple, heart is simple."
       },
       {
-        "zh": "一别两三年，忽然又夏天。",
-        "en": "Two or three years later, it was summer again."
+        "zh": "熬得住才出众，熬不住会出局",
+        "en": "It's outstanding to endure. If you can't endure, you'll be out."
       }, {
         "zh": "未成定局的事就不要弄的人尽皆知。",
         "en": "Don't do anything that's not settled but everyone knows it."
       },
       {
-        "zh": "也许明天的我会痛恨自己，但今夜的我仍在前行。",
-        "en": "I might hate myself tomorrow, but I'm on my way tonight."
+        "zh": "你的人品，就是最好的运气。你的状态，就是最好的风水。",
+        "en": "Your character is your best luck, Your state is the best Feng Shui."
       }
     ],
   },
