@@ -1,6 +1,6 @@
 const nav = require("./config/nav")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = "http://source.rayshine.site/blog"
+const baseImgUrl = "http://cdn.rayshine.site/blog"
 
 
 module.exports = {

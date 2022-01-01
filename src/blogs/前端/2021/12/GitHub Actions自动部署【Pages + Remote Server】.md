@@ -234,13 +234,13 @@ module.exports = {
 
 **1、进入我的仓库 **
 
-![我的GitHub仓库](http://source.shaopf.com/我的GitHub仓库.png)
+![我的GitHub仓库](http://cdn.rayshine.site/我的GitHub仓库.png)
 
 
 
 **2、新建仓库**
 
-![创建用于发布的GitHub Pages的代码仓库](http://source.shaopf.com/create-github-pages-repo.png)
+![创建用于发布的GitHub Pages的代码仓库](http://cdn.rayshine.site/create-github-pages-repo.png)
 
 
 
@@ -498,7 +498,7 @@ sftp -oIdentityFile=/home/blog_sftp/.ssh/id_rsa.pem test@yourHost -oProt=22
 
 `deploy.yml` 文件为 `GitHub Actions` 执行的命令文件，`·workflow` 触发之后，`GitHub` 会自动读取项目根目录中的 `.github/workflows/***.yml` 去执行。
 
-![](http://source.shaopf.com/github-actions-yml目录结构.png)
+![](http://cdn.rayshine.site/github-actions-yml目录结构.png)
 
 
 
@@ -602,7 +602,7 @@ jobs:
 
 部署到远程服务器时需要用到远程服务器的 `SFTP用户名`、`IP地址`、`ssh私钥`，这些内容都是对于服务器来讲比较重要的信息，所以不建议将这些内容 <Badge text="明文" type="error" vertical="middle"/>  存放到 `GitHub` 中，所以将他们保存到 `Github仓库密钥` 中，供 `GitHub` 使用。
 
-![GitHub仓库密钥](http://source.shaopf.com/GitHub仓库密钥.png)
+![GitHub仓库密钥](http://cdn.rayshine.site/GitHub仓库密钥.png)
 
 :::
 
@@ -657,13 +657,14 @@ yarn deploy
 
 - 发布成功截图
 
+![博客发布成功](http://cdn.rayshine.site/博客发布成功.png)
 
 
 
 
 ## 最终结果
 
-![workflow运行成功](http://source.shaopf.com/github-action-success.png)
+![workflow运行成功](http://cdn.rayshine.site/github-action-success.png)
 
 
 
