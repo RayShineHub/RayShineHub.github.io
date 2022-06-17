@@ -4,6 +4,8 @@ date: 2021-12-08
 showSponsor: true
 isShowComment: true
 isAbstract: true
+autoIgnore: true
+sidebar: false
 tags:
  - 'GitHub Actions'
  - 'GitHub Pages'

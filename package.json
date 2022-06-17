@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@vuepress/plugin-pwa": "^1.8.2",
+    "babel-plugin-transform-require-context": "^0.1.1",
     "glob": "^7.1.6",
     "jquery": "^3.5.1",
     "less": "^3.12.2",
@@ -18,9 +19,12 @@
     "mime": "^2.4.4",
     "path": "^0.12.7",
     "qiniu": "^7.3.0",
+    "require-context": "^1.1.0",
     "vue-embed-gist": "^1.0.2",
     "vuepress": "^1.7.1",
+    "vuepress-plugin-auto-sidebar": "^2.3.2",
     "vuepress-plugin-boxx": "^0.0.7",
+    "vuepress-plugin-dynamic-title": "^1.0.0",
     "vuepress-plugin-meting": "^0.1.1",
     "vuepress-theme-reco": "1.5.5"
   },
@@ -28,8 +32,8 @@
     "aos": "^2.3.4",
     "container": "^0.0.2",
     "express": "^4.17.1",
-    "vue-class-component": "^7.2.3",
     "vue-canvas-effect": "^0.0.12",
+    "vue-class-component": "^7.2.3",
     "vue-property-decorator": "8.4.2",
     "vuepress-plugin-nuggets-style-copy": "^1.0.3"
   },

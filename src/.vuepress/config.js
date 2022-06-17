@@ -1,7 +1,8 @@
 const nav = require("./config/nav")
+// const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 const baseImgUrl = "http://cdn.rayshine.site/blog"
-
+debugger
 
 module.exports = {
   base: "/",
@@ -32,7 +33,7 @@ module.exports = {
   markdown: {
     lineNumbers: true
   },
-  mode:"dark",
+  mode:"auto",
 	locales: {
 	  "/": {
 	    "lang": 'zh-CN'
@@ -114,6 +115,10 @@ module.exports = {
 			visitor:true
     },
     nav,
+		
+		// sidebar: sidebar.setSidebarAuto(['/blog/前端/每日一题/']),
+		// sidebar: siderbarConf,
+		
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
     authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
     // 搜索设置

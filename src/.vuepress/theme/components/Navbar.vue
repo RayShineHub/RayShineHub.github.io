@@ -27,12 +27,13 @@
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
 
+				<NavLinks class="can-hide" :isNavFixed="isFixed"/>
         <Mode />
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
           :options="algolia"/>
         <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
-        <NavLinks class="can-hide" :isNavFixed="isFixed"/>
+        
       </div>
 
       <!-- <div class="nav-music"
@@ -52,7 +53,8 @@ import AlgoliaSearchBox from '@AlgoliaSearchBox'
 import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton'
 import NavLinks from '@theme/components/NavLinks'
-import Mode from '@theme/components/Mode'
+// import Mode from '@theme/components/Mode'
+import Mode from '@theme/components/DayAndNight.vue'
 
 export default {
   components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode },
