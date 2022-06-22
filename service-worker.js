@@ -27,11 +27,11 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "c9ffd1280491df538c9492e874707ef6"
+    "revision": "5af38e3448157ec8c354127fe2d083ea"
   },
   {
     "url": "about/index.html",
-    "revision": "79f6b7e53f5b5665eabb33ed5a88d31f"
+    "revision": "41b71a578ca7df809aab5be9f5381875"
   },
   {
     "url": "assets/css/0.styles.199e94d5.css",
@@ -162,8 +162,8 @@ self.__precacheManifest = [
     "revision": "a4b31b611b15b0a3c8bb002e2a24faa1"
   },
   {
-    "url": "assets/js/app.82778c5c.js",
-    "revision": "bb656af928a6bab2c5ba8bd513148550"
+    "url": "assets/js/app.1dde82fe.js",
+    "revision": "f470cc868355de8dbb19c51367faaca8"
   },
   {
     "url": "authorAvatar.png",
@@ -175,71 +175,71 @@ self.__precacheManifest = [
   },
   {
     "url": "blogs/others/收藏/bilibili/恋爱告急.html",
-    "revision": "f4e94ce5bdf3764033f408cf1b75710c"
+    "revision": "88a292d4badc777123b8eb4593c93e0f"
   },
   {
     "url": "blogs/前端/2021/12/GitHub Actions自动部署【Pages + Remote Server】.html",
-    "revision": "7ead5b6cd2bc0763e0d279e33b0adbaf"
+    "revision": "9cdbe4d986d2e960f97fa84e53f3b9a4"
   },
   {
     "url": "blogs/前端/2021/12/Vue隐藏滚动条.html",
-    "revision": "a4cc88b25ef8d9c3a044f16589a6697c"
+    "revision": "71ec6868a3804cecc7740a6cd1e37af1"
   },
   {
     "url": "blogs/前端/2021/12/webpack.html",
-    "revision": "ae96864ab3230cd38a332923c3e6e396"
+    "revision": "6b7c4d871bacc13cf296dbd83fd71b51"
   },
   {
     "url": "blogs/前端/每日一题/2022年2月8日.html",
-    "revision": "d579bb0b5e44dd7e6ec40a235747407b"
+    "revision": "6b7853b6647b01f55c513da9176ca2d1"
   },
   {
     "url": "blogs/前端/每日一题/2022年2月9日.html",
-    "revision": "dd45418ff2de4331274199ffbce2d6a3"
+    "revision": "accb232d17ad83c319a9902db3226f48"
   },
   {
     "url": "blogs/后端/2020/08/示例二.html",
-    "revision": "5223363325b87683f2703fe8ae5d583d"
+    "revision": "6322424e40f06086bf16174b84f92029"
   },
   {
     "url": "blogs/后端/2021/04/Mysql函数.html",
-    "revision": "0aa70e8e408e8c6ed9558ec24e009b2d"
+    "revision": "20048b6d662834b7c2cc107ad73aa936"
   },
   {
     "url": "blogs/文章/八佰.html",
-    "revision": "7fca5f74c89a38235f39ee1c476647d9"
+    "revision": "07f39c745516541976b1ee3fda7e6f3c"
   },
   {
     "url": "blogs/服务端/2021/12/SSHD查询、启动、重启.html",
-    "revision": "7ada0d1367f409f2782ada630e976a1f"
+    "revision": "3ca722fd0de735d44f4f8515cf087364"
   },
   {
     "url": "categories/index.html",
-    "revision": "069f46b506474dfed3764961061f85ef"
+    "revision": "e7a7adb19e0327005802f5cb878e961c"
   },
   {
     "url": "categories/前端/index.html",
-    "revision": "d723089333d0f559b0fabab99991099e"
+    "revision": "109a75834132c07910e643cf5115f862"
   },
   {
     "url": "categories/前端每日一题/index.html",
-    "revision": "c282dcfc234a2149f2a9839e7b67fcf2"
+    "revision": "cdee4e700af7c6f66dd6a3691e3cf0ce"
   },
   {
     "url": "categories/后端/index.html",
-    "revision": "42bbc2b72bff10f1610270eac5da5ef2"
+    "revision": "3a1cdfb8adf70e1bd99116713791e93a"
   },
   {
     "url": "categories/心得感悟/index.html",
-    "revision": "a122e4ca546b970a19b3373284706a5b"
+    "revision": "8c7b50625100c166507c66785b7a2989"
   },
   {
     "url": "categories/收藏/index.html",
-    "revision": "24f2bc00f5727c13806173efe122ac4c"
+    "revision": "8db5dff82844e238a7325061eb7c4f3c"
   },
   {
     "url": "categories/服务端/index.html",
-    "revision": "e919698a9b7d4c464ffd3364d4416ffa"
+    "revision": "6ee29bdba213c0de7c02369ae8195477"
   },
   {
     "url": "hero.png",
@@ -247,7 +247,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "8f358f1c5afad2d55ab2b7ce594ac222"
+    "revision": "72f351637270cc1073b8fb3c4b602ed0"
   },
   {
     "url": "js/bg.js",
@@ -295,51 +295,51 @@ self.__precacheManifest = [
   },
   {
     "url": "tag/CentOS7 SFTP配置/index.html",
-    "revision": "6eb506652be09c9e01ab7a9a70461c1a"
+    "revision": "99206a0d58f1612392ad1478eae39a38"
   },
   {
     "url": "tag/Freemarker/index.html",
-    "revision": "069bda52d5dd70db0338e20d898685ee"
+    "revision": "31515417796d83ad5bed84a68628e3ba"
   },
   {
     "url": "tag/GitHub Actions/index.html",
-    "revision": "d0e8e493571d7d5393eaee84a1eebd3c"
+    "revision": "096e7c74d5588c655a6e0468224c9e36"
   },
   {
     "url": "tag/GitHub Pages/index.html",
-    "revision": "08e17088f3e7151b9a4069174ee06c77"
+    "revision": "0647717b26f59bc74149bd316a9de38d"
   },
   {
     "url": "tag/index.html",
-    "revision": "15410196e99de66ac858d7c88a5282e1"
+    "revision": "b8239e1024284e22712fdc124abf5d21"
   },
   {
     "url": "tag/Linux/index.html",
-    "revision": "a6c07ab510f2bdcf9559153cc735f100"
+    "revision": "ca8d032fd85d870434165628f9159455"
   },
   {
     "url": "tag/Mysql/index.html",
-    "revision": "5e934030bcf198137db0c6720f05a379"
+    "revision": "5e842a8b76f1b8f69acc5b2f4db70c35"
   },
   {
     "url": "tag/SSHD/index.html",
-    "revision": "42243a4eba742ea485d4742168bacbcb"
+    "revision": "d012d65abfd19b19c5b69299f2f5923f"
   },
   {
     "url": "tag/vue/index.html",
-    "revision": "cc141888eb3b9027b0ff437cbb6a6339"
+    "revision": "91823137793776cbdbee143b474f12bc"
   },
   {
     "url": "tag/webpack/index.html",
-    "revision": "f6287b0de3b48b964d7ca48777cd41d9"
+    "revision": "a5d02de623932593fa73839a3e453ddd"
   },
   {
     "url": "tag/每日一题/index.html",
-    "revision": "d57ff918e4d9094d389536a874262429"
+    "revision": "3e85d9c92e67e4d804ff1966aa35bc1b"
   },
   {
     "url": "timeline/index.html",
-    "revision": "17d96371f2339c7d2bd9dc0ff11215d6"
+    "revision": "9ca9b8f2eedc96451b84a07546317757"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
