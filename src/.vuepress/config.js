@@ -1,5 +1,5 @@
 const nav = require("./config/nav")
-// const siderbarConf = require("./config/sidebar")
+const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 const baseImgUrl = "http://cdn.rayshine.site/blog"
 debugger
@@ -117,7 +117,7 @@ module.exports = {
     nav,
 		
 		// sidebar: sidebar.setSidebarAuto(['/blog/前端/每日一题/']),
-		// sidebar: siderbarConf,
+		sidebar: siderbarConf,
 		
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
     authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
