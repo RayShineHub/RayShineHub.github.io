@@ -1,6 +1,7 @@
 <template>
   <nav
     class="nav-links"
+    :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``"
     v-if="userLinks.length || repoLink"
   >
     <!-- user links -->
@@ -10,10 +11,12 @@
       :key="item.link">
       <DropdownLink
         v-if="item.type === 'links'"
-        :item="item"/>
+        :item="item"
+        :isNavFixed="isNavFixed"/>
       <NavLink
         v-else
-        :item="item"/>
+        :item="item"
+        />
     </div>
 
     <!-- repo link -->
@@ -22,7 +25,6 @@
       :href="repoLink"
       class="repo-link"
       target="_blank"
-			:style="{color: isNavFixed ? '' : '#eee'}"
       rel="noopener noreferrer">
       <i :class="`iconfont reco-${repoLabel.toLowerCase()}`"></i>
       {{ repoLabel }}
@@ -182,6 +184,12 @@ export default {
       margin-left 0
   .repo-link
     margin-left 1.5rem
+
+.isNavFixed
+  a
+    color rgba(255, 255, 255, 0.8)
+    i
+      color rgba(255, 255, 255, 0.6)
 
 @media (max-width: $MQMobile)
   .nav-links

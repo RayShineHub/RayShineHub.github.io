@@ -27,12 +27,17 @@
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
 
-				<NavLinks class="can-hide" :isNavFixed="isFixed"/>
-        <Mode />
+        <!-- 搜索框 -->
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
           :options="algolia"/>
         <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
+
+        <!-- 导航 -->
+				<NavLinks class="can-hide" :isNavFixed="isFixed"/>
+
+        <!-- 主题 -->
+        <Mode />
         
       </div>
 

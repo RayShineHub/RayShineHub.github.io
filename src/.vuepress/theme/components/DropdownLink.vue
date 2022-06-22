@@ -6,16 +6,15 @@
     <a
       class="dropdown-title"
       @click="toggle"
-      :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"
     >
       <span class="title">
-        <i :class="`iconfont ${item.icon}`" :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
+        <i :class="`iconfont ${item.icon}`" ></i>
         {{ item.text }}
       </span>
       <span
         class="arrow"
         :class="open ? 'down' : 'right'"
-        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'border-top':'6px solid rgba(255,255,255,0.9)'}:{}"
+        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ?{'border-top':'6px solid rgba(255, 255, 255, 0.6)'}:{}"
       ></span>
     </a>
 
@@ -23,7 +22,7 @@
       <ul
         class="nav-dropdown"
         v-show="open"
-        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'background-color':'rgba(0,0,0,0.2)'}:{}"
+        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ?{'background-color':'rgba(0,0,0,0.6)'}:{}"
       >
         <li
           class="dropdown-item"
@@ -71,7 +70,11 @@ export default {
   props: {
     item: {
       required: true
-    }
+    },
+    isNavFixed: {
+	    type: Boolean,
+	    default: false
+	  }
   },
 
   methods: {
