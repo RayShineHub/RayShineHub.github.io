@@ -15,32 +15,4 @@ module.exports = {
         }
      },
     "vuepress-plugin-boxx":{},
-		// 自动生成侧边栏
-		// "vuepress-plugin-auto-sidebar": {
-		// 	sort: {
-		// 		mode: "asc",
-		// 		readmeFirst: true,
-		// 		readmeFirstForce: false
-		// 	},
-		// 	title: {
-		// 		mode: "titlecase",
-		// 		map: {}
-		// 	},
-		// 	sidebarDepth: 1,
-		// 	collapse: {
-		// 		open: false,
-		// 		collapseList: [],
-		// 		uncollapseList: []
-		// 	},
-		// 	ignore: [
-		// 		// {
-		// 		// 	menu: "/blogs/前端/2021/12/",
-		// 		// 	regex: "web*"
-		// 		// }
-		// 	],
-		// 	removeEmptyGroup: false,
-		// 	git: {
-		// 		trackStatus: 'all'
-		// 	}
-		// }
 }

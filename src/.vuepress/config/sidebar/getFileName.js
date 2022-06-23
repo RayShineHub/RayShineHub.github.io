@@ -10,25 +10,29 @@
 	
  // 按照 vuepress '分组侧边栏'的规范生成单个配置
  // https://vuepress.vuejs.org/zh/theme/default-theme-config.html#%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%88%86%E7%BB%84
+ 
  function toSidebarOption(tree = []) {
-		 if (!Array.isArray(tree)) return [];
-	
-		 return tree.map((v) => {
-				 if (v.type === "directory") {
-						 return {
-								 title: (v.name).split('-')[1],
-								 collapsable: false, // 可选的, 默认值是 true,
-								 sidebarDepth: 1,
-								 children: toSidebarOption(v.children),
-						 };
-				 } else {
-						 // 因为所有的md文件必须放到'docs'文件夹下
-						 // 所以相对路径就是'docs'后面的部分
-						 // 最后把扩展名去掉, 就是路由的路径
-						 if (!v.path.split("docs")[1]) return ""
-						 return v.path.split("docs")[1].replace(/\.md$/, "");
-				 }
-		 });
+	if (tree[0] === null) return [];
+	return tree.map((v) => {
+		// 文件夹
+		if (v.type === 'directory') {
+			return {
+				title: v.name,
+				collapsable: true, // 可选的, 默认值是 true,
+				sidebarDepth: 1,
+				children: toSidebarOption(v.children),
+			};
+
+		// 文件
+		} else {
+			// 因为所有的md文件必须放到'docs'文件夹下
+			// 所以相对路径就是'docs'后面的部分
+			// 最后把扩展名去掉, 就是路由的路径
+			if (!v.path.split("src")[1]) return ""
+			return v.path.split("src")[1].replace(/\.md$/, "");
+		}
+	})
+	return tree;
  }
 	
  /**
@@ -40,12 +44,12 @@
 		 const srcDir = dirTree(sidebarPath, {
 				 extensions: /\.md$/,
 				 normalizePath: true,
+				 attributes:['size', 'type', 'extension']  // 不加参数默认不显示，坑的一
 		 });
-		 console.log(srcDir)
-		 debugger
-		 if (!srcDir) return []
-		 const ress = toSidebarOption(srcDir.children)
-		 return toSidebarOption(srcDir.children);
+		 const srcDirArr = []
+		 srcDirArr.push(srcDir)
+		 if (!srcDirArr) return []
+		 return toSidebarOption(srcDirArr);
 		 // [title:'group-name', children:['/route-a','route-b']]
  }
 	

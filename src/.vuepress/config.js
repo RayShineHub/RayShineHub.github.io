@@ -2,7 +2,6 @@ const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 const baseImgUrl = "http://cdn.rayshine.site/blog"
-debugger
 
 module.exports = {
   base: "/",
@@ -21,17 +20,17 @@ module.exports = {
 		// ["script", { src: "https://cdn.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js" }],
 		//友盟+统计
 		// ["script", { src: "https://s9.cnzz.com/z_stat.php?id=1280664116&web_id=1280664116" }],
-		['script', {}, `
-			document.write(
-				unescape(
-					"%3Cspan id='cnzz_stat_icon_1280664116' style='position: fixed;bottom: 0px;' %3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php?id=1280664116&show=pic' type='text/javascript'%3E%3C/script%3E"
-				)
-			);
-		`] 
+		// ['script', {}, `
+		// 	document.write(
+		// 		unescape(
+		// 			"%3Cspan id='cnzz_stat_icon_1280664116' style='position: fixed;bottom: 0px;' %3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php?id=1280664116&show=pic' type='text/javascript'%3E%3C/script%3E"
+		// 		)
+		// 	);
+		// `] 
   ],
   theme: "reco",
   markdown: {
-    lineNumbers: true
+    lineNumbers: false
   },
   mode:"auto",
 	locales: {
@@ -113,10 +112,12 @@ module.exports = {
 			enableQQ: true,
 			recordIP:true,
 			visitor:true
+      
     },
+
+    // 导航栏
     nav,
-		
-		// sidebar: sidebar.setSidebarAuto(['/blog/前端/每日一题/']),
+    // 自定义左侧侧边栏
 		sidebar: siderbarConf,
 		
     logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
@@ -124,8 +125,6 @@ module.exports = {
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,
-    // 自动形成侧边导航
-    sidebar: "auto",
     // 最后更新时间
     lastUpdated: "Last Updated",
     // 作者
@@ -140,11 +139,11 @@ module.exports = {
 		  "github" : "https://github.com/GodLikeZeal", //github
 		  "gitlub" : false, //gitlub
 		  "gitee" : "https://gitee.com/GodLikeZeal", //gitee
-		  "jianshu" : "https://www.jianshu.com/u/e2d051b6d2e9", //简书
-		  "zhihu" : "https://www.zhihu.com/people/qian-ge-diao-63", //知乎
+		  "jianshu" : false, //简书
+		  "zhihu" : false, //知乎
 		  "toutiao" : false, //知乎
-		  "juejin": "https://juejin.im/user/2796746683716990", //掘金
-		  "segmentfault" : "https://segmentfault.com/u/zeal_5eecb699bdb08", //思否
+		  "juejin": false, //掘金
+		  "segmentfault" : false, //思否
 		  "csdn" : false, //CSDN
 		  "wechat" : "你的微信", //微信
 		  "qq" : "你的QQ" //QQ

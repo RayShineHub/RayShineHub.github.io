@@ -138,7 +138,7 @@ export function resolveSidebarItems (page, regularPath, site, localePath) {
   //     : []
   // }
   const sidebarConfig = localeConfig.sidebar || themeConfig.sidebar
-
+  debugger
   const { base, config } = resolveMatchingConfig(regularPath, sidebarConfig)
   return config
     ? config.map(item => resolveItem(item, pages, base))
