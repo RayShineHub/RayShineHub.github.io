@@ -10,6 +10,7 @@ module.exports = {
 	dest: 'dist',
   head: [
 		["meta", {name: "viewport",content: "width=device-width,initial-scale=1,user-scalable=no"}],
+    ["meta", {name: "baidu-site-verification",content: "code-U0ZDB2tiQp"}],
     ["link", { rel: "icon", href: "/favicon.ico" }],
     ["script", {"language": "javascript","type": "text/javascript","src": "https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"}],
     ["script", {"language": "javascript","type": "text/javascript","src": "/js/mouseClick.js"}],
@@ -135,18 +136,18 @@ module.exports = {
 		recordLink: '#',
     // 项目开始时间
     startYear: "2020",
-		"socials":{
-		  "github" : "https://github.com/GodLikeZeal", //github
-		  "gitlub" : false, //gitlub
-		  "gitee" : "https://gitee.com/GodLikeZeal", //gitee
-		  "jianshu" : false, //简书
-		  "zhihu" : false, //知乎
-		  "toutiao" : false, //知乎
-		  "juejin": false, //掘金
-		  "segmentfault" : false, //思否
-		  "csdn" : false, //CSDN
-		  "wechat" : "你的微信", //微信
-		  "qq" : "你的QQ" //QQ
+		socials:{
+		  github : "https://github.com/GodLikeZeal", //github
+		  gitlub : false, //gitlub
+		  gitee : "https://gitee.com/GodLikeZeal", //gitee
+		  jianshu : false, //简书
+		  zhihu : false, //知乎
+		  toutiao : false, //知乎
+		  juejin: false, //掘金
+		  segmentfault : false, //思否
+		  csdn : false, //CSDN
+		  wechat : "你的微信", //微信
+		  qq : "你的QQ" //QQ
 		},
     friendLink: [
       {

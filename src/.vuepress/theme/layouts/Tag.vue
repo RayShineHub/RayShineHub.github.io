@@ -6,7 +6,7 @@
         'padding': '0'
       } : {}">
        <div v-if='$themeConfig.fullscreen' 
-       :class="$themeConfig.fullscreen?'tfullPic':''"
+       :class="$themeConfig.fullscreen?'tsfullPic':''"
       :style="$themeConfig.fullscreen? {
         'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:$coverRandom) +')'
       } : {}" >
