@@ -2,6 +2,13 @@
   "name": "blog",
   "version": "1.0.0",
   "author": "ranshine",
+  "keywords": [
+    "blog",
+    "vue",
+    "vuepress",
+    "rayshine"
+  ],
+  "homepage": "http://blog.rayshine.site/",
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src",

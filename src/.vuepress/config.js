@@ -3,6 +3,9 @@ const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 const baseImgUrl = "http://cdn.rayshine.site/blog"
 
+
+// 检测网站是否被收录   site:blog.rayshine.site web9158
+
 module.exports = {
   base: "/",
   title: "一ξひβθ光 i",
@@ -137,9 +140,9 @@ module.exports = {
     // 项目开始时间
     startYear: "2020",
 		socials:{
-		  github : "https://github.com/GodLikeZeal", //github
+		  github : "https://github.com/RayshineHub", //github
 		  gitlub : false, //gitlub
-		  gitee : "https://gitee.com/GodLikeZeal", //gitee
+		  gitee : "https://gitee.com/RayshineHub", //gitee
 		  jianshu : false, //简书
 		  zhihu : false, //知乎
 		  toutiao : false, //知乎
@@ -150,19 +153,19 @@ module.exports = {
 		  qq : "你的QQ" //QQ
 		},
     friendLink: [
-      {
-        title: "午后南杂",
-        desc: "Enjoy when you can, and endure when you must.",
-        email: "1156743527@qq.com",
-        link: "https://www.recoluan.com",
-      },
-      {
-        title: "vuepress-theme-reco",
-        desc: "A simple and beautiful vuepress Blog & Doc theme.",
-        avatar:
-          "https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png",
-        link: "https://vuepress-theme-reco.recoluan.com",
-      }
+      // {
+      //   title: "午后南杂",
+      //   desc: "Enjoy when you can, and endure when you must.",
+      //   email: "1156743527@qq.com",
+      //   link: "https://www.recoluan.com",
+      // },
+      // {
+      //   title: "vuepress-theme-reco",
+      //   desc: "A simple and beautiful vuepress Blog & Doc theme.",
+      //   avatar:
+      //     "https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png",
+      //   link: "https://vuepress-theme-reco.recoluan.com",
+      // }
     ],
     //首页格言
     mottos: [{

@@ -13,22 +13,27 @@ module.exports = [
 	    {
 	      text: "精美壁纸",
 	      link: "https://wallhaven.cc/",
-	      icon: "fas fa-bread-slice",
-	    }
+	      icon: "fas fa-bread-slice"
+	    },
+      {
+        text: "印记中文",
+        link: "https://docschina.org/",
+        icon: "fas fa-bread-slice"
+      }
 	  ],
 	},
   //About
   { text: "关于我", link: "/about/", icon: "reco-account" }, 
   //Contact
-  {
-    text: "联系我", 
-    icon: "reco-message",
-    items: [
-      {
-        text: "GitHub",
-        link: "https://github.com/RayShineHub",
-        icon: "reco-github",
-      }
-    ],
-  },
+  // {
+  //   text: "联系我", 
+  //   icon: "reco-message",
+  //   items: [
+  //     {
+  //       text: "GitHub",
+  //       link: "https://github.com/RayShineHub",
+  //       icon: "reco-github",
+  //     }
+  //   ],
+  // },
 ];
