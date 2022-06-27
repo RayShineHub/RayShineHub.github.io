@@ -1,8 +1,8 @@
 const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-// const baseImgUrl = "http://cdn.rayshine.site/blog"
-const baseImgUrl = "http://source.rayshine.site/blog"
+const baseImgUrl = "http://cdn.rayshine.site/blog"
+// const baseImgUrl = "http://source.rayshine.site/blog"
 
 
 // 检测网站是否被收录   site:blog.rayshine.site web9158
