@@ -89,3 +89,6 @@ Dockerfile
 
 # noConsole
 noConsole
+
+#vscode
+.vscode
