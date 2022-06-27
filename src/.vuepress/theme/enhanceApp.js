@@ -12,7 +12,12 @@ export default ({
   Vue.mixin(postMixin)
   Vue.mixin(localMixin)
   if (!isServer) {
+    // 自己的阿里图标库
+    addLinkToHead('//at.alicdn.com/t/font_2506918_jnfhsnvqbu.css')
+
+    // reco阿里图标
     addLinkToHead('//at.alicdn.com/t/font_1030519_2ciwdtb4x65.css')
+    
     registerCodeThemeCss(siteData.themeConfig.codeTheme)
   }
 }

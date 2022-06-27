@@ -8,17 +8,17 @@ module.exports = [
 	//Contact
 	{
 	  text: "收藏", 
-	  icon: "fas fa-coffee",
+	  icon: "rays-shoucang-4",
 	  items: [
 	    {
 	      text: "精美壁纸",
 	      link: "https://wallhaven.cc/",
-	      icon: "fas fa-bread-slice"
+	      icon: "rays-tupianbizhi"
 	    },
       {
         text: "印记中文",
         link: "https://docschina.org/",
-        icon: "fas fa-bread-slice"
+        icon: "rays-lianjie"
       }
 	  ],
 	},

@@ -5,6 +5,11 @@ sidebar: false
 isFull: true
 isShowComment: true
 isAbstract: true
+meta:
+  - name: description
+    content: Vue 隐藏滚动条
+  - name: keywords
+    content: Vue 隐藏滚动条
 tags:
 - 'vue'
 categories:

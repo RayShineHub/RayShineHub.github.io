@@ -1,7 +1,8 @@
 const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = "http://cdn.rayshine.site/blog"
+// const baseImgUrl = "http://cdn.rayshine.site/blog"
+const baseImgUrl = "http://source.rayshine.site/blog"
 
 
 // 检测网站是否被收录   site:blog.rayshine.site web9158
@@ -124,7 +125,7 @@ module.exports = {
     // 自定义左侧侧边栏
 		sidebar: siderbarConf,
 		
-    logo: 'https://zyj_yida.gitee.io/source/img/ico/logo.png',
+    logo: baseImgUrl + '/home/rainbow-logo.png',
     authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
     // 搜索设置
     search: true,

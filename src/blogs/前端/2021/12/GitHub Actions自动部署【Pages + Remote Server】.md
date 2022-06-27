@@ -6,7 +6,14 @@ isShowComment: true
 isAbstract: true
 autoIgnore: true
 sidebar: false
+meta:
+  - name: description
+    content: GitHub Actions
+  - name: keywords
+    content: GitHub Actions 持续部署(CD) 持续集成(CI) CentOS7 SFTP配置
 tags:
+ - 'CD'
+ - 'CI'
  - 'GitHub Actions'
  - 'GitHub Pages'
  - 'CentOS7 SFTP配置'
@@ -74,8 +81,10 @@ sticky: 1
 这里附上我的  <Badge text="config.js" type="success" vertical="middle"/>   配置文件供大家参考
 
 ```js
-const nav = require("./config/nav");
+const nav = require("./config/nav")
+const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
+const baseImgUrl = "http://source.rayshine.site/blog"
 
 module.exports = {
   base: "/",
@@ -84,38 +93,40 @@ module.exports = {
 	dest: 'dist',
   head: [
 		["meta", {name: "viewport",content: "width=device-width,initial-scale=1,user-scalable=no"}],
+    ["meta", {name: "baidu-site-verification",content: "code-U0ZDB2tiQp"}],
     ["link", { rel: "icon", href: "/favicon.ico" }],
     ["script", {"language": "javascript","type": "text/javascript","src": "https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"}],
-    ["script", {"language": "javascript","type": "text/javascript","src": "/js/mouseClick.js"}],
-    ["script", {"language": "javascript","type": "text/javascript","src": "/js/bg.js"}],
-		["script", {"language": "javascript","type": "text/javascript","src": "/js/noConsole.js"}],
-		["script", {"language": "javascript","type": "text/javascript","src": "/js/fairyDustCursor.js"}],
 		["script", { src: "https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js" }],
-		//友盟+站长统计
-		['script', {}, `
-			document.write(
-				unescape(
-					...
-				)
-			);
-		`] 
+
   ],
   theme: "reco",
   markdown: {
-    lineNumbers: true
+    lineNumbers: false
   },
-  mode:"dark",
+  mode:"auto",
 	locales: {
 	  "/": {
 	    "lang": 'zh-CN'
 	  }
 	},
   themeConfig: {
+    //首页样式
+    back:{
+      isRandom: true,
+      bgImage: baseImgUrl + '/home/1.jpg',
+      bgUrls: [
+        baseImgUrl + '/home/1.jpg'
+      ]
+    },
 		noFoundPageByTencent: false,
-    indexTitle:"人生来来往往，来日并不方长。",
-    indexDes:"Life comes and goes, but the future is not long.",
+    indexTitle:"看走眼的东西，要及时扔掉。抓不住的东西，伸手都是多余。",
+    indexDes:"Throw away the wrong things in time, what you can't grasp is superfluous.",
     //是否全屏样式 true，false
     fullscreen: true,
+    //全屏模式下才应用 分类图片 不填或者默认为随机
+    categoryPic: null,
+    tagPic: null,
+    timePic: null,
     modePicker: true,
     type: "blog",
     // 博客设置
@@ -137,85 +148,52 @@ module.exports = {
 			enableQQ: true,
 			recordIP:true,
 			visitor:true
+      
     },
+
+    // 导航栏
     nav,
-    logo: '',
-    authorAvatar: "",
+    // 自定义左侧侧边栏
+		sidebar: siderbarConf,
+		
+    logo: baseImgUrl + '/home/logo.jpg',
+    authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,
-    // 自动形成侧边导航
-    sidebar: "auto",
     // 最后更新时间
     lastUpdated: "Last Updated",
     // 作者
-    author: "RayShine",
+    author: "Ray Shine",
     // 备案号
-    record: '',
+    record: '辽ICP备2021012735',
 		// 备案连接地址
 		recordLink: '#',
     // 项目开始时间
     startYear: "2020",
-		"socials":{
-		  "github" : "https://github.com/RayShineHub", //github
-		  "gitlub" : false, //gitlub
-		  "gitee" : "", //gitee
-		  "jianshu" : "", //简书
-		  "zhihu" : false, //知乎
-		  "toutiao" : false, //知乎
-		  "juejin": false, //掘金
-		  "segmentfault" : false, //思否
-		  "csdn" : false, //CSDN
-		  "wechat" : "你的微信", //微信
-		  "qq" : "你的QQ" //QQ
+		socials:{
+		  github : "https://github.com/RayshineHub", //github
+		  gitlub : false, //gitlub
+		  gitee : "https://gitee.com/RayshineHub", //gitee
+		  jianshu : false, //简书
+		  zhihu : false, //知乎
+		  toutiao : false, //知乎
+		  juejin: false, //掘金
+		  segmentfault : false, //思否
+		  csdn : false, //CSDN
+		  wechat : "你的微信", //微信
+		  qq : "你的QQ" //QQ
 		},
-    friendLink: [
-      {
-        title: "午后南杂",
-        desc: "Enjoy when you can, and endure when you must.",
-        email: "1156743527@qq.com",
-        link: "https://www.recoluan.com",
-      },
-      {
-        title: "vuepress-theme-reco",
-        desc: "A simple and beautiful vuepress Blog & Doc theme.",
-        avatar:
-          "https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png",
-        link: "https://vuepress-theme-reco.recoluan.com",
-      }
-    ],
     //首页格言
     mottos: [{
-      "zh": "人生来来往往，来日并不方长。",
-      "en": "Life comes and goes, but the future is not long."
-      },
-      {
-        "zh": "他心里的苦越多，一丝甜就能填满。",
-        "en": "The more bitterness in his heart, the sweetness can fill it."
-      },
-      {
-        "zh": "梦想不会逃跑，会逃跑的永远都是自己。",
-        "en": "Dream will not run away, will always be their own escape."
-      },
-      {
-        "zh": "涉江而过，芙蓉千朵。诗也简单，心也简单。",
-        "en": "Crossing the river, there are thousands of Hibiscus. Poetry is simple, heart is simple."
-      },
-      {
-        "zh": "一别两三年，忽然又夏天。",
-        "en": "Two or three years later, it was summer again."
-      }, {
-        "zh": "未成定局的事就不要弄的人尽皆知。",
-        "en": "Don't do anything that's not settled but everyone knows it."
-      },
-      {
-        "zh": "也许明天的我会痛恨自己，但今夜的我仍在前行。",
-        "en": "I might hate myself tomorrow, but I'm on my way tonight."
+      "zh": "看走眼的东西，要及时扔掉。抓不住的东西，伸手都是多余。",
+      "en": "Throw away the wrong things in time, what you can't grasp is superfluous."
       }
     ],
   },
   plugins: pluginsConf
  };
+
 
 ```
 
@@ -559,7 +537,7 @@ jobs:
       - name: Deploy Docs To GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          # git-config-name: 邵鹏飞
+          # git-config-name: ***
           # token: ${{ secrets.BLOG_DEPLOY }}
           clean: true
           # repository-name: RayShineHub/RayShineHub.github.io
@@ -567,20 +545,20 @@ jobs:
           folder: dist
           
       # 部署到gitee.io静态网站
-      #- name: Deploy Docs To Gitee Pages
-      #  uses: wearerequired/git-mirror-action@v1
-      #  env:
-      #    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #    #SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-      #  with:
-      #    source-repo: "git@github.com:wearerequired/git-mirror-action.git"
-      #    destination-repo: "git@bitbucket.org:wearerequired/git-mirror-action.git"
-      #- name: reload
-      #  uses: mizuka-wu/gitee-pages-action@v1.0.0
-      #  with:
-      #    repository: linzowo/linzowo
-      #    cookie: ${{ secrets.GITEE_COOKIE }}
-      #    branch: gh_pages
+      - name: Deploy Docs To Gitee Pages
+       uses: wearerequired/git-mirror-action@v1
+       env:
+         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+         #SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+       with:
+         source-repo: "git@github.com:wearerequired/git-mirror-action.git"
+         destination-repo: "git@bitbucket.org:wearerequired/git-mirror-action.git"
+      - name: reload
+       uses: mizuka-wu/gitee-pages-action@v1.0.0
+       with:
+         repository: linzowo/linzowo
+         cookie: ${{ secrets.GITEE_COOKIE }}
+         branch: gh_pages
           
       # 部署到远程服务器
       - name: Deploy Docs To Remote Server
@@ -604,7 +582,7 @@ jobs:
 
 部署到远程服务器时需要用到远程服务器的 `SFTP用户名`、`IP地址`、`ssh私钥`，这些内容都是对于服务器来讲比较重要的信息，所以不建议将这些内容 <Badge text="明文" type="error" vertical="middle"/>  存放到 `GitHub` 中，所以将他们保存到 `Github仓库密钥` 中，供 `GitHub` 使用。
 
-![GitHub仓库密钥](http://cdn.rayshine.site/GitHub仓库密钥.png)
+![GitHub仓库密钥](http://cdn.rayshine.site/Github仓库密钥.png)
 
 :::
 

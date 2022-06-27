@@ -133,7 +133,7 @@ export default {
         background: `
           url(${this.bgUrl
     ? this.$withBase(this.bgUrl)
-    : require('../images/bg.svg')}) center/cover no-repeat
+    : require('../../public/homeBlog.png')}) center/cover no-repeat
         `
       }
       const {

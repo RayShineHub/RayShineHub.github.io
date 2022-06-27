@@ -14,12 +14,22 @@
   </h3>
   <div class="num">
     <div>
-      <h3>{{$recoPosts.length}}</h3>
-      <h6>{{homeBlogCfg.article}}</h6>
+      <router-link
+        class="personal-link"
+        :to="link"
+        :exact="exact">
+        <h3>{{$recoPosts.length}}</h3>
+        <h6>{{homeBlogCfg.article}}</h6>
+      </router-link>
     </div>
     <div>
-      <h3>{{$tags.list.length}}</h3>
-      <h6>{{homeBlogCfg.tag}}</h6>
+      <router-link
+        class="personal-link"
+        :to="link"
+        :exact="exact">
+        <h3>{{$tags.list.length}}</h3>
+        <h6>{{homeBlogCfg.tag}}</h6>
+      </router-link>
     </div>
   </div>
   <hr>
@@ -27,10 +37,21 @@
 </template>
 
 <script>
+import { ensureExt } from '@theme/helpers/utils'
 export default {
   computed: {
     homeBlogCfg () {
       return this.$recoLocales.homeBlog
+    },
+    link () {
+      return ensureExt('/tag/')
+    },
+
+    exact () {
+      if (this.$site.locales) {
+        return Object.keys(this.$site.locales).some(rootLink => rootLink === '/tag/')
+      }
+      return this.link === '/'
     }
   }
 }
@@ -60,15 +81,19 @@ export default {
       &:first-child {
         border-right 1px solid #333
       }
-      h3 {
-        line-height auto
-        margin 0 0 .6rem
+      .personal-link {
         color var(--text-color)
-      }
-      h6 {
-        line-height auto
-        color var(--text-color)
-        margin 0
+        &:hover {
+          color $accentColor
+        }
+        h3 {
+          line-height auto
+          margin 0 0 .6rem
+        }
+        h6 {
+          line-height auto
+          margin 0
+        }
       }
     }
   }

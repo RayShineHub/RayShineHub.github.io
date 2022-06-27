@@ -1,9 +1,9 @@
 module.exports = {
     "dynamic-title":
 		{
-        showIcon: "https://zyj_yida.gitee.io/source/img/ico/favicon.ico",
+        showIcon: "http://cdn.rayshine.site/blog/home/favicon.ico",
         showText: "Welcome Back！",
-        hideIcon: "https://zyj_yida.gitee.io/source/img/ico/favicon.ico",
+        hideIcon: "http://cdn.rayshine.site/blog/home/favicon.ico",
         hideText: "Wait ...",
         recoverTime: 2000
     },
