@@ -1,9 +1,11 @@
 ---
 title: webpack 基础知识整理
-author: recoluan
+author: reco_luan
 date: 2019-07-24
 isAbstract: true
 sidebar: false
+reprint: true
+reprintUrl: https://www.recoluan.com/#webpack%E7%AE%80%E4%BB%8B
 tags:
  - webpack       
 categories: 

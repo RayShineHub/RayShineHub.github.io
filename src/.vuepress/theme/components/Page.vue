@@ -6,11 +6,11 @@
       > 
         <div v-if="this.isFull">
         <h1 style="color: #fff"><center>{{$page.title}}</center></h1>
-        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="true"></PageInfo>
+        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="true" :showCopyright="true"></PageInfo>
         </div>
         <div v-else>
         <h1>{{$page.title}}</h1>
-        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber"></PageInfo>
+        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :showCopyright="true"></PageInfo>
         </div>
         <!-- <component v-if="this.isFull && bubbles" :is="bubbles" style="height: 100%;width: 100%"></component> -->
       </div>

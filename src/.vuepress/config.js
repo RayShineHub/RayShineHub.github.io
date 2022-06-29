@@ -47,15 +47,17 @@ module.exports = {
     //首页样式
     back:{
       isRandom: true,
-      bgImage: baseImgUrl + '/home/1.jpg',
+      bgImage: baseImgUrl + '/home/1.png',
       bgUrls: [
-        baseImgUrl + '/home/1.jpg',
+        baseImgUrl + '/home/1.png',
         baseImgUrl + '/home/2.jpg',
         baseImgUrl + '/home/3.jpg',
-        baseImgUrl + '/home/4.jpg',
+        baseImgUrl + '/home/4.png',
         baseImgUrl + '/home/5.jpg',
-        baseImgUrl + '/home/6.jpg',
+        baseImgUrl + '/home/6.png',
         baseImgUrl + '/home/7.jpg',
+        baseImgUrl + '/home/8.jpg',
+        baseImgUrl + '/home/9.png',
 				baseImgUrl + '/imgs/city/1.jpg',
 				baseImgUrl + '/imgs/city/2.jpg',
 				baseImgUrl + '/imgs/city/3.jpg',
@@ -78,7 +80,7 @@ module.exports = {
 				baseImgUrl + '/imgs/others/11.jpg',
 				baseImgUrl + '/imgs/others/12.jpg',
 				baseImgUrl + '/imgs/others/13.png',
-				baseImgUrl + '/imgs/others/14.jpg',
+				baseImgUrl + '/imgs/others/31.jpg',
 				baseImgUrl + '/imgs/others/15.jpg',
 				baseImgUrl + '/imgs/others/16.jpg',
 				baseImgUrl + '/imgs/others/17.jpg',
@@ -119,6 +121,15 @@ module.exports = {
 			visitor:true
       
     },
+
+    // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
+    algolia: {
+      apiKey: '189495112c5e37caa7ecf3988d83d50b',
+      indexName: 'RayShineHubBlog',
+      // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
+      appId: '56W31XJA75',
+    },
+
 
     // 导航栏
     nav,

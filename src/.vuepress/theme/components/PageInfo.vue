@@ -1,11 +1,24 @@
 <template>
-  <div :style="this.isFull?{'display': 'flex',
-  'justify-content': 'center'}:{}">
-    <i
+  <div>
+    <!-- <i
       class="iconfont reco-account"
       v-if="pageInfo.frontmatter.author || $themeConfig.author || $site.title">
       <span>{{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}</span>
-    </i>
+    </i> -->
+    <!-- 增加原创和转载图标，去掉作者图标 add by Rayshine -->
+    <img 
+      v-if="pageInfo.frontmatter.reprint"
+      class="article-type-img" 
+      src="http://source.rayshine.site/blog/imgs/article-type/reprint.png" alt="">
+    </img>
+    <img 
+      v-else
+      class="article-type-img" 
+      src="http://source.rayshine.site/blog/imgs/article-type/original.png" alt="">
+    </img>
+    <span class="reprintUrl" @click.stop="goHome()">
+      {{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}
+    </span>
     <i
       v-if="pageInfo.frontmatter.date"
       class="iconfont reco-date">
@@ -28,6 +41,30 @@
         :class="{ 'active': currentTag == subItem }"
         @click.stop="goTags(subItem)">{{subItem}}</span>
     </i>
+
+    <!-- 增加版权显示,原创显示版权,转载显示链接 -->
+    <div v-if="showCopyright" class="copyright">
+      <i class="iconfont reco-copyright" style="margin:auto;"></i>
+      <span v-if="pageInfo.frontmatter.reprint">原文链接:
+        <a class="reprintUrl" :href="pageInfo.frontmatter.reprintUrl" title="原文链接" target="_blank">
+          {{pageInfo.frontmatter.reprintUrl}}
+        </a>
+      </span>
+      <span v-else>
+        本文为博主原创文章，遵循
+        <a class="reprintUrl" href="https://creativecommons.org/licenses/by-sa/4.0/" title="版权协议" target="_blank">
+          CC 4.0 BY-SA
+        </a>
+        版权协议，转载请附上原文出处链接和本声明。
+      </span>
+      <div>
+        如有侵权，请联系
+        <a class="reprintUrl" href="/" @click.stop="goHome()">
+          本博主
+        </a>
+        删除。
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,6 +89,10 @@ export default {
       default: false
     },
     isFull: {
+      type: Boolean,
+      default: false
+    },
+    showCopyright: {
       type: Boolean,
       default: false
     }
@@ -91,12 +132,28 @@ export default {
       if (this.$route.path !== `/tag/${tag}/`) {
         this.$router.push({ path: `/tag/${tag}/` })
       }
+    },
+    goHome () {
+      if (this.$route.path !== `/`) {
+        this.$router.push({ path: `/` })
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+.article-type-img
+  display inline-block
+  width: 36px
+  height: 32px
+  line-height: 1.5rem
+  margin-bottom: -10px
+  &:not(:last-child)
+    margin-right 0.2rem
+  span
+    margin-left 0.5rem
+
 .iconfont
   display inline-block
   line-height 1.5rem
@@ -112,6 +169,13 @@ export default {
       color $accentColor
     &:hover
       color $accentColor
+.copyright
+  font-size: 8px;
+  margin-top 0.5rem
+.reprintUrl
+  color var(--text-color)
+  &:hover
+    color $accentColor
 @media (max-width: $MQMobile)
   .tags
     display block

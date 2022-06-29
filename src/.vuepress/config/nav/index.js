@@ -1,5 +1,13 @@
-
-
+/*
+ * @Author: pengfei.shao 570165036@qq.com
+ * @Date: 2022-06-17 15:24:10
+ * @LastEditors: pengfei.shao 570165036@qq.com
+ * @LastEditTime: 2022-06-29 23:01:58
+ * @FilePath: \RayShineHub\src\.vuepress\config\nav\index.js
+ * @Description: 统一自定义NavLinks配置中心
+ * 
+ * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
+ */
 module.exports = [
   //Home
   { text: "主页", link: "/", icon: "reco-home" }, 
@@ -19,11 +27,16 @@ module.exports = [
         text: "印记中文",
         link: "https://docschina.org/",
         icon: "rays-lianjie"
+      },
+      {
+        text: "MDN",
+        link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
+        icon: "rays-logo-javascript"
       }
 	  ],
 	},
   //About
-  { text: "关于我", link: "/about/", icon: "reco-account" }, 
+  // { text: "关于我", link: "/about/", icon: "reco-account" }, 
   //Contact
   // {
   //   text: "联系我", 

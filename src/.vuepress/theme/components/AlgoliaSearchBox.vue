@@ -94,8 +94,7 @@ export default {
       .ds-suggestions
         margin-top 0
       .ds-suggestion
-				// border-bottom 1px solid var(--border-color)
-				border-bottom 1px solid $lightColor10
+        border-bottom 1px solid $lightColor10
     .algolia-docsearch-suggestion--highlight
       color $accentColor
     .algolia-docsearch-suggestion

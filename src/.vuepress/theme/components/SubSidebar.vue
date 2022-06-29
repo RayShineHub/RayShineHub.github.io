@@ -21,7 +21,14 @@ export default {
     }
   },
   render (h) {
-    return h('ul', {
+    // add by RayShine
+    // 增加提示
+    return h('div', [
+    h('span',{
+      class: { 'sub-sidebar-tip': true },
+      style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
+    },"ON THIS PAGE"), 
+    h('ul', {
       class: { 'sub-sidebar-wrapper': true },
       style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
     }, [
@@ -40,12 +47,18 @@ export default {
         ])
       })
     ])
+    ])
   }
 }
 
 </script>
 
 <style lang="stylus" scoped>
+.sub-sidebar-tip
+  width 12rem
+  padding-left 0
+  list-style none
+  font-size 15px
 .sub-sidebar-wrapper
   width 12rem
   padding-left 0
