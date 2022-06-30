@@ -36,7 +36,7 @@ export default {
           attr: { key: header.title }
         }, [
           h('router-link', {
-            class: { 'sidebar-link': true, [`${header.slug}`]: true },
+            class: { 'sidebar-link': true, [`${header.slug}`]: true, [`depth-${header.level}`]: true },
             props: { to: `${this.$page.path}#${header.slug}` }
           }, header.title)
         ])
@@ -58,6 +58,7 @@ export default {
   padding-left 0
   list-style none
   font-size 12px
+  line-height: 1.25rem
   li
     padding .2rem 0
     cursor pointer
@@ -77,6 +78,11 @@ export default {
     &.level-2
       padding-left .9rem
     &.level-3
-      padding-left 1.5rem
+      padding-left 1.1rem
+.depth-2
+  font-weight: 800
+.depth-3
+  font-weight: 400
+  font-size: 12px !important
 </style>
 

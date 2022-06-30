@@ -23,7 +23,7 @@ export default {
 .sub-sidebar-tip
   width: 12rem
   position: fixed
-  top: 8rem
+  top: 9rem
   bottom: 10rem
   right: 8rem
   font-weight: 700
