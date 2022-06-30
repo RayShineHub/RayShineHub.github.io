@@ -188,7 +188,7 @@ export default {
 	// 	transform: scaleX(1);
   .title
     position: relative;
-    font-size: 1.28rem;
+    font-size: 1.2rem;
     line-height: 46px;
     display: inline-block;
     a

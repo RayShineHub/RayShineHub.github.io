@@ -97,9 +97,11 @@ export default {
     //地址 bgUrls
     //个数 bgNum
     if(this.$themeConfig.back.isRandom) {
-      this.bgUrl = this.timestamp(this.$coverRandom);
+      // this.bgUrl = this.timestamp(this.$coverRandom);
+      this.bgUrl = this.$coverRandom;
     }else{
-      this.bgUrl = this.timestamp(this.$themeConfig.back.bgImage);
+      // this.bgUrl = this.timestamp(this.$themeConfig.back.bgImage);
+      this.bgUrl = this.$themeConfig.back.bgImage;
     }
     //获取当天格言
     var itoday= new Date();

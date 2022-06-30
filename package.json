@@ -8,7 +8,7 @@
     "vuepress",
     "rayshine"
   ],
-  "homepage": "http://blog.rayshine.site/",
+  "homepage": "https://blog.rayshine.site/",
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src",

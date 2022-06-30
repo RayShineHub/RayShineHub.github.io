@@ -9,14 +9,14 @@
     <img 
       v-if="pageInfo.frontmatter.reprint"
       class="article-type-img" 
-      src="http://source.rayshine.site/blog/imgs/article-type/reprint.png" alt="">
+      :src="$themeConfig.back.baseImgUrl + '/imgs/article-type/reprint.png'" alt="">
     </img>
     <img 
       v-else
       class="article-type-img" 
-      src="http://source.rayshine.site/blog/imgs/article-type/original.png" alt="">
+      :src="$themeConfig.back.baseImgUrl + '/imgs/article-type/original.png'" alt="">
     </img>
-    <span class="reprintUrl" @click.stop="goHome()">
+    <span class="iconfont reprintUrl" @click.stop="goHome()">
       {{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}
     </span>
     <i
@@ -46,7 +46,7 @@
     <div v-if="showCopyright" class="copyright">
       <i class="iconfont reco-copyright" style="margin:auto;"></i>
       <span v-if="pageInfo.frontmatter.reprint">原文链接:
-        <a class="reprintUrl" :href="pageInfo.frontmatter.reprintUrl" title="原文链接" target="_blank">
+        <a class="iconfont reprintUrl" :href="pageInfo.frontmatter.reprintUrl" title="原文链接" target="_blank">
           {{pageInfo.frontmatter.reprintUrl}}
         </a>
       </span>

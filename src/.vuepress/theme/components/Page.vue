@@ -82,6 +82,10 @@
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
+      <SubSidebarTip v-if="recoShowModule" :style="this.isFull?{'display':'none'}:{}"/>
+    </ModuleTransition>
+
+    <ModuleTransition delay="0.08">
       <SubSidebar v-if="recoShowModule" class="side-bar" :style="this.isFull?{'display':'none'}:{}"/>
     </ModuleTransition>
   </main>
@@ -93,10 +97,11 @@ import { resolvePage, outboundRE, endingSlashRE } from '@theme/helpers/utils'
 import ModuleTransition from '@theme/components/ModuleTransition'
 import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
 import SubSidebar from '@theme/components/SubSidebar'
+import SubSidebarTip from '@theme/components/SubSidebarTip'
 
 export default {
   mixins: [moduleTransitonMixin],
-  components: { PageInfo, ModuleTransition, SubSidebar },
+  components: { PageInfo, ModuleTransition, SubSidebar, SubSidebarTip },
 
   props: ['sidebarItems'],
 
@@ -119,7 +124,8 @@ export default {
     const { pic } = this.$frontmatter;
     this.isFull = isFull;
     this.pic = pic;
-    const ipic = this.timestamp((this.pic && topUsePic!=false)?this.pic:this.$coverRandom);
+    // const ipic = this.timestamp((this.pic && topUsePic!=false)?this.pic:this.$coverRandom);
+    const ipic = (this.pic && topUsePic!=false)?this.pic:this.$coverRandom;
     this.cover = ipic;
   },
   computed: {

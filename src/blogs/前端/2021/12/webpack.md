@@ -1,6 +1,5 @@
 ---
-title: webpack 基础知识整理
-author: reco_luan
+title: 知识篇 -- webpack 基础知识整理
 date: 2019-07-24
 isAbstract: true
 sidebar: false

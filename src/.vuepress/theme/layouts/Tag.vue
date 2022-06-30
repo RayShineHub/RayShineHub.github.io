@@ -84,12 +84,12 @@ export default {
   methods: {
     //新连接
     timestamp(url){
-      var getTimestamp=new Date().getTime();
-      if(url.indexOf("?")>-1){
-        url=url+"&timestamp="+getTimestamp
-      }else{
-        url=url+"?timestamp="+getTimestamp
-      }
+      // var getTimestamp=new Date().getTime();
+      // if(url.indexOf("?")>-1){
+      //   url=url+"&timestamp="+getTimestamp
+      // }else{
+      //   url=url+"?timestamp="+getTimestamp
+      // }
       return url
     },
     // 获取当前tag

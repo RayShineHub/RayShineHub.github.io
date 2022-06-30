@@ -1,5 +1,5 @@
 ---
-title: '【SSHD】查询、启动、重启'
+title: '知识篇 -- 【SSHD】查询、启动、重启'
 date: 2021-12-17
 showSponsor: true
 isShowComment: true

@@ -1,5 +1,5 @@
 ---
-title: 'Vue 隐藏滚动条'
+title: '知识篇 -- Vue 隐藏滚动条'
 date: 2021-12-05
 sidebar: false
 isFull: true

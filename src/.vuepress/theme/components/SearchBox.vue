@@ -1,7 +1,7 @@
 <template>
-  <div class="search-box">
-    <i class="iconfont reco-search" 
-		:style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || $frontmatter.isFixed ?{'color':'#fff'}:{}"></i>
+  <div class="search-box" 
+  :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``">
+    <i class="iconfont reco-search"></i>
     <input
       @input="query = $event.target.value"
       aria-label="Search"
@@ -50,6 +50,12 @@ export default {
       placeholder: undefined
     }
   },
+  props: {
+	  isNavFixed: {
+	    type: Boolean,
+	    default: false
+	  }
+	},
   mounted () {
     this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
   },
@@ -163,7 +169,7 @@ export default {
     cursor text
     width 10rem
     height: 2rem
-    color lighten($textColor, 25%)
+    color var(--text-color)
     display inline-block
     border 1px solid var(--text-color-sub)
     border-radius $borderRadius
@@ -205,6 +211,12 @@ export default {
       background-color var(--border-color)
       a
         color $accentColor
+.isNavFixed
+  input
+    color lighten(rgba(255, 255, 255, 0.8), 80%)
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  i
+    color rgba(255, 255, 255, 0.6)
 @media (max-width: $MQNarrow)
   .search-box
     input

@@ -23,12 +23,7 @@ export default {
   render (h) {
     // add by RayShine
     // 增加提示
-    return h('div', [
-    h('span',{
-      class: { 'sub-sidebar-tip': true },
-      style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
-    },"ON THIS PAGE"), 
-    h('ul', {
+    return h('ul', {
       class: { 'sub-sidebar-wrapper': true },
       style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
     }, [
@@ -46,7 +41,6 @@ export default {
           }, header.title)
         ])
       })
-    ])
     ])
   }
 }

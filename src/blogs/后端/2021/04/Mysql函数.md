@@ -1,5 +1,5 @@
 ---
-title: "Mysql函数"
+title: "知识篇 -- Mysql函数"
 date: 2021-11-11
 isFull: true
 isShowComment: true

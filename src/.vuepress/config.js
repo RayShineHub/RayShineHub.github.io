@@ -1,7 +1,7 @@
 const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = "http://cdn.rayshine.site/blog"
+const baseImgUrl = "https://blog.rayshine.site/source/blog"
 // const baseImgUrl = "http://source.rayshine.site/blog"
 
 
@@ -46,6 +46,7 @@ module.exports = {
   themeConfig: {
     //首页样式
     back:{
+      baseImgUrl: baseImgUrl,
       isRandom: true,
       bgImage: baseImgUrl + '/home/1.png',
       bgUrls: [
@@ -122,13 +123,13 @@ module.exports = {
       
     },
 
-    // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
-    algolia: {
-      apiKey: '189495112c5e37caa7ecf3988d83d50b',
-      indexName: 'RayShineHubBlog',
-      // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
-      appId: '56W31XJA75',
-    },
+    // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
+    // algolia: {
+    //   apiKey: '189495112c5e37caa7ecf3988d83d50b',
+    //   indexName: 'RayShineHubBlog',
+    //   // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
+    //   appId: '56W31XJA75',
+    // },
 
 
     // 导航栏
@@ -142,7 +143,7 @@ module.exports = {
     search: true,
     searchMaxSuggestions: 10,
     // 最后更新时间
-    lastUpdated: "Last Updated",
+    lastUpdated: "上次更新",
     // 作者
     author: "Ray Shine",
     // 备案号
