@@ -1,7 +1,8 @@
 const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = "https://blog.rayshine.site/source/blog"
+// const baseImgUrl = "https://blog.rayshine.site/source/blog"
+const baseImgUrl = "https://cdn.rayshine.site/blog"
 // const baseImgUrl = "http://source.rayshine.site/blog"
 
 
