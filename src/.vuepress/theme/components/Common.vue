@@ -212,7 +212,7 @@ export default {
     },
 
     handleLoading () {
-      const time = this.$frontmatter.home && sessionStorage.getItem('firstLoad') == undefined ? 2000 : 2000
+      const time = this.$frontmatter.home && sessionStorage.getItem('firstLoad') == undefined ? 1500 : 500
       setTimeout(() => {
         this.firstLoad = false
         if (sessionStorage.getItem('firstLoad') == undefined) sessionStorage.setItem('firstLoad', false)

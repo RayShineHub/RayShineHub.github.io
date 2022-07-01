@@ -40,7 +40,7 @@ export default {
   margin 30px 0
   span
     vertical-align: middle;
-    margin: 4px 4px 10px;
+    margin: 4px 10px 10px;
     padding: 4px 8px;
     display: inline-block;
     cursor: pointer;

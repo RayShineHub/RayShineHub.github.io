@@ -1,5 +1,5 @@
 ---
-title: '博客篇 -- 【GitHub Actions】自动部署vuepress'
+title: '博客篇 -- 【GitHub Actions】自动部署Vuepress'
 date: 2021-12-08
 showSponsor: true
 isShowComment: true
@@ -10,13 +10,14 @@ meta:
   - name: description
     content: GitHub Actions
   - name: keywords
-    content: GitHub Actions 持续部署(CD) 持续集成(CI) CentOS7 SFTP配置 vuepress 博客
+    content: GitHub Actions 持续部署(CD) 持续集成(CI) CentOS7 SFTP配置 Vuepress 博客
 tags:
  - 'CD'
  - 'CI'
  - 'GitHub Actions'
  - 'GitHub Pages'
  - 'CentOS7 SFTP配置'
+ - '博客优化'
 categories: 
  - '前端'
 

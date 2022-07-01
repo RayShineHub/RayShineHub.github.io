@@ -35,9 +35,18 @@ module.exports = {
 		// `] 
   ],
   theme: "reco",
+  // markdown-it 插件
   markdown: {
-    lineNumbers: false
+    lineNumbers: false,
+    plugins: {
+      'markdown-it-progress': {
+        render: 'svg'
+      }
+    }
   },
+  // 热重载触发文件
+  patterns: ['**/*.md', '**/*.vue', '**/*.js', '**/*.sytl'],
+  // 主题颜色
   mode:"auto",
 	locales: {
 	  "/": {

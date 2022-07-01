@@ -19,6 +19,7 @@
   "devDependencies": {
     "@vuepress/plugin-pwa": "^1.8.2",
     "babel-plugin-transform-require-context": "^0.1.1",
+    "directory-tree": "^3.3.0",
     "glob": "^7.1.6",
     "jquery": "^3.5.1",
     "less": "^3.12.2",
@@ -33,13 +34,13 @@
     "vuepress-plugin-boxx": "^0.0.7",
     "vuepress-plugin-dynamic-title": "^1.0.0",
     "vuepress-plugin-meting": "^0.1.1",
-    "vuepress-theme-reco": "1.5.5",
-    "directory-tree": "^2.2.7"
+    "vuepress-theme-reco": "1.5.5"
   },
   "dependencies": {
     "aos": "^2.3.4",
     "container": "^0.0.2",
     "express": "^4.17.1",
+    "markdown-it-progress": "^2.1.0",
     "vue-canvas-effect": "^0.0.12",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "8.4.2",

@@ -79,16 +79,21 @@ body {
   }  
 }
 
-.fullPic .copyright {
+.fullPic .copyright  {
   color: #fff !important;
+  span, div {
+    color: #fff !important;
+  }
 }
 
 .abstract-content-wrap {
   .abstract {
     h2 {
       font-size: 1rem !important;
+      border-top: none;
       &:before {
         height: 1.2rem !important;
+        border-top: none;
       }
     }
     p {
@@ -97,6 +102,19 @@ body {
   }
   
 }
+.abstract {
+    h2 {
+      font-size: 1rem !important;
+      border-top: none;
+      &:before {
+        height: 1.2rem !important;
+        border-top: none;
+      }
+    }
+    p {
+      font-size: 0.8rem !important;
+    }
+  }
 
 ::-webkit-scrollbar {
 	width: 0 !important

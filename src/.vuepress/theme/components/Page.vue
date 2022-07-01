@@ -82,7 +82,7 @@
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
-      <SubSidebarTip v-if="recoShowModule" :style="this.isFull?{'display':'none'}:{}"/>
+      <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="this.isFull?{'display':'none'}:{}"/>
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
@@ -319,7 +319,7 @@ function flatten (items, res) {
   .page-title
     max-width: $contentWidth;
     margin: 0 auto;
-    padding: 1rem 2.5rem;
+    padding: 0 2.5rem 2.5rem;
     color var(--text-color)
   .page-edit
     @extend $wrapper
@@ -359,6 +359,7 @@ function flatten (items, res) {
 @media (max-width: $MQMobile)
   .page
     padding-right 0
+    padding-top 0
     .side-bar
       display none
     .page-title

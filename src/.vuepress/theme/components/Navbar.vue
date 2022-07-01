@@ -193,7 +193,7 @@ $navbar-horizontal-padding = 1.5rem
     width 100%
     border none
     font-size 18px
-    color $lightColor10
+    color var(--text-color)
   .fixed
     position fixed
     top -60px
@@ -201,7 +201,7 @@ $navbar-horizontal-padding = 1.5rem
     padding 10px 36px
     box-shadow var(--box-shadow)
     background $darkColor6
-    color $lightColor10
+    color var(--text-color)
     -webkit-box-shadow 0 5px 6px -5px rgba(133,133,133,0.6)
     transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out
   .visible
@@ -268,6 +268,8 @@ $navbar-horizontal-padding = 1.5rem
 @media (max-width: $MQMobile)
   .navbar
     padding-left 4rem
+    .fixed
+      padding 10px 4rem
     .can-hide
       display none
     .links

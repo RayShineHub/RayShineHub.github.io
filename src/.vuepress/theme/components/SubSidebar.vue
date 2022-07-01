@@ -37,7 +37,7 @@ export default {
         }, [
           h('router-link', {
             class: { 'sidebar-link': true, [`${header.slug}`]: true, [`depth-${header.level}`]: true },
-            props: { to: `${this.$page.path}#${header.slug}` }
+            props: { to: `#${header.slug}` }
           }, header.title)
         ])
       })

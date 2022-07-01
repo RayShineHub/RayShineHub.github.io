@@ -172,8 +172,10 @@ export default {
 .copyright
   font-size: 8px;
   margin-top 0.5rem
+  span, div
+    color var(--text-color-sub)
 .reprintUrl
-  color var(--text-color)
+  color var(--text-color-sub)
   &:hover
     color $accentColor
 @media (max-width: $MQMobile)
