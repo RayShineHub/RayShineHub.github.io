@@ -43,11 +43,11 @@
             :currentPage="currentPage"
             @getCurrentPage="getCurrentPage" />
         </div>
-        <div class="info-wrapper" data-aos="fade-left" data-aos-offset="300" data-aos-duration="2000">
+        <div class="info-wrapper" data-aos="fade-left" data-aos-duration="300" data-aos-delay="50" data-aos-mirror="false">
           <PersonalInfo/>
           <h4><i class="iconfont reco-category"></i> {{homeBlogCfg.category}}</h4>
           <ul class="category-wrapper">
-            <li class="category-item" v-for="(item, index) in this.$categories.list" :key="index">
+            <li class="category-item" v-for="(item, index) in this.$categories.list" :key="index" data-aos="fade-left" data-aos-duration="300" data-aos-delay="50" data-aos-mirror="false">
               <router-link :to="item.path">
                 <span class="category-name">{{ item.name }}</span>
                 <span class="post-num" :style="{ 'backgroundColor': getOneColor() }">{{ item.pages.length }}</span>
@@ -87,29 +87,20 @@ export default {
       recoShow: false,
       currentPage: 1,
       tags: [],
-      bgUrl: null,
-      bubbles: null,
-      motto: null
+      bubbles: null
     }
   },
-  created(){
-    //是否采用随机 isRandom
-    //地址 bgUrls
-    //个数 bgNum
-    if(this.$themeConfig.back.isRandom) {
-      // this.bgUrl = this.timestamp(this.$coverRandom);
-      this.bgUrl = this.$coverRandom;
-    }else{
-      // this.bgUrl = this.timestamp(this.$themeConfig.back.bgImage);
-      this.bgUrl = this.$themeConfig.back.bgImage;
-    }
-    //获取当天格言
-    var itoday= new Date();
-    var week = itoday.getDay();
-    this.motto = this.$themeConfig.mottos[week];
-    
-  },
+  created(){},
   computed: {
+    bgUrl () {
+      return this.coverRandom(false, this.$themeConfig.back.homeImage)
+    },
+    motto () {
+      //获取当天格言
+      const itoday= new Date();
+      const week = itoday.getDay();
+      return  this.$themeConfig.mottos[week]
+    },
     homeBlogCfg () {
       return this.$recoLocales.homeBlog
     },

@@ -172,7 +172,7 @@ export default {
     color var(--text-color)
     display inline-block
     border 1px solid var(--text-color-sub)
-    border-radius $borderRadius
+    border-radius 25rem
     font-size 0.9rem
     line-height 2rem
     padding 0 0.5rem 0 2rem

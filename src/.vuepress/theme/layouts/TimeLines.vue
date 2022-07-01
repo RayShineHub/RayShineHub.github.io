@@ -7,7 +7,7 @@
       <div v-if='$themeConfig.fullscreen' 
       :class="$themeConfig.fullscreen?'sjfullPic hclass':'hclass'"
       :style="$themeConfig.fullscreen? {
-        'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:$coverRandom) +')'
+        'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:coverRandom(false,this.$themeConfig.back.homeImage )) +')'
       } : {}" >
       <h1 style="font-family: Regular,cursive;color: #fff;letter-spacing: 1rem">流时的间</h1>
       </div>
@@ -25,9 +25,11 @@
         v-for="(item, index) in $recoPostsForTimeline"
         :key="index">
         <li v-show="recoShowModule">
-          <h3 class="year">{{item.year}}</h3>
+          <h3 class="year"
+          data-aos="fade-left" data-aos-anchor-placement="top-bottom" data-aos-duration="600" data-aos-delay="0"
+          >{{item.year}}</h3>
           <ul class="year-wrapper">
-            <li v-for="(subItem, subIndex) in item.data" :key="subIndex">
+            <li v-for="(subItem, subIndex) in item.data" :key="subIndex" data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0">
               <span class="date">{{subItem.frontmatter.date | dateFormat}}</span>
               <span class="title" @click="go(subItem.path)">{{subItem.title}}</span>
             </li>

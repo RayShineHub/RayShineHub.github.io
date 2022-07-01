@@ -3,18 +3,6 @@ import { themeConfig } from './../../config.js'
 export default {
   computed: {
     //随机背景图片
-    $coverRandom (s){
-      let bgurl = '';
-      if(themeConfig.back.isRandom) {
-        const urls = themeConfig.back.bgUrls
-        const num = urls.length
-        const inum = RandomNum(1,num)
-        bgurl = urls[inum-1]
-      }else{
-        bgurl = themeConfig.back.bgImage;
-      }
-      return bgurl;
-    },
     $recoPosts () {
       const {
         $categories: { list: articles }
@@ -75,6 +63,17 @@ export default {
 
       return formatPagesArr
     }
+  },
+  methods:{
+    coverRandom (isRandom = false, bgurl = undefined){
+      if(isRandom || themeConfig.back.isRandom) {
+        const urls = themeConfig.back.bgUrls
+        const num = urls.length
+        const inum = RandomNum(1,num)
+        bgurl = urls[inum-1]
+      }
+      return bgurl || themeConfig.back.bgImage
+    },
   }
 }
 //获取范围内随机数

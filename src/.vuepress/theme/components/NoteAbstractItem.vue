@@ -19,10 +19,10 @@
   <div v-else
     class="abstract-item"
     @click="$router.push(item.path)"
-		data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="2000"
+		data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0"
     >
     <div 
-    :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ $coverRandom +') center/cover no-repeat'}"
+    :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ coverRandom(true) +') center/cover no-repeat'}"
      class="cover-wrap" :class="num%2==0?'flyl':'flyr'">
     <!-- 显示时间 add by spf-->
     <i v-if="item.frontmatter.date"

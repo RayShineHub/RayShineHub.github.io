@@ -8,7 +8,7 @@
        <div v-if='$themeConfig.fullscreen' 
        :class="$themeConfig.fullscreen?'tsfullPic':''"
       :style="$themeConfig.fullscreen? {
-        'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:$coverRandom) +')'
+        'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:coverRandom(true)) +')'
       } : {}" >
       </div>
          <div :style="$themeConfig.fullscreen? {

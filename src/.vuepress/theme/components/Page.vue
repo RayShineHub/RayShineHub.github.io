@@ -109,8 +109,6 @@ export default {
     return {
       isHasKey: true,
       isFull: false,
-      pic: null,
-      cover: null,
       bubbles: null
     }
   },
@@ -119,16 +117,13 @@ export default {
     import('vue-canvas-effect/src/components/bubbles').then(module => { 
       this.bubbles = module.default
     })
-    const { topUsePic } = this.$frontmatter;
     const { isFull } = this.$frontmatter;
-    const { pic } = this.$frontmatter;
     this.isFull = isFull;
-    this.pic = pic;
-    // const ipic = this.timestamp((this.pic && topUsePic!=false)?this.pic:this.$coverRandom);
-    const ipic = (this.pic && topUsePic!=false)?this.pic:this.$coverRandom;
-    this.cover = ipic;
   },
   computed: {
+    cover () {
+      return this.coverRandom(true)
+    },
     // 是否显示评论
     shouldShowComments () {
       const { isShowComments } = this.$frontmatter

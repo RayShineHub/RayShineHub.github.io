@@ -57,8 +57,9 @@ module.exports = {
     //首页样式
     back:{
       baseImgUrl: baseImgUrl,
-      isRandom: true,
-      bgImage: baseImgUrl + '/home/1.png',
+      isRandom: false,
+      bgImage: baseImgUrl + '/imgs/others/31.jpg',
+      homeImage: baseImgUrl + '/imgs/others/31.jpg',
       bgUrls: [
         baseImgUrl + '/home/1.png',
         baseImgUrl + '/home/2.jpg',

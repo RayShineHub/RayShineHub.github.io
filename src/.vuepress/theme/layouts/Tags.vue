@@ -7,7 +7,7 @@
        <div v-if='$themeConfig.fullscreen' 
        :class="$themeConfig.fullscreen?'tsfullPic':''"
       :style="$themeConfig.fullscreen? {
-        'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:$coverRandom) +')'
+        'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:coverRandom(true)) +')'
       } : {}" >
       </div>
        <div :style="$themeConfig.fullscreen? {
@@ -69,6 +69,7 @@ export default {
   created () {
     this.currentTag = this.$recoLocales.tag.all
     this.allTagName = this.$recoLocales.tag.all
+    debugger
     if (this.$tags.list && this.$tags.list.length > 0) {
       this.currentTag = this.$route.query.tag ? this.$route.query.tag : this.currentTag
     }

@@ -2001,14 +2001,14 @@
     "normalize-path" "^3.0.0"
     "picomatch" "^2.0.4"
 
-"aos@^2.3.4":
-  "integrity" "sha512-zh/ahtR2yME4I51z8IttIt4lC1Nw0ktsFtmeDzID1m9naJnWXhCoARaCgNOGXb5CLy3zm+wqmRAEgMYB5E2HUw=="
-  "resolved" "https://registry.npmmirror.com/aos/-/aos-2.3.4.tgz"
-  "version" "2.3.4"
+"aos@^3.0.0-beta.6":
+  "integrity" "sha512-VLWrpq8bfAWcetynVHMMrqdC+89Qq/Ym6UBJbHB4crIwp3RR8uq1dNGgsFzoDl03S43rlVMK+na3r5+oUCZsYw=="
+  "resolved" "https://registry.npmmirror.com/aos/-/aos-3.0.0-beta.6.tgz"
+  "version" "3.0.0-beta.6"
   dependencies:
-    "classlist-polyfill" "^1.0.3"
-    "lodash.debounce" "^4.0.6"
-    "lodash.throttle" "^4.0.1"
+    "classlist-polyfill" "^1.2.0"
+    "lodash.debounce" "^4.0.8"
+    "lodash.throttle" "^4.1.1"
 
 "aproba@^1.1.1":
   "integrity" "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="
@@ -2865,7 +2865,7 @@
     "isobject" "^3.0.0"
     "static-extend" "^0.1.1"
 
-"classlist-polyfill@^1.0.3":
+"classlist-polyfill@^1.2.0":
   "integrity" "sha512-GzIjNdcEtH4ieA2S8NmrSxv7DfEV5fmixQeyTmqmRmRJPGpRBaSnA2a0VrCjyT8iW8JjEdMbKzDotAJf+ajgaQ=="
   "resolved" "https://registry.npmmirror.com/classlist-polyfill/-/classlist-polyfill-1.2.0.tgz"
   "version" "1.2.0"
@@ -6154,7 +6154,7 @@
   "resolved" "https://registry.npmmirror.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz"
   "version" "4.5.0"
 
-"lodash.debounce@^4.0.6", "lodash.debounce@^4.0.8":
+"lodash.debounce@^4.0.8":
   "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
   "resolved" "https://registry.npmmirror.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
@@ -6204,7 +6204,7 @@
   dependencies:
     "lodash._reinterpolate" "^3.0.0"
 
-"lodash.throttle@^4.0.1":
+"lodash.throttle@^4.1.1":
   "integrity" "sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ=="
   "resolved" "https://registry.npmmirror.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"

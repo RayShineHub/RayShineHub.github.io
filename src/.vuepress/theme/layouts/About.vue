@@ -9,7 +9,7 @@
 			<div v-if='$themeConfig.fullscreen'
 			:class="$themeConfig.fullscreen?'sjfullPic hclass':'hclass'"
 			:style="$themeConfig.fullscreen? {
-			  'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:$coverRandom) +')'
+			  'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:coverRandom) +')'
 			} : {}" >
 			<!-- <h1 style="font-family: Regular,cursive;color: #fff;letter-spacing: 1rem">流时的间</h1> -->
 			</div>
