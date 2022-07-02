@@ -135,12 +135,12 @@ module.exports = {
     },
 
     // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
-    // algolia: {
-    //   apiKey: '189495112c5e37caa7ecf3988d83d50b',
-    //   indexName: 'RayShineHubBlog',
-    //   // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
-    //   appId: '56W31XJA75',
-    // },
+    algolia: {
+      apiKey: '2e7303515a032dfb8c91084fec9c4b66',
+      indexName: 'RayShineBlog',
+      // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
+      appId: '4L0A7VRWY5',
+    },
 
 
     // 导航栏

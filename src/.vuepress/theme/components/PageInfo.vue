@@ -44,7 +44,7 @@
 
     <!-- 增加版权显示,原创显示版权,转载显示链接 -->
     <div v-if="showCopyright" class="copyright">
-      <i class="iconfont reco-copyright" style="margin:auto;"></i>
+      <i class="iconfont reco-copyright" style="margin:auto;font-size: inherit;"></i>
       <span v-if="pageInfo.frontmatter.reprint">原文链接:
         <a class="iconfont reprintUrl" :href="pageInfo.frontmatter.reprintUrl" title="原文链接" target="_blank">
           {{pageInfo.frontmatter.reprintUrl}}
@@ -182,4 +182,6 @@ export default {
   .tags
     display block
     margin-left 0 !important
+  .copyright
+    margin-bottom 2.5rem !important
 </style>
