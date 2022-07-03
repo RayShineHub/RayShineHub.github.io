@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://blog.rayshine.site/sitemap.xml
