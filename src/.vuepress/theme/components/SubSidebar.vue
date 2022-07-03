@@ -36,7 +36,7 @@ export default {
           attr: { key: header.title }
         }, [
           h('router-link', {
-            class: { 'sidebar-link': true, [`${header.slug}`]: true, [`depth-${header.level}`]: true },
+            class: { 'sidebar-link': true, 'group-hover:shift-x-4':true, [`${header.slug}`]: true, [`depth-${header.level}`]: true },
             props: { to: `#${header.slug}` }
           }, header.title)
         ])
@@ -60,7 +60,7 @@ export default {
   font-size 12px
   line-height: 1.25rem
   li
-    padding .2rem 0
+    // padding .2rem 0
     cursor pointer
     border-left 1px solid var(--border-color)
     a
@@ -68,9 +68,12 @@ export default {
       color var(--text-color)
     &:hover
       a
-       color $accentColor
+      //  color $accentColor
+        transform: translateX(0.3rem)
+        transition: all .2s ease-out
     &.active
       border-left 1px solid $accentColor
+      transition: all 1s ease
       a
        color $accentColor
     &.level-1

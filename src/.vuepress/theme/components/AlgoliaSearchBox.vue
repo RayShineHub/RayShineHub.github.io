@@ -3,6 +3,7 @@
     id="search-form"
     class="algolia-search-wrapper search-box"
     role="search"
+    :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``"
   >
     <i class="iconfont reco-search"></i>
     <input
@@ -15,7 +16,15 @@
 
 <script>
 export default {
-  props: ['options'],
+  props: {
+    options: {
+      type: Object
+    },
+    isNavFixed: {
+	    type: Boolean,
+	    default: false
+	  }
+  },
   data () {
     return {
       placeholder: undefined
@@ -38,6 +47,7 @@ export default {
           {},
           userOptions,
           {
+            container: '.search-box',
             inputSelector: '#algolia-search-input',
             // #697 Make docsearch work well at i18n mode.
             algoliaOptions: Object.assign({
@@ -74,7 +84,9 @@ export default {
 @require '../styles/mode.styl'
 .algolia-search-wrapper
   & > span
-    vertical-align middle
+    // modify by RayShine
+    // vertical-align middle
+    vertical-align bottom
   .algolia-autocomplete
     line-height normal
     .ds-dropdown-menu
@@ -134,6 +146,13 @@ export default {
       background-color #e7edf3 !important
       color $textColor
 
+.isNavFixed
+  input
+    color lighten(rgba(255, 255, 255, 0.8), 80%)
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  i
+    color rgba(255, 255, 255, 0.6)
+    
 @media (min-width: $MQMobile)
   .algolia-search-wrapper
     .algolia-autocomplete

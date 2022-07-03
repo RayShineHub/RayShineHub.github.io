@@ -30,7 +30,8 @@
         <!-- 搜索框 -->
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
-          :options="algolia"/>
+          :options="algolia"
+          :isNavFixed="isFixed"/>
         <SearchBox :isNavFixed="isFixed" v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
 
         <!-- 导航 -->

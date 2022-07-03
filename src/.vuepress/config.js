@@ -1,5 +1,5 @@
 const nav = require("./config/nav")
-const siderbarConf = require("./config/sidebar")
+const sidebar = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 // const baseImgUrl = "https://blog.rayshine.site/source/blog"
 const baseImgUrl = "https://cdn.rayshine.site/blog"
@@ -146,7 +146,7 @@ module.exports = {
     // 导航栏
     nav,
     // 自定义左侧侧边栏
-		sidebar: siderbarConf,
+		sidebar,
 		
     logo: baseImgUrl + '/home/rainbow-logo.png',
     authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
