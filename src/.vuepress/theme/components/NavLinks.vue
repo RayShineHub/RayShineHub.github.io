@@ -1,7 +1,9 @@
 <template>
   <nav
     class="nav-links"
-    :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``"
+    :class="{
+      pagefull:($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+    }"
     v-if="userLinks.length || repoLink"
   >
     <!-- user links -->
@@ -166,6 +168,30 @@ export default {
 </script>
 
 <style lang="stylus">
+
+// add by Rayshine 2022-07-01
+.pagefull
+  .nav-item
+    color rgba(255, 255, 255, 0.8)
+    .arrow
+      border-top: 6px solid rgba(255, 255, 255, 0.8)
+    .nav-dropdown
+      color var(--text-color)
+      .iconfont
+        color var(--text-color)
+    a
+      color rgba(255, 255, 255, 0.8)
+      .iconfont
+        color rgba(255, 255, 255, 0.6)
+      &:hover, &.router-link-active
+        color $accentColor
+        .iconfont
+          color $accentColor
+        .arrow
+          border-top: 6px solid $accentColor
+          transform: rotate(-90deg)
+          transition: transform .3s ease-in-out
+
 .nav-links
   display inline-block
   a
@@ -184,12 +210,6 @@ export default {
       margin-left 0
   .repo-link
     margin-left 1.5rem
-
-.isNavFixed
-  a
-    color rgba(255, 255, 255, 0.8)
-    i
-      color rgba(255, 255, 255, 0.6)
 
 @media (max-width: $MQMobile)
   .nav-links

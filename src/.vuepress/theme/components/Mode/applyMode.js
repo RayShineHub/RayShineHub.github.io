@@ -4,6 +4,7 @@ function render (mode) {
   const rootElement = document.querySelector(':root')
   const options = modeOptions[mode]
   const opposite = mode === 'dark' ? 'light' : 'dark'
+  const display = mode === 'dark' ? 'block' : 'none'
 
   for (const k in options) {
     rootElement.style.setProperty(k, options[k])
@@ -11,6 +12,17 @@ function render (mode) {
 
   rootElement.classList.remove(opposite)
   rootElement.classList.add(mode)
+
+  nightMask(display)
+}
+
+/**
+ * @description: night-mask for website
+ * @param {string} display
+ */
+function nightMask (display = 'none') {
+  const rootElement = document.querySelector('#night-mask')
+  rootElement.style.setProperty('display', display)
 }
 
 /**

@@ -14,7 +14,6 @@
       <span
         class="arrow"
         :class="open ? 'down' : 'right'"
-        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ?{'border-top':'6px solid rgba(255, 255, 255, 0.6)'}:{}"
       ></span>
     </a>
 
@@ -22,7 +21,6 @@
       <ul
         class="nav-dropdown"
         v-show="open"
-        :style="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ?{'background-color':'rgba(0,0,0,0.6)'}:{}"
       >
         <li
           class="dropdown-item"
@@ -90,6 +88,9 @@ export default {
 
 .dropdown-wrapper
   cursor pointer
+  .isNavFixedarrow
+    .arrow
+      border-top: 6px solid var(--text-color) !important
   .dropdown-title
     display block
     &:hover
@@ -119,6 +120,7 @@ export default {
         font-weight 400
         margin-bottom 0
         padding 0 1.5rem 0 1.25rem
+        color var(--text-color)
         &:hover
           color $accentColor
         &.router-link-active
@@ -137,7 +139,6 @@ export default {
         margin-top 0
         padding-top 0
         border-top 0
-
 @media (max-width: $MQMobile)
   .dropdown-wrapper
     &.open .dropdown-title

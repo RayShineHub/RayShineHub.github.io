@@ -14,7 +14,6 @@
         <span
           ref="siteName"
           class="site-name"
-					:class="{pagefull: !isFull}"
           v-if="$siteTitle">{{ $siteTitle }}</span>
 					<!-- :style="{color: isFixed ? '' : '#eee'}" -->
       </router-link>
@@ -23,7 +22,6 @@
       <div
         ref="links"
         class="links"
-				:class="{pagefull: !isFull}"
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
 
@@ -121,10 +119,7 @@ export default {
 
     isAlgoliaSearch () {
       return this.algolia && this.algolia.apiKey && this.algolia.indexName
-    },
-		isFull () {
-			return this.$frontmatter.layout || this.$frontmatter.home || (this.$frontmatter.isFull || this.isVisible) ? true :false
-		}
+    }
   },
 
   methods: {
@@ -176,9 +171,6 @@ function css (el, property) {
 $navbar-vertical-padding = 0.7rem
 $navbar-horizontal-padding = 1.5rem
 
-.pagefull
-    color var(--text-color) !important
-
 .navbar
   position relative
   padding $navbar-vertical-padding $navbar-horizontal-padding
@@ -201,7 +193,7 @@ $navbar-horizontal-padding = 1.5rem
     z-index 20
     padding 10px 36px
     box-shadow var(--box-shadow)
-    background $darkColor6
+    background var(--background-color)
     color var(--text-color)
     -webkit-box-shadow 0 5px 6px -5px rgba(133,133,133,0.6)
     transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out
@@ -219,7 +211,7 @@ $navbar-horizontal-padding = 1.5rem
   .site-name
     font-size 1.2rem
     font-weight 600
-    color $lightColor10
+    color var(--text-color)
     position relative
   .nav-music
     padding-right 1.5rem

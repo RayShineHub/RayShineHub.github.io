@@ -2,8 +2,8 @@ const nav = require("./config/nav")
 const sidebar = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
 // const baseImgUrl = "https://blog.rayshine.site/source/blog"
-const baseImgUrl = "https://cdn.rayshine.site/blog"
-// const baseImgUrl = "http://source.rayshine.site/blog"
+// const baseImgUrl = "https://cdn.rayshine.site/blog"
+const baseImgUrl = "http://source.rayshine.site/blog"
 
 
 // 检测网站是否被收录   site:blog.rayshine.site web9158
@@ -46,14 +46,14 @@ module.exports = {
   },
   // 热重载触发文件
   patterns: ['**/*.md', '**/*.vue', '**/*.js', '**/*.sytl'],
-  // 主题颜色
-  mode:"auto",
 	locales: {
 	  "/": {
 	    "lang": 'zh-CN'
 	  }
 	},
   themeConfig: {
+    // 主题颜色
+    mode:"auto",
     //首页样式
     back:{
       baseImgUrl: baseImgUrl,
@@ -135,12 +135,12 @@ module.exports = {
     },
 
     // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
-    algolia: {
-      apiKey: '2e7303515a032dfb8c91084fec9c4b66',
-      indexName: 'RayShineBlog',
-      // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
-      appId: '4L0A7VRWY5',
-    },
+    // algolia: {
+    //   apiKey: '2e7303515a032dfb8c91084fec9c4b66',
+    //   indexName: 'RayShineBlog',
+    //   // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
+    //   appId: '4L0A7VRWY5',
+    // },
 
 
     // 导航栏

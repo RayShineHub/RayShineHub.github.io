@@ -3,7 +3,9 @@
     id="search-form"
     class="algolia-search-wrapper search-box"
     role="search"
-    :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``"
+    :class="{
+      pagefull : ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+    }"
   >
     <i class="iconfont reco-search"></i>
     <input
@@ -146,13 +148,19 @@ export default {
       background-color #e7edf3 !important
       color $textColor
 
-.isNavFixed
+.pagefull
   input
     color lighten(rgba(255, 255, 255, 0.8), 80%)
     border: 1px solid rgba(255, 255, 255, 0.8);
   i
     color rgba(255, 255, 255, 0.6)
-    
+
+.isNavFixed
+  input
+    color var(--text-color)
+    border: 1px solid var(--text-color-sub);
+  i
+    color var(--text-color)
 @media (min-width: $MQMobile)
   .algolia-search-wrapper
     .algolia-autocomplete

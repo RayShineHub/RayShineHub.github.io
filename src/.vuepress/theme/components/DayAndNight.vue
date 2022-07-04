@@ -22,7 +22,7 @@
 
 <script>
   import applyMode from './Mode/applyMode'
-
+  
   export default {
     name: "DayAndNight",
     data () {
@@ -33,7 +33,9 @@
     // 为了在保证 modePicker 在 SSR 中正确开关，并实现管理，Mode 组件将负责 modePicker 关闭的情况
     mounted() {
       // modePicker 开启时默认使用用户主动设置的模式
-      this.currentMode = localStorage.getItem('mode') || this.$themeConfig.mode || 'light'
+      const configMode = this.$themeConfig.mode || localStorage.getItem('mode') || 'light'
+      this.currentMode = configMode === 'auto' ? this.getAutoMode() : configMode
+
 
       // Dark and Light autoswitches
       // 为了避免在 server-side 被执行，故在 Vue 组件中设置监听器
@@ -68,6 +70,15 @@
           localStorage.setItem('mode', mode)
         }
       },
+      /**
+       * @description: add by Rayshine 获取自动模式下的主题
+       * @return {string}
+       */      
+      getAutoMode() {
+        const hour = new Date().getHours()
+        if (hour < 6 || hour >= 18) return 'dark'
+        return 'light'
+      }
     }
   }
 </script>

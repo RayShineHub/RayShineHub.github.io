@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-22 20:25:06
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-06-29 16:50:06
+ * @LastEditTime: 2022-07-04 23:42:02
  * @FilePath: \RayShineHub\src\.vuepress\config\sidebar\index.js
  * @Description: 自动生成侧边栏配置
  * sidebar: {
@@ -30,5 +30,6 @@ const docs = rootpath;
 const  autoGetSidebarOptionBySrcDir  = require('./getFileName.js');
 module.exports = {
     // 每日一题
-    '/blogs/每日一题/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/每日一题/'), true, 'up', {reg: /[\u4e00-\u9fa5]|\.md$/g, to: ''})
+    '/blogs/每日一题/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/每日一题/'), true, 'up', {reg: /[\u4e00-\u9fa5]|\.md$/g, to: ''}),
+		'/blogs/前端/CSS/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/CSS/'), false)
 };

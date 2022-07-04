@@ -60,10 +60,10 @@
     <a v-if="socials.csdn" :href="socials.csdn" title="CSDN" target="_blank" class="social-items">
       <i class="iconfont big reco-csdn indianred"></i>
     </a>
-    <a v-if="socials.wechat" :href="socials.wechat" title="微信" target="_blank" class="social-items">
+    <a v-if="socials.wechat" href="javascript:;" title="微信" target="_blank" class="social-items" @mouseenter="toggle('wechat')" @mouseleave="toggle('wechat')">
       <i class="iconfont big reco-wechat forestgreen"></i>
     </a>
-    <a v-if="socials.qq" :href="socials.qq" title="QQ" target="_blank" class="social-items">
+    <a v-if="socials.qq" href="javascript:;" title="QQ" target="_blank" class="social-items" @mouseenter="toggle('wechat')" @mouseleave="toggle('wechat')">
       <i class="iconfont big reco-qq lightskyblue"></i>
     </a>
     <h1 class="longcang">{{ $themeConfig.info }}</h1>
@@ -75,6 +75,11 @@
 <script>
 import { ensureExt } from '@theme/helpers/utils'
 export default {
+  data () {
+    return {
+      open: false
+    }
+  },
   computed: {
     homeBlogCfg () {
       return this.$recoLocales.homeBlog
@@ -91,6 +96,11 @@ export default {
     },
     socials () {
       return this.$themeConfig.socials
+    }
+  },
+  methods: {
+    toggle () {
+      this.open = !this.open
     }
   }
 }

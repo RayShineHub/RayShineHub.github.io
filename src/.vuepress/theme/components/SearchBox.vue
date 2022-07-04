@@ -1,6 +1,8 @@
 <template>
   <div class="search-box" 
-  :class="($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home || $frontmatter.layout || isNavFixed ? `isNavFixed` : ``">
+  :class="{
+    pageFull:($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+  }">
     <i class="iconfont reco-search"></i>
     <input
       @input="query = $event.target.value"
@@ -211,7 +213,7 @@ export default {
       background-color var(--border-color)
       a
         color $accentColor
-.isNavFixed
+.pagefull
   input
     color lighten(rgba(255, 255, 255, 0.8), 80%)
     border: 1px solid rgba(255, 255, 255, 0.8);
