@@ -1,7 +1,7 @@
 <template>
   <div class="search-box" 
   :class="{
-    pageFull:($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+    pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
   }">
     <i class="iconfont reco-search"></i>
     <input
@@ -215,10 +215,10 @@ export default {
         color $accentColor
 .pagefull
   input
-    color lighten(rgba(255, 255, 255, 0.8), 80%)
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    color lighten($pagefullNavColor, 80%)
+    border: 1px solid $pagefullNavColor
   i
-    color rgba(255, 255, 255, 0.6)
+    color $pagefullIconColor
 @media (max-width: $MQNarrow)
   .search-box
     input

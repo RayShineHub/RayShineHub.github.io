@@ -58,6 +58,7 @@
           <h4 v-if="$tags.list.length !== 0"><i class="iconfont reco-tag"></i> {{homeBlogCfg.tag}}</h4>
           <TagList @getCurrentTag="getPagesByTags" />
           <h4 v-if="$themeConfig.friendLink && $themeConfig.friendLink.length !== 0"><i class="iconfont reco-friend"></i> {{homeBlogCfg.friendLink}}</h4>
+          <!-- <WordCloud /> -->
           <FriendLink />
         </div>
       </div>

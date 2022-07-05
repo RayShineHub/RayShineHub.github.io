@@ -2,7 +2,7 @@
   <nav
     class="nav-links"
     :class="{
-      pagefull:($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+      pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
     }"
     v-if="userLinks.length || repoLink"
   >
@@ -172,17 +172,17 @@ export default {
 // add by Rayshine 2022-07-01
 .pagefull
   .nav-item
-    color rgba(255, 255, 255, 0.8)
+    color $pagefullNavColor
     .arrow
-      border-top: 6px solid rgba(255, 255, 255, 0.8)
+      border-top: 6px solid $pagefullNavColor
     .nav-dropdown
       color var(--text-color)
       .iconfont
         color var(--text-color)
     a
-      color rgba(255, 255, 255, 0.8)
+      color $pagefullNavColor
       .iconfont
-        color rgba(255, 255, 255, 0.6)
+        color $pagefullIconColor
       &:hover, &.router-link-active
         color $accentColor
         .iconfont
@@ -201,6 +201,10 @@ export default {
       color $accentColor
       .iconfont
         color $accentColor
+      .arrow
+          border-top: 6px solid $accentColor
+          transform: rotate(-90deg)
+          transition: transform .3s ease-in-out
   .nav-item
     position relative
     display inline-block

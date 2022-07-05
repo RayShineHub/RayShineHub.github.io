@@ -1,12 +1,12 @@
 <template>
   <div>
-    <svg style="background-color: black" :width="width" :height="height">
+    <svg :width="width" :height="height">
       <a class="fontA" v-for="(tag, index) in tags" :key="`tag-${index}`">
         <text
           :id="tag.id"
           :x="tag.x"
           :y="tag.y"
-          :font-size="20 * (600 / (600 - tag.z))"
+          :font-size="20 * (270 / (400 - tag.z))"
           :fill-opacity="(400 + tag.z) / 600"
           @mousemove="listenerMove($event)"
           @mouseout="listenerOut($event)"
@@ -21,15 +21,15 @@
 
 <script>
 export default {
-  name: "word-cloud",
+  name: 'word-cloud',
   //数据，宽，高，半径，半径一般位宽高的一半。
   // props: ["data", "width", "height", "RADIUS"],
   data() {
     return {
-      width: 600, //svg宽度
-      height: 600, //svg高度
+      width: 270, //svg宽度
+      height: 300, //svg高度
       tagsNum: 0, //标签数量
-      RADIUS: 300, //球的半径
+      RADIUS: 120, //球的半径
       speedX: Math.PI / 360 / 1.5, //球一帧绕x轴旋转的角度
       speedY: Math.PI / 360 / 1.5, //球-帧绕y轴旋转的角度
       tags: [],

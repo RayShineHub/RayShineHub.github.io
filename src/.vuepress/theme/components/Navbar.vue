@@ -14,6 +14,9 @@
         <span
           ref="siteName"
           class="site-name"
+          :class="{
+            pagefullTitle:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed
+          }"
           v-if="$siteTitle">{{ $siteTitle }}</span>
 					<!-- :style="{color: isFixed ? '' : '#eee'}" -->
       </router-link>
@@ -189,9 +192,9 @@ $navbar-horizontal-padding = 1.5rem
     color var(--text-color)
   .fixed
     position fixed
-    top -60px
+    top -3.7rem
     z-index 20
-    padding 10px 36px
+    padding: 0.7rem 1.5rem
     box-shadow var(--box-shadow)
     background var(--background-color)
     color var(--text-color)
@@ -213,6 +216,8 @@ $navbar-horizontal-padding = 1.5rem
     font-weight 600
     color var(--text-color)
     position relative
+  .pagefullTitle
+    color $pagefullNavColor
   .nav-music
     padding-right 1.5rem
     box-sizing border-box

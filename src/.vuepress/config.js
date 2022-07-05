@@ -1,11 +1,9 @@
+const envConfig = require("./build")
 const nav = require("./config/nav")
 const sidebar = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-// const baseImgUrl = "https://blog.rayshine.site/source/blog"
-// const baseImgUrl = "https://cdn.rayshine.site/blog"
-const baseImgUrl = "http://source.rayshine.site/blog"
-
-
+const baseImgUrl = envConfig.baseImgUrl
+debugger
 // 检测网站是否被收录   site:blog.rayshine.site web9158
 
 module.exports = {
