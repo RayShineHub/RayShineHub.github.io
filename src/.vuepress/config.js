@@ -2,8 +2,8 @@ const envConfig = require("./build")
 const nav = require("./config/nav")
 const sidebar = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = envConfig.baseImgUrl
-debugger
+const sourceUrl = envConfig.sourceUrl
+
 // 检测网站是否被收录   site:blog.rayshine.site web9158
 
 module.exports = {
@@ -49,54 +49,55 @@ module.exports = {
 	    "lang": 'zh-CN'
 	  }
 	},
+  // permalink: "/:year/:month/:day/:slug",
   themeConfig: {
     // 主题颜色
     mode:"auto",
     //首页样式
     back:{
-      baseImgUrl: baseImgUrl,
+      sourceUrl: sourceUrl,
       isRandom: false,
-      bgImage: baseImgUrl + '/imgs/others/31.jpg',
-      homeImage: baseImgUrl + '/imgs/others/31.jpg',
+      bgImage: sourceUrl + '/imgs/others/31.jpg',
+      homeImage: sourceUrl + '/imgs/others/31.jpg',
       bgUrls: [
-        baseImgUrl + '/home/1.png',
-        baseImgUrl + '/home/2.jpg',
-        baseImgUrl + '/home/3.jpg',
-        baseImgUrl + '/home/4.png',
-        baseImgUrl + '/home/5.jpg',
-        baseImgUrl + '/home/6.png',
-        baseImgUrl + '/home/7.jpg',
-        baseImgUrl + '/home/8.jpg',
-        baseImgUrl + '/home/9.png',
-				baseImgUrl + '/imgs/city/1.jpg',
-				baseImgUrl + '/imgs/city/2.jpg',
-				baseImgUrl + '/imgs/city/3.jpg',
-				baseImgUrl + '/imgs/city/4.jpg',
-				baseImgUrl + '/imgs/city/5.jpg',
-				baseImgUrl + '/imgs/city/6.jpg',
-				baseImgUrl + '/imgs/city/7.jpg',
-				baseImgUrl + '/imgs/city/8.jpg',
-				baseImgUrl + '/imgs/city/9.jpg',
-				baseImgUrl + '/imgs/others/1.jpg',
-				baseImgUrl + '/imgs/others/2.png',
-				baseImgUrl + '/imgs/others/3.png',
-				baseImgUrl + '/imgs/others/4.jpg',
-				baseImgUrl + '/imgs/others/5.jpg',
-				baseImgUrl + '/imgs/others/6.jpg',
-				baseImgUrl + '/imgs/others/7.jpg',
-				baseImgUrl + '/imgs/others/8.png',
-				baseImgUrl + '/imgs/others/9.png',
-				baseImgUrl + '/imgs/others/10.jpg',
-				baseImgUrl + '/imgs/others/11.jpg',
-				baseImgUrl + '/imgs/others/12.jpg',
-				baseImgUrl + '/imgs/others/13.png',
-				baseImgUrl + '/imgs/others/31.jpg',
-				baseImgUrl + '/imgs/others/15.jpg',
-				baseImgUrl + '/imgs/others/16.jpg',
-				baseImgUrl + '/imgs/others/17.jpg',
-				baseImgUrl + '/imgs/others/18.jpg',
-				baseImgUrl + '/imgs/others/19.jpg',
-				baseImgUrl + '/imgs/others/20.png'
+        sourceUrl + '/home/1.png',
+        sourceUrl + '/home/2.jpg',
+        sourceUrl + '/home/3.jpg',
+        sourceUrl + '/home/4.png',
+        sourceUrl + '/home/5.jpg',
+        sourceUrl + '/home/6.png',
+        sourceUrl + '/home/7.jpg',
+        sourceUrl + '/home/8.jpg',
+        sourceUrl + '/home/9.png',
+				sourceUrl + '/imgs/city/1.jpg',
+				sourceUrl + '/imgs/city/2.jpg',
+				sourceUrl + '/imgs/city/3.jpg',
+				sourceUrl + '/imgs/city/4.jpg',
+				sourceUrl + '/imgs/city/5.jpg',
+				sourceUrl + '/imgs/city/6.jpg',
+				sourceUrl + '/imgs/city/7.jpg',
+				sourceUrl + '/imgs/city/8.jpg',
+				sourceUrl + '/imgs/city/9.jpg',
+				sourceUrl + '/imgs/others/1.jpg',
+				sourceUrl + '/imgs/others/2.png',
+				sourceUrl + '/imgs/others/3.png',
+				sourceUrl + '/imgs/others/4.jpg',
+				sourceUrl + '/imgs/others/5.jpg',
+				sourceUrl + '/imgs/others/6.jpg',
+				sourceUrl + '/imgs/others/7.jpg',
+				sourceUrl + '/imgs/others/8.png',
+				sourceUrl + '/imgs/others/9.png',
+				sourceUrl + '/imgs/others/10.jpg',
+				sourceUrl + '/imgs/others/11.jpg',
+				sourceUrl + '/imgs/others/12.jpg',
+				sourceUrl + '/imgs/others/13.png',
+				sourceUrl + '/imgs/others/31.jpg',
+				sourceUrl + '/imgs/others/15.jpg',
+				sourceUrl + '/imgs/others/16.jpg',
+				sourceUrl + '/imgs/others/17.jpg',
+				sourceUrl + '/imgs/others/18.jpg',
+				sourceUrl + '/imgs/others/19.jpg',
+				sourceUrl + '/imgs/others/20.png'
       ]
     },
 		noFoundPageByTencent: false,
@@ -146,8 +147,8 @@ module.exports = {
     // 自定义左侧侧边栏
 		sidebar,
 		
-    logo: baseImgUrl + '/home/rainbow-logo.png',
-    authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
+    logo: sourceUrl + '/home/rainbow-logo.png',
+    authorAvatar: sourceUrl + "/avatar/avatar.jpg",
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,

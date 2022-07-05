@@ -9,12 +9,12 @@
     <img 
       v-if="pageInfo.frontmatter.reprint"
       class="article-type-img" 
-      :src="$themeConfig.back.baseImgUrl + '/imgs/article-type/reprint.png'" alt="">
+      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/reprint.png'" alt="">
     </img>
     <img 
       v-else
       class="article-type-img" 
-      :src="$themeConfig.back.baseImgUrl + '/imgs/article-type/original.png'" alt="">
+      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/original.png'" alt="">
     </img>
     <span class="iconfont reprintUrl" @click.stop="goHome()">
       {{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}

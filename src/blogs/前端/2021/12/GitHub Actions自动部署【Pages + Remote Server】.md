@@ -85,7 +85,7 @@ sticky: 1
 const nav = require("./config/nav")
 const siderbarConf = require("./config/sidebar")
 const pluginsConf = require('./plugins/index')
-const baseImgUrl = "https://blog.rayshine.site/source"
+const sourceUrl = "https://blog.rayshine.site/source"
 
 module.exports = {
   base: "/",
@@ -114,9 +114,9 @@ module.exports = {
     //首页样式
     back:{
       isRandom: true,
-      bgImage: baseImgUrl + '/home/1.jpg',
+      bgImage: sourceUrl + '/home/1.jpg',
       bgUrls: [
-        baseImgUrl + '/home/1.jpg'
+        sourceUrl + '/home/1.jpg'
       ]
     },
 		noFoundPageByTencent: false,
@@ -157,8 +157,8 @@ module.exports = {
     // 自定义左侧侧边栏
 		sidebar: siderbarConf,
 		
-    logo: baseImgUrl + '/home/logo.jpg',
-    authorAvatar: baseImgUrl + "/avatar/avatar.jpg",
+    logo: sourceUrl + '/home/logo.jpg',
+    authorAvatar: sourceUrl + "/avatar/avatar.jpg",
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,
