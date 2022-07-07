@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>知识篇 -- JS的节流和防抖 | 一ξひβθ光 i</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/favicon.ico">
+    <script language="javascript" type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/mouseClick.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/bg.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/noConsole.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/fairyDustCursor.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <meta name="description" content="JS的节流和防抖">
+    <meta name="keywords" content="JavaScript 节流 防抖 重复点击 自动填充">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="baidu-site-verification" content="code-U0ZDB2tiQp">
+    
+    <link rel="preload" href="/assets/css/0.styles.6fb244c1.css" as="style"><link rel="preload" href="/assets/js/app.8fd08d65.js" as="script"><link rel="preload" href="/assets/js/5.bfee5cf8.js" as="script"><link rel="preload" href="/assets/js/1.3cbe7f75.js" as="script"><link rel="preload" href="/assets/js/26.88119672.js" as="script"><link rel="preload" href="/assets/js/12.bb406ca5.js" as="script"><link rel="prefetch" href="/assets/js/10.fae029d8.js"><link rel="prefetch" href="/assets/js/11.52bafe7d.js"><link rel="prefetch" href="/assets/js/13.c724549e.js"><link rel="prefetch" href="/assets/js/14.4ca5aad9.js"><link rel="prefetch" href="/assets/js/15.c493da4c.js"><link rel="prefetch" href="/assets/js/16.592677fe.js"><link rel="prefetch" href="/assets/js/17.8222271a.js"><link rel="prefetch" href="/assets/js/18.f5c65413.js"><link rel="prefetch" href="/assets/js/19.3a88b900.js"><link rel="prefetch" href="/assets/js/2.16520945.js"><link rel="prefetch" href="/assets/js/20.1c93d1c2.js"><link rel="prefetch" href="/assets/js/21.3c629c0c.js"><link rel="prefetch" href="/assets/js/22.435f0ecc.js"><link rel="prefetch" href="/assets/js/23.d4449c50.js"><link rel="prefetch" href="/assets/js/24.fb7cb458.js"><link rel="prefetch" href="/assets/js/25.c38e5dcd.js"><link rel="prefetch" href="/assets/js/27.0e123436.js"><link rel="prefetch" href="/assets/js/28.e46a0493.js"><link rel="prefetch" href="/assets/js/29.4f35dd31.js"><link rel="prefetch" href="/assets/js/3.3d08193b.js"><link rel="prefetch" href="/assets/js/30.1b9a3987.js"><link rel="prefetch" href="/assets/js/31.0c0ca786.js"><link rel="prefetch" href="/assets/js/32.36b5edaf.js"><link rel="prefetch" href="/assets/js/33.53966138.js"><link rel="prefetch" href="/assets/js/34.51940b83.js"><link rel="prefetch" href="/assets/js/35.001c7eaf.js"><link rel="prefetch" href="/assets/js/36.35d8ec9e.js"><link rel="prefetch" href="/assets/js/37.e043c005.js"><link rel="prefetch" href="/assets/js/38.02663372.js"><link rel="prefetch" href="/assets/js/39.1cc7a4b3.js"><link rel="prefetch" href="/assets/js/40.77a59baf.js"><link rel="prefetch" href="/assets/js/41.0b49809c.js"><link rel="prefetch" href="/assets/js/6.c5194e61.js"><link rel="prefetch" href="/assets/js/7.88bcebfc.js"><link rel="prefetch" href="/assets/js/8.8b8abc85.js"><link rel="prefetch" href="/assets/js/9.f0422615.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6fb244c1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-2ad47666><div data-v-2ad47666><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-2ad47666 data-v-2ad47666><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-0541ff4e data-v-2ad47666 data-v-2ad47666><h3 class="title" style="display:none;" data-v-0541ff4e data-v-0541ff4e>一ξひβθ光 i</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-0541ff4e data-v-0541ff4e><input type="password" value="" data-v-0541ff4e> <span data-v-0541ff4e>Konck! Knock!</span> <button data-v-0541ff4e>OK</button></label> <div class="footer" style="display:none;" data-v-0541ff4e data-v-0541ff4e><span data-v-0541ff4e><i class="iconfont reco-theme" data-v-0541ff4e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-0541ff4e>vuePress-theme-reco</a></span> <span data-v-0541ff4e><i class="iconfont reco-copyright" data-v-0541ff4e></i> <a data-v-0541ff4e><span data-v-0541ff4e>Ray Shine</span>
+            
+          <span data-v-0541ff4e>2020 - </span>
+          2022
+        </a></span></div></div> <div class="hide" data-v-2ad47666><header class="navbar" data-v-f21e5092 data-v-2ad47666><div class="nav-sub" data-v-f21e5092><div class="sidebar-button" data-v-f21e5092><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active" data-v-f21e5092><img src="https://cdn.rayshine.site/blog/home/rainbow-logo.png" alt="一ξひβθ光 i" class="logo" data-v-f21e5092> <span class="site-name" data-v-f21e5092>一ξひβθ光 i</span></a> <div class="links" style="max-width:;" data-v-f21e5092><div class="search-box" data-v-f21e5092><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide" data-v-f21e5092><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link"><i class="iconfont undefined"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link"><i class="iconfont undefined"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link"><i class="iconfont undefined"></i>
+  服务端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/每日一题/" class="nav-link"><i class="iconfont undefined"></i>
+  每日一题
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont rays-shoucang-4"></i>
+      收藏
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>其他</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-tupianbizhi"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-lianjie"></i>
+  印记中文
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-logo-javascript"></i>
+  MDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>工具</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://c.runoob.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-tupianbizhi"></i>
+  菜鸟工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div> <!----></nav> <div id="dayNightSwitch" class="generalWrapper" data-v-c2bf762e data-v-f21e5092><a class="click" data-v-c2bf762e><div class="onOff daySwitch" data-v-c2bf762e><div class="star star1" data-v-c2bf762e></div> <div class="star star2" data-v-c2bf762e></div> <div class="star star3" data-v-c2bf762e></div> <div class="star star4" data-v-c2bf762e></div> <div class="star star5" data-v-c2bf762e></div> <div class="star sky" data-v-c2bf762e></div> <div class="sunMoon" data-v-c2bf762e><div class="crater crater1" data-v-c2bf762e></div> <div class="crater crater2" data-v-c2bf762e></div> <div class="crater crater3" data-v-c2bf762e></div> <div class="cloud part1" data-v-c2bf762e></div> <div class="cloud part2" data-v-c2bf762e></div></div></div></a></div></div></div></header> <div class="sidebar-mask" data-v-2ad47666></div> <aside class="sidebar" data-v-2ad47666><div class="personal-info-wrapper" data-v-79c4b52b data-v-2ad47666><img src="https://cdn.rayshine.site/blog/avatar/avatar.jpg" alt="author-avatar" class="personal-img" data-v-79c4b52b> <h3 class="name" data-v-79c4b52b>
+    Ray Shine
+  </h3> <div class="social-links" data-v-79c4b52b><a href="https://github.com/RayshineHub" title="github" target="_blank" class="social-items" data-v-79c4b52b><i class="iconfont big reco-github black" data-v-79c4b52b></i></a> <!----> <a href="https://gitee.com/RayshineHub" title="gitee" target="_blank" class="social-items" data-v-79c4b52b><i class="iconfont big reco-mayun crimson" data-v-79c4b52b></i></a> <!----> <!----> <!----> <!----> <!----> <!----> <a href="javascript:;" title="微信" target="_blank" class="social-items" data-v-79c4b52b><i class="iconfont big reco-wechat forestgreen" data-v-79c4b52b></i></a> <a href="javascript:;" title="QQ" target="_blank" class="social-items" data-v-79c4b52b><i class="iconfont big reco-qq lightskyblue" data-v-79c4b52b></i></a> <h1 class="longcang" data-v-79c4b52b></h1></div> <hr data-v-79c4b52b></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link"><i class="iconfont undefined"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link"><i class="iconfont undefined"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link"><i class="iconfont undefined"></i>
+  服务端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/每日一题/" class="nav-link"><i class="iconfont undefined"></i>
+  每日一题
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont rays-shoucang-4"></i>
+      收藏
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>其他</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-tupianbizhi"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-lianjie"></i>
+  印记中文
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-logo-javascript"></i>
+  MDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>工具</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://c.runoob.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-tupianbizhi"></i>
+  菜鸟工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-0541ff4e data-v-2ad47666><h3 class="title" style="display:none;" data-v-0541ff4e data-v-0541ff4e>知识篇 -- JS的节流和防抖</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-0541ff4e data-v-0541ff4e><input type="password" value="" data-v-0541ff4e> <span data-v-0541ff4e>Konck! Knock!</span> <button data-v-0541ff4e>OK</button></label> <div class="footer" style="display:none;" data-v-0541ff4e data-v-0541ff4e><span data-v-0541ff4e><i class="iconfont reco-theme" data-v-0541ff4e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-0541ff4e>vuePress-theme-reco</a></span> <span data-v-0541ff4e><i class="iconfont reco-copyright" data-v-0541ff4e></i> <a data-v-0541ff4e><span data-v-0541ff4e>Ray Shine</span>
+            
+          <span data-v-0541ff4e>2020 - </span>
+          2022
+        </a></span></div></div> <div data-v-2ad47666><main class="page"><div class="page-title" style="display:none;"><div><h1>知识篇 -- JS的节流和防抖</h1> <div data-v-7594667a><img src="https://cdn.rayshine.site/blog/imgs/article-type/original.png" alt class="article-type-img" data-v-7594667a> <span class="iconfont reprintUrl" data-v-7594667a>
+    Ray Shine
+  </span> <i class="iconfont reco-date" data-v-7594667a><span data-v-7594667a>2022-07-06</span></i> <i class="iconfont reco-eye" data-v-7594667a><span id="/blogs/%E5%89%8D%E7%AB%AF/2022/7/%E8%8A%82%E6%B5%81%E5%92%8C%E9%98%B2%E6%8A%96.html" data-flag-title="Your Article Title" class="leancloud-visitors" data-v-7594667a><a class="leancloud-visitors-count" style="font-size:.9rem;font-weight:normal;color:#999;"></a></span></i> <i class="iconfont reco-tag tags" data-v-7594667a><span class="tag-item" data-v-7594667a>JavaScript</span></i> <div class="copyright" data-v-7594667a><i class="iconfont reco-copyright" style="margin:auto;font-size: inherit;" data-v-7594667a></i> <span data-v-7594667a>
+      本文为博主原创文章，遵循
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/" title="版权协议" target="_blank" class="reprintUrl" data-v-7594667a>
+        CC 4.0 BY-SA
+      </a>
+      版权协议，转载请附上原文出处链接和本声明。
+    </span> <div data-v-7594667a>
+      如有侵权，请联系
+      <a href="/" class="reprintUrl" data-v-7594667a>
+        本博主
+      </a>
+      删除。
+    </div></div></div></div></div> <div class="theme-reco-content content__default" style="display:none;"><div id="boxx" data-v-f4ca0dac><div data-v-f4ca0dac><p v-if="true" class="custom-block-title" data-v-f4ca0dac></p> <p v-if="true" data-v-f4ca0dac></p></div></div> <h2 id="节流和防抖"><a href="#节流和防抖" class="header-anchor">#</a> 节流和防抖</h2> <p>节流和防抖在浏览器性能的优化手段中非常常见，像一些鼠标重复点击、页面滚动、鼠标拖拽、Input框自动填充以及文档编辑保存等场景。
+
+虽然都是防止事件的重复发生，但是它们还是有一些区别。</p> <p>本篇文章主要是记录节流防抖的实现以及如何区分使用节流还是使用防抖，已防自己在开发的过程当中被领导骂个狗血喷头。</p> <h2 id="防抖-deounce"><a href="#防抖-deounce" class="header-anchor">#</a> 防抖（deounce）</h2> <ul><li>定义</li></ul> <p><strong>等一个有效指令：</strong> 给一个固定时间，如果你开始触发动作，并且在这个固定时间内不再有任何动作，我就执行一次，否则我每次都会重新开始计时。</p> <ul><li>实现</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>    <span class="token comment">/**
+     * @description: Add by RayShine 
+     * @param {Fn} func
+     * @param {int} delay
+     * @return {*}
+     */</span>    
+    <span class="token function">deounce</span> <span class="token punctuation">(</span><span class="token parameter">func<span class="token punctuation">,</span> delay <span class="token operator">=</span> <span class="token number">200</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token keyword">null</span>
+
+      <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 清除上次还未发生的事件</span>
+        timer <span class="token operator">&amp;&amp;</span> <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+        <span class="token comment">// 设置一个新的定时器</span>
+        timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> remaining<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">使用场景</p> <ol><li>登录、提交或短信验证时，避免用户重复点击</li> <li>Input框自动填充，避免服务器压力过大</li> <li>窗口自适应，避免渲染时闪屏</li> <li>文档编辑时实时保存，避免更改次数过多</li></ol></div> <h2 id="节流-throttle"><a href="#节流-throttle" class="header-anchor">#</a> 节流（throttle）</h2> <ul><li>定义</li></ul> <p><strong>按时执行一个有效指令：</strong> 用户会反复触发一些操作，比如鼠标移动事件，此时只需要指定一个“巡视”的间隔时间，不管用户期间触发多少次，只会在间隔点上执行给定的回调函数。</p> <ul><li>实现</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>    <span class="token comment">/**
+     * @description: Add by RayShine 
+     * @param {Fn} func
+     * @param {int} delay
+     * @return {*}
+     */</span>    
+    <span class="token function">throttle</span> <span class="token punctuation">(</span><span class="token parameter">func<span class="token punctuation">,</span> delay <span class="token operator">=</span> <span class="token number">200</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token keyword">null</span>
+      <span class="token comment">// 开始时间</span>
+      <span class="token keyword">let</span> startTime <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+      <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 触发时间</span>
+        <span class="token keyword">const</span> curTime <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">// 计算上次事件到本次事件的时间间隔点</span>
+        <span class="token keyword">const</span> remaining <span class="token operator">=</span> delay <span class="token operator">-</span> <span class="token punctuation">(</span>curTime <span class="token operator">-</span> startTime<span class="token punctuation">)</span>
+        <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token keyword">this</span>
+        <span class="token keyword">const</span> args <span class="token operator">=</span> arguments
+        <span class="token comment">// 清除上次还未发生的事件</span>
+        timer <span class="token operator">&amp;&amp;</span> <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+        <span class="token comment">// 如果到了delay间隔时间，执行一次回调函数，并重新计时</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>remaining <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">func</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+          startTime <span class="token operator">=</span> curTime
+        <span class="token comment">// 如果没到delay间隔时间，设置一个定时器，保证时间不再发生时能最终执行一次</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> remaining<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">使用场景</p> <ol><li>鼠标滚动事件，避免触发次数过多，页面过渡不够平滑，影响用户体验。（例如本站的导航栏，向下滚动时隐藏，向上滚动时显示，如触发次数过多，emmmm~，可以想象得到。）</li> <li>Input框自动填充，避免服务器压力过大</li> <li>下拉加载时，避免服务器压力过大</li> <li>拖拽动画，避免计算次数过多，影响浏览器性能</li></ol></div> <h2 id="关于节流和防抖的区别与联系"><a href="#关于节流和防抖的区别与联系" class="header-anchor">#</a> 关于节流和防抖的区别与联系</h2> <div class="custom-block theorem"><p class="title">联系</p><ol><li>都是利用 <a href="/blogs/每日一题/2022年/6月/10日.html">闭包</a> 的优点，通过私有化变量来实现的。</li> <li>都是用于应用的性能优化</li> <li>都是用来抑制事件的重复执行</li></ol></div><div class="custom-block theorem"><p class="title">区别</p><p>防抖是为了事件最终只执行一次，避免浏览器认为是多次事件。
+<br>
+节流是为了控制事件执行的速率，即每隔多长事件执行一次。</p></div></div> <footer class="page-edit" style="display:none;"><!----> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">2022/7/7 08:58:37</span></div></footer> <!----> <!----> <!----> <!----></main> <!----></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div><!----><div></div></div></div>
+    <script src="/assets/js/app.8fd08d65.js" defer></script><script src="/assets/js/5.bfee5cf8.js" defer></script><script src="/assets/js/1.3cbe7f75.js" defer></script><script src="/assets/js/26.88119672.js" defer></script><script src="/assets/js/12.bb406ca5.js" defer></script>
+  </body>
+</html>
