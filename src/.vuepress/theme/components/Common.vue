@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Aos from 'aos'
 import Navbar from '@theme/components/Navbar'
 import Sidebar from '@theme/components/Sidebar'
 import PersonalInfo from '@theme/components/PersonalInfo'
@@ -150,8 +151,10 @@ export default {
       ]
     }
   },
-	beforeMount () {
-		// aos.init({ easing: 'ease-in-sine', duration: 600, delay: 100, mirror: true })
+	async beforeMount () {
+		await Aos.init({
+      easing: 'ease-in-sine', duration: 300, delay: 0, mirror: true, disable: 'mobile'
+    })
 	},
   mounted () {
     this.$router.afterEach(() => {

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Aos from 'aos'
+// import Aos from 'aos'
 import Home from '@theme/components/Home'
 import HomeBlog from '@theme/components/HomeBlog'
 import Page from '@theme/components/Page'
@@ -35,9 +35,9 @@ export default {
     }
   },
   beforeMount () {
-    Aos.init({
-      easing: 'ease-in-sine', duration: 300, delay: 0, mirror: true, disable: 'mobile'
-    })
+    // Aos.init({
+    //   easing: 'ease-in-sine', duration: 300, delay: 0, mirror: true, disable: 'mobile'
+    // })
   }
 }
 </script>
