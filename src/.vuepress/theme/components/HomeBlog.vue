@@ -45,7 +45,16 @@
         </div>
         <div class="info-wrapper" data-aos="fade-left" data-aos-duration="300" data-aos-delay="50" data-aos-mirror="false">
           <PersonalInfo/>
-          <h4><i class="iconfont reco-category"></i> {{homeBlogCfg.category}}</h4>
+          <div class="flex between" style="margin-bottom: -0.9rem;">
+          <h4>
+            <i class="iconfont reco-category"></i> 
+            {{homeBlogCfg.category}}
+          </h4>
+          <h5 style="margin-right: 0.7rem;">
+            {{$recoPosts.length}} 篇
+          </h5>
+          </div>
+          
           <ul class="category-wrapper">
             <li class="category-item" v-for="(item, index) in this.$categories.list" :key="index" data-aos="fade-left" data-aos-duration="300" data-aos-delay="50" data-aos-mirror="false">
               <router-link :to="item.path">
@@ -55,7 +64,16 @@
             </li>
           </ul>
           <hr>
-          <h4 v-if="$tags.list.length !== 0"><i class="iconfont reco-tag"></i> {{homeBlogCfg.tag}}</h4>
+          <div class="flex between" style="margin-bottom: -0.9rem;">
+            <h4 v-if="$tags.list.length !== 0">
+              <i class="iconfont reco-tag"></i> 
+              {{homeBlogCfg.tag}}
+            </h4>
+            <h5 style="margin-right: 0.7rem;">
+              {{$tags.list.length}} 个
+            </h5>
+          </div>
+          
           <TagList @getCurrentTag="getPagesByTags" />
           <h4 v-if="$themeConfig.friendLink && $themeConfig.friendLink.length !== 0"><i class="iconfont reco-friend"></i> {{homeBlogCfg.friendLink}}</h4>
           <!-- <WordCloud /> -->
@@ -266,6 +284,12 @@ export default {
       }
       h4 {
         color var(--text-color)
+      }
+      .flex {
+        display flex
+      }
+      .between {
+        justify-content space-between
       }
       .category-wrapper {
         list-style none

@@ -110,10 +110,10 @@ export default {
     }
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
-    window.addEventListener('scroll', this.throttle(this.handleScroll, 300))
+    window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
   },
   beforeDestroy () {
-    window.removeEventListener('scroll', this.throttle(this.handleScroll, 200))
+    window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
   },
   computed: {
     algolia () {
@@ -129,7 +129,7 @@ export default {
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
 			// this.$frontmatter['isFixed'] = window.pageYOffset > 44
-      this.throttle(this.handleVisible(), 200)
+      this.throttle(this.handleVisible(), 1000)
     },
     handleVisible () {
       this.isVisible = window.pageYOffset < this.pageYOffset && window.pageYOffset > 0
@@ -137,7 +137,13 @@ export default {
 			// this.$frontmatter['isFixed'] = window.pageYOffset < 44
       this.pageYOffset = window.pageYOffset
     },
-    throttle (func, delay) {
+    /**
+     * @description: Add by RayShine 
+     * @param {Fn} func
+     * @param {int} delay
+     * @return {*}
+     */    
+    throttle (func, delay = 200) {
       let timer = null
       let startTime = Date.now()
 
@@ -196,7 +202,7 @@ $navbar-horizontal-padding = 1.5rem
     z-index 20
     padding: 0.7rem 1.5rem
     box-shadow var(--box-shadow)
-    background var(--background-color)
+    background var(--nav-background-color)
     color var(--text-color)
     -webkit-box-shadow 0 5px 6px -5px rgba(133,133,133,0.6)
     transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out

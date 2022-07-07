@@ -66,14 +66,14 @@ export default {
     a
       padding 0.35rem 1rem 0.35rem 0rem
       color var(--text-color)
+      transition: all .2s ease-out
     &:hover
       a
       //  color $accentColor
-        transform: translateX(0.3rem)
+        transform: translateX(0.5rem)
         transition: all .2s ease-out
     &.active
       border-left 1px solid $accentColor
-      transition: all 1s ease
       a
        color $accentColor
     &.level-1

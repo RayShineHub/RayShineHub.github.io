@@ -36,7 +36,6 @@ export default {
 
   computed: {
     link () {
-      debugger
       return ensureExt(this.item.link)
     },
 
