@@ -27,7 +27,8 @@
         class="links"
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
-
+        <!-- 播放器 -->
+        <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth"></NavPlayer>
         <!-- 搜索框 -->
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
@@ -40,17 +41,8 @@
 
         <!-- 主题 -->
         <Mode />
-        
-      </div>
 
-      <!-- <div class="nav-music"
-      :style="linksWrapOffsetWidth ? {
-        'right': linksWrapOffsetWidth + 'px'
-      } : {}">
-        <img class="avatar" :src="currentMusic? currentMusic.avatarImg : ''" />
-        <audio ref="audio" :autoplay="false" :src="currentMusic? currentMusic.url : ''"></audio>
-      </div> -->
-	  <!-- <APlayer class="nav-music" iid="APlayer" mini :audio="audio" :lrcType="3" v-show="false"></APlayer> -->
+      </div>
     </div>
   </header>
 </template>
@@ -62,9 +54,10 @@ import SidebarButton from '@theme/components/SidebarButton'
 import NavLinks from '@theme/components/NavLinks'
 // import Mode from '@theme/components/Mode'
 import Mode from '@theme/components/DayAndNight.vue'
+import NavPlayer from '../../components/NavPlayer.vue'
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode },
+  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode, NavPlayer},
 
   data () {
     let that = this
@@ -74,15 +67,7 @@ export default {
       fixedHeight: 0,
       pageYOffset: 44,
       isFixed: false,
-      isVisible: false,
-			audio: {
-				name: 'Let It Go.m3u8',
-				artist: 'Idina Menzel',
-				url: 'https://cdn.moefe.org/music/hls/frozen.m3u8',
-				cover: 'https://p1.music.126.net/n72JJkPg2-ENxhB-DsZ2AA==/109951163115400390.jpg?param=300y300', // prettier-ignore
-				lrc: 'https://cdn.moefe.org/music/lrc/frozen.lrc',
-				type: 'customHls',
-			},
+      isVisible: false
     }
   },
   props: {
@@ -225,26 +210,23 @@ $navbar-horizontal-padding = 1.5rem
   .pagefullTitle
     color $pagefullNavColor
   .nav-music
+    display: inline-block;
     padding-right 1.5rem
     box-sizing border-box
     white-space nowrap
     font-size 0.9rem
-    position absolute
+    // position absolute
     right $navbar-horizontal-padding
     top $navbar-vertical-padding
     display flex
     // background-color var(--background-color)
     .avatar
-      height $navbarHeight - 1.4rem
-      min-width $navbarHeight - 1.4rem
+      height $navbarHeight - 1rem
+      min-width $navbarHeight - 1rem
       margin-right 0.8rem
       vertical-align top
       border-radius 50%
-      box-shadow 0 1px 8px 1px rgba(0, 0, 0, 0.3)
-      -webkit-animation animal 1s infinite linear
-      -webkit-transform-origin center center
-      -ms-transform-origin center center
-      transform-origin center center
+      box-shadow 0 1px 8px 1px var(--text-color)
   .links
     padding-left 1.5rem
     box-sizing border-box

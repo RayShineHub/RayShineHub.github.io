@@ -1,7 +1,10 @@
 const envConfig = require("./build")
 const nav = require("./config/nav")
 const sidebar = require("./config/sidebar")
-const pluginsConf = require('./plugins/index')
+const socials = require("./config/socials")
+const mottos = require("./config/mottos")
+const friendLink = require("./config/friendLink")
+const plugins = require('./plugins/index')
 const sourceUrl = envConfig.sourceUrl
 
 // 检测网站是否被收录   site:blog.rayshine.site web9158
@@ -9,7 +12,7 @@ const sourceUrl = envConfig.sourceUrl
 module.exports = {
   base: "/",
   title: "一ξひβθ光 i",
-  description: '乾坤未定 你我皆是黑马',
+  description: '当才华不足以支持也行的时候，你就应该努力了！',
 	dest: 'dist',
   head: [
 		["meta", {name: "viewport",content: "width=device-width,initial-scale=1,user-scalable=no"}],
@@ -21,7 +24,6 @@ module.exports = {
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/noConsole.js"}],
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/fairyDustCursor.js"}],
 		["script", { src: "https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js" }],
-		// ["script", { src: "https://cdn.jsdelivr.net/npm/aplayer@1/dist/APlayer.min.js" }],
 		//友盟+统计
 		// ["script", { src: "https://s9.cnzz.com/z_stat.php?id=1280664116&web_id=1280664116" }],
 		// ['script', {}, `
@@ -130,7 +132,6 @@ module.exports = {
 			enableQQ: true,
 			recordIP:true,
 			visitor:true
-      
     },
 
     // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
@@ -162,63 +163,16 @@ module.exports = {
 		recordLink: '#',
     // 项目开始时间
     startYear: "2020",
-		socials:{
-		  github : "https://github.com/RayshineHub", //github
-		  gitlub : false, //gitlub
-		  gitee : "https://gitee.com/RayshineHub", //gitee
-		  jianshu : false, //简书
-		  zhihu : false, //知乎
-		  toutiao : false, //知乎
-		  juejin: false, //掘金
-		  segmentfault : false, //思否
-		  csdn : false, //CSDN
-		  wechat : "你的微信", //微信
-		  qq : "你的QQ" //QQ
-		},
-    friendLink: [
-      // {
-      //   title: "午后南杂",
-      //   desc: "Enjoy when you can, and endure when you must.",
-      //   email: "1156743527@qq.com",
-      //   link: "https://www.recoluan.com",
-      // },
-      // {
-      //   title: "vuepress-theme-reco",
-      //   desc: "A simple and beautiful vuepress Blog & Doc theme.",
-      //   avatar:
-      //     "https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png",
-      //   link: "https://vuepress-theme-reco.recoluan.com",
-      // }
-    ],
+
+    // 个人联系方式
+		socials,
+
+    // 友链
+    friendLink,
+
     //首页格言
-    mottos: [{
-      "zh": "看走眼的东西，要及时扔掉。抓不住的东西，伸手都是多余。",
-      "en": "Throw away the wrong things in time, what you can't grasp is superfluous."
-      },
-      {
-        "zh": "有结果的付出叫投资，没结果的付出叫代价。",
-        "en": "Pay with results is called pay, pay without results is called price."
-      },
-      {
-        "zh": "梦想不会逃跑，会逃跑的永远都是自己。",
-        "en": "Dream will not run away, will always be their own escape."
-      },
-      {
-        "zh": "涉江而过，芙蓉千朵。诗也简单，心也简单。",
-        "en": "Crossing the river, there are thousands of Hibiscus. Poetry is simple, heart is simple."
-      },
-      {
-        "zh": "熬得住才出众，熬不住会出局",
-        "en": "It's outstanding to endure. If you can't endure, you'll be out."
-      }, {
-        "zh": "未成定局的事就不要弄的人尽皆知。",
-        "en": "Don't do anything that's not settled but everyone knows it."
-      },
-      {
-        "zh": "你的人品，就是最好的运气。你的状态，就是最好的风水。",
-        "en": "Your character is your best luck, Your state is the best Feng Shui."
-      }
-    ],
+    mottos
+    
   },
-  plugins: pluginsConf
+  plugins
  };

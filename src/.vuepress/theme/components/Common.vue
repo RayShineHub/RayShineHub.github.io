@@ -153,7 +153,15 @@ export default {
   },
 	async beforeMount () {
 		await Aos.init({
-      easing: 'ease-in-sine', duration: 300, delay: 0, mirror: true, disable: 'mobile'
+      offset: 200,
+      easing: 'ease-in-sine',
+      duration: 300,
+      delay: 0,
+      mirror: true,
+      disable: 'mobile',
+      throttleDelay: 99,
+      useClassNames: false, 
+      startEvent: 'DOMContentLoaded',
     })
 	},
   mounted () {

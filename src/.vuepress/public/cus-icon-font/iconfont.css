@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2506918 */
-  src: url('iconfont.woff2?t=1656415998419') format('woff2'),
-       url('iconfont.woff?t=1656415998419') format('woff'),
-       url('iconfont.ttf?t=1656415998419') format('truetype');
+  src: url('iconfont.woff2?t=1657304325968') format('woff2'),
+       url('iconfont.woff?t=1657304325968') format('woff'),
+       url('iconfont.ttf?t=1657304325968') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,66 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.rays-shengyin-jinyin:before {
+  content: "\e6eb";
+}
+
+.rays-qiege:before {
+  content: "\e901";
+}
+
+.rays-bofang:before {
+  content: "\e904";
+}
+
+.rays-zanting:before {
+  content: "\e905";
+}
+
+.rays-piliang:before {
+  content: "\e623";
+}
+
+.rays-yinliangjianshao:before {
+  content: "\e636";
+}
+
+.rays-yinliangzengjia:before {
+  content: "\e637";
+}
+
+.rays-xiayishou:before {
+  content: "\e63e";
+}
+
+.rays-shangyishou:before {
+  content: "\e640";
+}
+
+.rays-gedan:before {
+  content: "\e638";
+}
+
+.rays-bofang04-mianxing:before {
+  content: "\e68e";
+}
+
+.rays-bofang05-mianxing:before {
+  content: "\e68f";
+}
+
+.rays-shengyin-jia:before {
+  content: "\e6e5";
+}
+
+.rays-liebiao1:before {
+  content: "\e6e9";
+}
+
+.rays-shengyin-jian:before {
+  content: "\e6ea";
 }
 
 .rays-mysql:before {

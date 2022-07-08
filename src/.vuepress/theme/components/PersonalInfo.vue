@@ -32,40 +32,33 @@
       </router-link>
     </div>
   </div> -->
-  <div class="social-links">
-    <a v-if="socials.github" :href="socials.github" title="github" target="_blank" class="social-items">
-      <i class="iconfont big reco-github black"></i>
+  <div class="social-links" v-if="socials && socialsLength > 0">
+    <a v-if="item && !item.pop && item.show" v-for="item in socials" :href="item.url" :title="item.title" target="_blank" class="social-items">
+      <i class="big" :class="`iconfont ${item.icon}`" :style="`color: ${item.color}`"></i>
     </a>
-    <a v-if="socials.gitlab" :href="socials.gitlab" title="gitlab" target="_blank" class="social-items">
-      <i class="iconfont big reco-gitlab coral"></i>
-    </a>
-    <a v-if="socials.gitee" :href="socials.gitee" title="gitee" target="_blank" class="social-items">
-      <i class="iconfont big reco-mayun crimson"></i>
-    </a>
-    <a v-if="socials.jianshu" :href="socials.jianshu" title="简书" target="_blank" class="social-items">
-      <i class="iconfont big reco-jianshu indianred"></i>
-    </a>
-    <a v-if="socials.zhihu" :href="socials.zhihu" title="知乎" target="_blank" class="social-items">
-      <i class="iconfont big reco-zhihu lightskyblue"></i>
-    </a>
-    <a v-if="socials.toutiao" :href="socials.toutiao" title="头条" target="_blank" class="social-items">
-      <i class="iconfont big reco-toutiao lightsalmon"></i>
-    </a>
-    <a v-if="socials.juejin" :href="socials.juejin" title="掘金" target="_blank" class="social-items">
-      <i class="iconfont big reco-juejin dodgerblue"></i>
-    </a>
-    <a v-if="socials.segmentfault" :href="socials.segmentfault" title="思否" target="_blank" class="social-items">
-      <i class="iconfont big reco-sf forestgreen"></i>
-    </a>
-    <a v-if="socials.csdn" :href="socials.csdn" title="CSDN" target="_blank" class="social-items">
-      <i class="iconfont big reco-csdn indianred"></i>
-    </a>
-    <a v-if="socials.wechat" href="javascript:;" title="微信" target="_blank" class="social-items" @mouseenter="toggle('wechat')" @mouseleave="toggle('wechat')">
-      <i class="iconfont big reco-wechat forestgreen"></i>
-    </a>
-    <a v-if="socials.qq" href="javascript:;" title="QQ" target="_blank" class="social-items" @mouseenter="toggle('wechat')" @mouseleave="toggle('wechat')">
-      <i class="iconfont big reco-qq lightskyblue"></i>
-    </a>
+    <div v-if="item && item.pop && item.show" v-for="item in socials" :title="item.title" target="_blank" class="social-items" 
+    @mouseenter="toggleShow($event)" @mouseleave="toggleHide($event)"
+    >
+      <i class="big" :class="`iconfont ${item.icon}`" :style="`color: ${item.color}`"></i>
+      <transition name="fade">
+        <div class="popup-window-wrapper">
+          <div
+            class="popup-window"
+            :style="popupWindowStyle"
+            ref="popupWindow">
+            <div class="info">
+              <div class="title">
+                <h4>{{item.pop.title}}</h4>
+              </div>
+              <div class="logo">
+                <img :src="item.pop.img" />
+              </div>
+              <p  v-if="item.pop.desc">{{item.pop.desc}}</p>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
     <h1 class="longcang">{{ $themeConfig.info }}</h1>
   </div>
   <hr>
@@ -77,7 +70,16 @@ import { ensureExt } from '@theme/helpers/utils'
 export default {
   data () {
     return {
-      open: false
+      isPC: true,
+      popupWindowStyle: {},
+      popupImgUrl:''
+    }
+  },
+  mounted() {
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      this.isPC = false
+    } else {
+      this.isPC = true
     }
   },
   computed: {
@@ -96,11 +98,73 @@ export default {
     },
     socials () {
       return this.$themeConfig.socials
+    },
+    socialsLength () {
+      let count = 0
+      for (let item of this.$themeConfig.socials) {
+        if (item.show) count++
+      }
+      return count
     }
   },
   methods: {
-    toggle () {
-      this.open = !this.open
+    toggleShow (e) {
+      const currentDom = e.target
+      const popupWindowWrapper = currentDom.querySelector('.popup-window-wrapper')
+      const popupWindow = currentDom.querySelector('.popup-window')
+      const infoWrapper = document.querySelector('.info-wrapper')
+      popupWindowWrapper.style.display = 'block'
+      const { clientWidth } = currentDom
+      const {
+        clientWidth: windowWidth,
+        clientHeight: windowHeight
+      } = popupWindow
+      if (this.isPC) {
+        this.popupWindowStyle = {
+          left: (clientWidth - windowWidth) / 2 + 'px',
+          top: -windowHeight + 'px'
+        }
+        infoWrapper.style.overflow = 'visible'
+        this.$nextTick(() => {
+          this._adjustPosition(currentDom.querySelector('.popup-window'))
+        })
+      } else {
+        const getPosition = function (element) {
+          const dc = document
+          const rec = element.getBoundingClientRect()
+          let _x = rec.left
+          let _y = rec.top
+          _x += dc.documentElement.scrollLeft || dc.body.scrollLeft
+          _y += dc.documentElement.scrollTop || dc.body.scrollTop
+          return {
+            left: _x,
+            top: _y
+          }
+        }
+        infoWrapper.style.overflow = 'hidden'
+        const left = getPosition(currentDom).left - getPosition(infoWrapper).left
+        this.popupWindowStyle = {
+          left: (-left + (infoWrapper.clientWidth - popupWindow.clientWidth) / 2) + 'px',
+          top: -windowHeight + 'px'
+        }
+      }
+    },
+    toggleHide (e) {
+      const currentDom = e.target
+      const popupWindowWrapper = currentDom.querySelector('.popup-window-wrapper')
+      popupWindowWrapper.style.display = 'none'
+    },
+    _adjustPosition (dom) {
+      const { offsetWidth } = document.body
+      const { x, width } = dom.getBoundingClientRect()
+      const distanceToRight = offsetWidth - (x + width)
+      if (distanceToRight < 0) {
+        const { offsetLeft } = dom
+        this.popupWindowStyle = {
+          ...this.popupWindowStyle,
+          left: offsetLeft + distanceToRight + 'px'
+        }
+      }
     }
   }
 }
@@ -153,6 +217,7 @@ export default {
     padding: 0.5rem
     justify-content: center
     .social-items {
+      margin-bottom: 0.2rem;
       &:hover {
         transform scale(1.2)
       }
@@ -166,6 +231,54 @@ export default {
       // &:hover {
       //   transform: scale(1.04)
       // }  
+    }
+  }
+  .popup-window-wrapper {
+    display none
+    .popup-window {
+      position absolute
+      display flex
+      background var(--background-color)
+      box-shadow var(--box-shadow)
+      border-radius $borderRadius
+      box-sizing border-box
+      // padding .8rem 1rem
+      width 12.5rem
+      justify-content center
+      align-items center
+      .info {
+        flex 0 0 85%
+        width 85%
+        text-align center
+        .title {
+          display flex
+          align-items center
+          justify-content space-between
+          height 2.8rem
+          h4 {
+            margin .2rem 0
+            flex 0 0 100%
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight 600;
+          }
+        }
+        .logo {
+          height 9rem
+          flex 0 0 2rem
+          border-radius $borderRadius
+          overflow hidden
+          img {
+            width 9rem
+            height 9rem
+          }
+        }
+        p {
+          font-size .3rem
+          color var(----text-color)
+        }
+      }
     }
   }
 }
