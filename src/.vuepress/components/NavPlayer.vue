@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-09 16:37:05
+ * @LastEditTime: 2022-07-09 17:20:36
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -11,9 +11,10 @@
 
 <template>
   <div class="nav-music" v-if="isPC"
-      :style="linksWrapOffsetWidth ? {
-        'right': linksWrapOffsetWidth + 'px'
-  } : {}">
+    :class="{
+      pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
+    }"
+    :style="linksWrapOffsetWidth ? {'right': linksWrapOffsetWidth + 'px'} : {}">
     <div class="img-box">
       <img class="avatar" :class="{playing: isPlaying}"
       :src="currentMusic? currentMusic.cover : ''"
@@ -38,7 +39,7 @@
         <i class="iconfont rays-bofang05-mianxing" @click="next"></i>
         <i v-if="currentMusic.volume <= 0" class="iconfont rays-shengyin-jinyin" style="margin-left: 1rem"></i>
         <i v-if="currentMusic.volume > 0" class="iconfont rays-shengyin-jian" style="margin-left: 1rem" @click="onVolume('jian')"></i>
-        <span>{{parseInt(currentMusic.volume * 10)}}</span>
+        <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
         <i class="iconfont rays-shengyin-jia" @click="onVolume('jia')"></i>
       </div>
     </div>
@@ -65,6 +66,7 @@ export default {
       isPC: true,
       playlistId: '144719593',
       autoPlay: false,
+      playHistory: false,
       volumeStep: 0.2,
       defaultVolume: 0.4,
       isPlaying: false,
@@ -91,6 +93,10 @@ export default {
       type: Number,
       default: ''
     },
+    isNavFixed: {
+	    type: Boolean,
+	    default: false
+	  }
   },
   watch: {},
   mounted () {
@@ -217,7 +223,8 @@ export default {
               // 显示默认音量
               that.currentMusic.volume = that.$refs.audio.volume
               // 首次加载歌单，是否自动播放取决于用户设置
-              if (type != 'first' || (type == 'first' && that.autoPlay)) setTimeout(() => { that.$refs.audio.play() }, 1500)
+              debugger
+              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 1500)
             }
           }, function(err) {
             console.log(err);
@@ -240,10 +247,12 @@ export default {
       return this.isPlaying ? this.$refs.audio.pause() : this.$refs.audio.play()
     },
     play () {
+      this.playHistory = false
       this.isPlaying = true
     },
     pause () {
-			this.isPlaying = false;
+      this.playHistory = true
+			this.isPlaying = false
 		},
     /**
      * @description: Add by RayShine 切换下一首
@@ -251,6 +260,8 @@ export default {
      * @return {*}
      */    
     next (e) {
+      // 记录上次播放状态
+      this.playHistory = this.isPlaying
       // 暂停音乐
       this.$refs.audio.pause()
       // 获取歌曲
@@ -262,6 +273,8 @@ export default {
      * @return {*}
      */    
     prev (e) {
+      // 记录上次播放状态
+      this.playHistory = this.isPlaying
       // 暂停音乐
       this.$refs.audio.pause()
       // 获取歌曲
@@ -339,7 +352,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+.pagefull {
+  .actions {
+    color $pagefullNavColor
+  } 
+}
 .nav-music {
     margin-top: -0.3rem;
     margin-right: 1.5rem;
@@ -360,7 +378,7 @@ export default {
       font-weight: 600;
       padding-left: 0.3rem;
       .title-name {
-        width: 10rem;
+        width: 8rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -374,12 +392,15 @@ export default {
     }
     .action-bar {
       margin: -0.7rem 0;
+      .volume{
+        font-family: fantasy;
+      }
       .iconfont {
         font-size 1.2rem
         margin 0 .2rem
         transition: all .3s ease-in-sine
         &:hover {
-          transform: scale(1.04)
+          color $accentColor
         }  
       }
     }

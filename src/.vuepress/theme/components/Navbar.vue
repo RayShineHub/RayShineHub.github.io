@@ -28,7 +28,7 @@
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
         <!-- 播放器 -->
-        <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth"></NavPlayer>
+        <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth" :isNavFixed="isFixed"></NavPlayer>
         <!-- 搜索框 -->
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
