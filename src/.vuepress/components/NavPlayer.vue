@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-10 12:03:32
+ * @LastEditTime: 2022-07-10 15:02:26
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -77,11 +77,11 @@ export default {
         currentTime: 0,
         maxTime: 0,
         duration: 0,
-        volume: 0.2,
+        volume: 0.4,
         name: '',
         artist: '',
         url: '',
-        cover: '', // prettier-ignore
+        cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg', // prettier-ignore
         lrc: '',
         sort: 0,
         brList: []
@@ -123,9 +123,7 @@ export default {
         withCredentials: true
         // timeout: 2000
       }).then(function(response) {
-        debugger
         if (response.status === 200 && response.data.code === 200) {
-
           // console.log(response)
           let ids = response.data.playlist.trackIds.filter((trackId) => {
             return trackId.id
@@ -169,6 +167,7 @@ export default {
           });
         }
       }, function(err) {
+        that.currentMusic.artist = '歌单获取失败'
         console.log(err);
       });
     },
@@ -220,7 +219,7 @@ export default {
           // 获取音乐文件
           axios({
             baseURL: that.$themeConfig.back.musicUrl,
-            url:"/song/url?id=" + musicId + '&br=' + 320000,
+            url:"/song/url?id=" + musicId + '&br=' + br,
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200) {
@@ -230,7 +229,7 @@ export default {
               // 显示默认音量
               that.currentMusic.volume = that.$refs.audio.volume
               // 首次加载歌单，是否自动播放取决于用户设置
-              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 1000)
+              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 2000)
             }
           }, function(err) {
             console.log(err);
@@ -239,12 +238,14 @@ export default {
       }, function(err) {
         that.currentMusic.artist = err.response.data.message
         that.currentMusic.url = ''
-        setTimeout(() => { that.next() }, 1000)
+        that.currentMusic.name = ''
+        that.currentMusic.currentTime = ''
+        setTimeout(() => { that.next() }, 2000)
         console.log(err);
       });
     },
     /**
-     * @description: Add by RayShine 播放与暂停切换
+     * @description: Add by RayShine 播放与暂停切换 需要防抖
      * @return {*}
      */    
     onPlay () {
@@ -259,26 +260,22 @@ export default {
 			this.isPlaying = false
 		},
     /**
-     * @description: Add by RayShine 切换下一首
+     * @description: Add by RayShine 切换下一首 需要防抖
      * @param {*} e
      * @return {*}
      */    
     next (e) {
-      // 记录上次播放状态
-      this.playHistory = this.isPlaying
       // 暂停音乐
       this.$refs.audio.pause()
       // 获取歌曲
       this.getCurrentMusic('next')
     },
     /**
-     * @description: Add by RayShine 切换上一首
+     * @description: Add by RayShine 切换上一首 需要防抖
      * @param {*} e
      * @return {*}
      */    
     prev (e) {
-      // 记录上次播放状态
-      this.playHistory = this.isPlaying
       // 暂停音乐
       this.$refs.audio.pause()
       // 获取歌曲
@@ -305,7 +302,7 @@ export default {
       return minute + isM0 + sec
     },
     /**
-     * @description: Add by RayShine 更新当前播放时间
+     * @description: Add by RayShine 更新当前播放时间 需要节流
      * @param {*} res
      * @return {*}
      */    
@@ -319,6 +316,7 @@ export default {
     onLoadedmetadata(e) {
       this.currentMusic.duration = e.target.duration
       this.currentMusic.maxTime = this.transTime(e.target.duration)
+      this.currentMusic.currentTime = this.currentMusic.maxTime
     },
     /**
      * @description: Add by RayShine 播放完自动加载下一首
@@ -329,7 +327,7 @@ export default {
       this.next()
     },
     /**
-     * @description: Add by RayShine 声音控制器
+     * @description: Add by RayShine 声音控制器 需要节流
      * @param {*} e
      * @return {*}
      */    
@@ -337,7 +335,6 @@ export default {
       let currentVolume = parseInt(this.$refs.audio.volume * 10)
       let step = this.volumeStep * 10
       if (e === 'jian') {
-        debugger
         if (currentVolume - step <= 0) {
           this.$refs.audio.volume = 0
         } else {

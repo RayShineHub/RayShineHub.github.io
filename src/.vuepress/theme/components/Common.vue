@@ -153,7 +153,7 @@ export default {
   },
 	async beforeMount () {
 		await Aos.init({
-      offset: -200,
+      offset: -100,
       easing: 'ease-in-sine',
       duration: 50,
       delay: 0,

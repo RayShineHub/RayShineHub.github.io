@@ -31,7 +31,7 @@ sticky: 1
 
 Vuepress相信大家已经很熟悉了，其中SideBar的配置及生成实在是有点儿用不太习惯，于是就着手写一个简单的自动生成左侧侧边栏的脚本，支持`指定文件夹`，`文件名称排序`，`根据文件名称自定义排序规则`。
 <br/>
-当然，如果大家不想手写，也可以参考[VuePress 自动生成侧边栏和导航栏，完美替代 GitBook](https://juejin.cn/post/6844903935027707918)。
+当然，如果大家不想手写，也可以参考[VuePress 自动生成侧边栏和导航栏，完美替代 [GitBook](https://juejin.cn/post/6844903935027707918)。
 <br/>
 同时感谢[贝茵斯都](https://blog.csdn.net/weixin_40532650/article/details/115165153)。
 
@@ -56,7 +56,7 @@ Vuepress相信大家已经很熟悉了，其中SideBar的配置及生成实在�
   ```
 :::
 
-:tada: 不管怎么配置，总是达不到自己想要的效果，而且要想达到效果，需要在 `themeConfig` 中加入太多的代码。:tada:
+:kiss: 不管怎么配置，总是达不到自己想要的效果，而且要想达到效果，需要在 `themeConfig` 中加入太多的代码。:kiss:
 
 ``` js
   // .vuepress/config.js
