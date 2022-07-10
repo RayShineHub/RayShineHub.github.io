@@ -37,10 +37,12 @@
     "vuepress-theme-reco": "1.5.5"
   },
   "dependencies": {
+    "@gerhobbelt/markdown-it-checkbox": "^1.2.0-3",
     "aos": "^3.0.0-beta.6",
     "container": "^0.0.2",
     "express": "^4.17.1",
     "markdown-it-progress": "^2.1.0",
+    "markdown-it-task-lists": "^2.1.1",
     "vue-canvas-effect": "^0.0.12",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "8.4.2",

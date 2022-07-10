@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-09 17:20:36
+ * @LastEditTime: 2022-07-10 12:03:32
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -116,11 +116,14 @@ export default {
     getMusicList(playlistId = '144719593'){
       let that = this
       let sort = 0
-      // 获取音乐文件
+      // 获取音乐文件   https://autumnfish.cn
       axios({
-        url:"https://autumnfish.cn/playlist/detail?id=" + playlistId ,
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: "/playlist/detail?id=" + playlistId,
         withCredentials: true
+        // timeout: 2000
       }).then(function(response) {
+        debugger
         if (response.status === 200 && response.data.code === 200) {
 
           // console.log(response)
@@ -134,7 +137,8 @@ export default {
           // 获取音乐详情   
           // 记录一下获取歌词/lyric?id=  
           axios({
-            url:"https://autumnfish.cn/song/detail?ids=" + ids,
+            baseURL: that.$themeConfig.back.musicUrl,
+            url: "/song/detail?ids=" + ids,
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200 && response.data.code === 200) {
@@ -207,24 +211,26 @@ export default {
       let that = this
       // 检查音乐是否可用
       axios({
-        url:"https://autumnfish.cn/check/music?id=" + musicId + '&br=' + br,
+        baseURL: that.$themeConfig.back.musicUrl,
+        url:"/check/music?id=" + musicId + '&br=' + br,
         withCredentials: true
       }).then(function(response) {
         // 返回 { success: true, message: 'ok' } 或者 { success: false, message: '亲爱的,暂无版权' }
         if (response.status === 200 && response.data.success) {
           // 获取音乐文件
           axios({
-            url:"https://autumnfish.cn/song/url?id=" + musicId + '&br=' + 320000,
+            baseURL: that.$themeConfig.back.musicUrl,
+            url:"/song/url?id=" + musicId + '&br=' + 320000,
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200) {
-              that.currentMusic.url = response.data.data[0].url;
+              // 替换 http 为 https
+              that.currentMusic.url = response.data.data[0].url.match('^http://') ?  response.data.data[0].url.replace("http://","https://") : response.data.data[0].url;
               that.$refs.audio.volume = that.defaultVolume
               // 显示默认音量
               that.currentMusic.volume = that.$refs.audio.volume
               // 首次加载歌单，是否自动播放取决于用户设置
-              debugger
-              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 1500)
+              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 1000)
             }
           }, function(err) {
             console.log(err);
@@ -233,9 +239,7 @@ export default {
       }, function(err) {
         that.currentMusic.artist = err.response.data.message
         that.currentMusic.url = ''
-        setTimeout(() => {
-          that.next()
-        }, 1500)
+        setTimeout(() => { that.next() }, 1000)
         console.log(err);
       });
     },

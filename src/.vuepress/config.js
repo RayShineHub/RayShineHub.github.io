@@ -41,7 +41,14 @@ module.exports = {
     plugins: {
       'markdown-it-progress': {
         render: 'svg'
+      },
+      'markdown-it-task-lists': {
+        label: true, 
+        labelAfter: true
       }
+    },
+    extendMarkdown: md => {
+      md.use(require('markdown-it-task-lists'))
     }
   },
   // 热重载触发文件
@@ -57,6 +64,7 @@ module.exports = {
     mode:"auto",
     //首页样式
     back:{
+      musicUrl: envConfig.musicUrl,
       sourceUrl: sourceUrl,
       isRandom: false,
       bgImage: sourceUrl + '/imgs/others/31.jpg',
