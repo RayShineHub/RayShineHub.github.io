@@ -153,13 +153,13 @@ export default {
   },
 	async beforeMount () {
 		await Aos.init({
-      offset: -100,
+      // offset: 50,
       easing: 'ease-in-sine',
       duration: 50,
       delay: 0,
       mirror: true,
       disable: 'mobile',
-      throttleDelay: 99,
+      throttleDelay: 10,
       useClassNames: false, 
       startEvent: 'DOMContentLoaded',
     })

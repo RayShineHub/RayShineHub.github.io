@@ -5,6 +5,8 @@ const socials = require("./config/socials")
 const mottos = require("./config/mottos")
 const friendLink = require("./config/friendLink")
 const plugins = require('./plugins/index')
+const NavPlayer = require('./config/NavPlayer')
+
 const sourceUrl = envConfig.sourceUrl
 
 // 检测网站是否被收录   site:blog.rayshine.site web9158
@@ -60,6 +62,8 @@ module.exports = {
 	},
   // permalink: "/:year/:month/:day/:slug",
   themeConfig: {
+    // 音乐播放器配置
+    NavPlayer,
     // 主题颜色
     mode:"auto",
     //首页样式

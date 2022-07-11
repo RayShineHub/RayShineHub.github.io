@@ -19,7 +19,7 @@
   <div v-else
     class="abstract-item"
     @click="$router.push(item.path)"
-		data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0"
+		data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0" data-aos-offset="-250"
     >
     <div 
     :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ coverRandom(true) +') center/cover no-repeat'}"

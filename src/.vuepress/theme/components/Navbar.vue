@@ -28,7 +28,7 @@
         :style="{
           'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
         <!-- 播放器 -->
-        <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth" :isNavFixed="isFixed"></NavPlayer>
+        <!-- <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth" :isNavFixed="isFixed"></NavPlayer> -->
         <!-- 搜索框 -->
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
@@ -90,7 +90,7 @@ export default {
       } else {
         that.linksWrapMaxWidth = that.$el.offsetWidth - NAVBAR_VERTICAL_PADDING -
           (that.$refs.siteName && that.$refs.siteName.offsetWidth || 0)
-        that.linksWrapOffsetWidth = that.$refs.links.offsetWidth || 0
+        that.linksWrapOffsetWidth = (that.$refs.links && that.$refs.links.offsetWidth) || 0
       }
     }
     handleLinksWrapWidth()
@@ -113,13 +113,10 @@ export default {
   methods: {
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
-			// this.$frontmatter['isFixed'] = window.pageYOffset > 44
       this.throttle(this.handleVisible(), 1000)
     },
     handleVisible () {
       this.isVisible = window.pageYOffset < this.pageYOffset && window.pageYOffset > 0
-			// debugger
-			// this.$frontmatter['isFixed'] = window.pageYOffset < 44
       this.pageYOffset = window.pageYOffset
     },
     /**

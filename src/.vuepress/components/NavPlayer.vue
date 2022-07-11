@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-10 15:02:26
+ * @LastEditTime: 2022-07-11 15:16:09
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -12,7 +12,9 @@
 <template>
   <div class="nav-music" v-if="isPC"
     :class="{
-      pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
+      pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed,
+      fixed: isFixed,
+      visible: isVisible
     }"
     :style="linksWrapOffsetWidth ? {'right': linksWrapOffsetWidth + 'px'} : {}">
     <div class="img-box">
@@ -22,9 +24,11 @@
     </div>
     <div class="actions">
       <div class="title">
-        <span style="margin-right: 0.1rem">
-          {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
-        </span>
+        <div class="time" v-if="currentMusic.currentTime != 0">
+          <span style="margin-right: 0.1rem">
+            {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
+          </span>
+        </div>
         <div class="title-name">
           <span>
             {{currentMusic.artist || ''}} {{currentMusic.name? ' - ':''}}  {{  currentMusic.name || ''}}  
@@ -64,20 +68,15 @@ export default {
     let that = this
     return {
       isPC: true,
-      playlistId: '144719593',
-      autoPlay: false,
       playHistory: false,
-      volumeStep: 0.2,
-      defaultVolume: 0.4,
       isPlaying: false,
-      playType: 'random',   // single单一,   list列表, random随机
       musicList: [],
       currentMusic: {
         musicId: '',
         currentTime: 0,
         maxTime: 0,
         duration: 0,
-        volume: 0.4,
+        volume: 0.2,
         name: '',
         artist: '',
         url: '',
@@ -85,29 +84,93 @@ export default {
         lrc: '',
         sort: 0,
         brList: []
-      }
+      },
+      linksWrapOffsetWidth: null,
+      linksWrapMaxWidth: null,
+      fixedHeight: 0,
+      pageYOffset: 44,
+      isFixed: false,
+      isVisible: false
     }
   },
-  props: {
-    linksWrapOffsetWidth: {
-      type: Number,
-      default: ''
+  computed: {
+    playlistId () {
+      return this.$themeConfig.NavPlayer.playlistId || ''
     },
-    isNavFixed: {
-	    type: Boolean,
-	    default: false
-	  }
+    autoPlay () {
+      return this.$themeConfig.NavPlayer.autoPlay || false
+    },
+    volumeStep () {
+      return this.$themeConfig.NavPlayer.volumeStep || 0.2
+    },
+    defaultVolume () {
+      return this.$themeConfig.NavPlayer.defaultVolume || 0.2
+    },
+    playType () {
+      // singleLoop单曲循环, listLoop列表循环, listNext列表顺序, random随机
+      return this.$themeConfig.NavPlayer.playType || 'random'
+    }
   },
   watch: {},
   mounted () {
+    
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
     } else {
       this.isPC = true
       this.getMusicList(this.playlistId)
     }
+
+    const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
+    let that = this
+    const handleLinksWrapWidth = () => {
+      if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
+        that.linksWrapMaxWidth = null
+      } else {
+        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || 0
+      }
+    }
+    handleLinksWrapWidth()
+    window.addEventListener('resize', handleLinksWrapWidth, false)
+    window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
   },
   methods:  {
+    handleScroll () {
+      this.isFixed = window.pageYOffset > this.fixedHeight
+      this.throttle(this.handleVisible(), 1000)
+    },
+    handleVisible () {
+      this.isVisible = window.pageYOffset < this.pageYOffset && window.pageYOffset > 0
+      this.pageYOffset = window.pageYOffset
+    },
+    /**
+     * @description: Add by RayShine 节流
+     * @param {Fn} func
+     * @param {int} delay
+     * @return {*}
+     */    
+    throttle (func, delay = 200) {
+      let timer = null
+      let startTime = Date.now()
+
+      return function () {
+        const curTime = Date.now()
+        const remaining = delay - (curTime - startTime)
+        const context = this
+        const args = arguments
+
+        clearTimeout(timer)
+        if (remaining <= 0) {
+          func.apply(context, args)
+          startTime = Date.now()
+        } else {
+          timer = setTimeout(func, remaining)
+        }
+      }
+    },
     /**
      * @description: Add by RayShine 获取歌单列表
      * @param {*} playlistId
@@ -163,11 +226,14 @@ export default {
               // console.log('currentMusic ->', that.currentMusic)
             }
           }, function(err) {
+            that.currentMusic.artist = err.response.data.message
+            that.currentMusic.currentTime = 0
             console.log(err);
           });
         }
       }, function(err) {
         that.currentMusic.artist = '歌单获取失败'
+        that.currentMusic.currentTime = 0
         console.log(err);
       });
     },
@@ -208,6 +274,7 @@ export default {
      */    
     getMusic(musicId = '1868943615', br = 128000, type) {
       let that = this
+      if (musicId === '') return
       // 检查音乐是否可用
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
@@ -239,7 +306,7 @@ export default {
         that.currentMusic.artist = err.response.data.message
         that.currentMusic.url = ''
         that.currentMusic.name = ''
-        that.currentMusic.currentTime = ''
+        that.currentMusic.currentTime = 0
         setTimeout(() => { that.next() }, 2000)
         console.log(err);
       });
@@ -359,11 +426,45 @@ export default {
     color $pagefullNavColor
   } 
 }
+.fixed {
+  position fixed
+  top -3.3rem !important
+  z-index 20
+  padding: 0.7rem 1.5rem
+  color var(--text-color)
+  transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out
+}
+.visible {
+  transition all 0.5s
+  transform translate3d(0, 100%, 0)
+}
 .nav-music {
-    margin-top: -0.3rem;
-    margin-right: 1.5rem;
-    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
-    font-size: 1.2rem;
+  z-index 21
+  position fixed
+  top 0.1rem
+  right 45rem 
+  display inline-block
+  padding-right 1.5rem
+  box-sizing border-box
+  white-space nowrap
+  // position absolute
+  right $navbar-horizontal-padding
+  top $navbar-vertical-padding
+  display flex
+  // background-color var(--background-color)
+  margin-top -0.3rem
+  margin-right 1.5rem
+  padding 0.1rem 0.5rem 0.1rem 0.5rem
+  font-size 1.1rem
+  .avatar {
+    height $navbarHeight - 1rem
+    min-width $navbarHeight - 1rem
+    margin-top 0.5rem
+    margin-right 0.3rem
+    vertical-align top
+    border-radius 50%
+    box-shadow 0 1px 8px 1px var(--text-color)
+  }
   .img-box {
     display: flex;
     align-items: center;
@@ -374,10 +475,14 @@ export default {
   }
   .actions{
     .title {
-      margin: -0.5rem 0;
+      margin: 0.5rem 0;
       font-size: .8rem;
       font-weight: 600;
       padding-left: 0.3rem;
+      .time {
+        width: 2rem
+        display: inline-block
+      }
       .title-name {
         width: 8rem;
         overflow: hidden;
@@ -392,13 +497,13 @@ export default {
       }
     }
     .action-bar {
-      margin: -0.7rem 0;
+      margin: -0.3rem 0 0 0;
       .volume{
         font-family: fantasy;
       }
       .iconfont {
-        font-size 1.2rem
-        margin 0 .2rem
+        font-size 1.3rem
+        // margin 0 .2rem
         transition: all .3s ease-in-sine
         &:hover {
           color $accentColor
