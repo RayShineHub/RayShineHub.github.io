@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-12 15:36:13
+ * @LastEditTime: 2022-07-13 22:32:40
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -120,25 +120,25 @@ export default {
       this.isPC = true
       this.getMusicList(this.playlistId)
     }
-
-    const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
-    let that = this
-    const handleLinksWrapWidth = () => {
-      if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
-        that.linksWrapMaxWidth = null
-      } else {
-        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || null
-      }
-    }
-    setTimeout(() => { handleLinksWrapWidth() }, 2000)
-    // handleLinksWrapWidth()
-    window.addEventListener('resize', handleLinksWrapWidth, false)
+    this.handleLinksWrapWidth()
+    window.addEventListener('resize', this.handleLinksWrapWidth, false)
     window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
   },
   methods:  {
+    handleLinksWrapWidth() {
+      const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
+      let that = this
+      debugger
+      if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
+        that.linksWrapMaxWidth = null
+      } else {
+        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || null
+      }
+      if (that.linksWrapOffsetWidth == null) setTimeout(() => { this.handleLinksWrapWidth() }, 1000)
+    },
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
       this.throttle(this.handleVisible(), 1000)
