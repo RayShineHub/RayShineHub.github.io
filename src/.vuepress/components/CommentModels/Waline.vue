@@ -23,7 +23,7 @@ export default {
     initWaline () {
       const walineOptions = {
         el: '#waline',
-        path: '/' + this.$page.relativePath.replace(/\.md$/g, '.html'),
+        path: this.$page.path != '/' ? '/' + this.$page.relativePath.replace(/\.md$/g, '.html') : this.$page.path,
         dark: 'html.dark',
         ...this.options
       }
