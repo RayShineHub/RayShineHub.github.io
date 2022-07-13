@@ -1,49 +1,37 @@
 <template>
   <!-- 公共布局 -->
-  <Common class="tag-wrapper" :sidebar="false" :style="$themeConfig.fullscreen? {
-        'max-width': '2080px',
-        'margin': '0 auto',
-        'padding': '0'
-      } : {}">
-       <div v-if='$themeConfig.fullscreen' 
-       :class="$themeConfig.fullscreen?'tsfullPic':''"
-      :style="$themeConfig.fullscreen? {
-        'background': 'url(' + this.timestamp($themeConfig.categoryPic?$themeConfig.categoryPic:coverRandom(true)) +')'
-      } : {}" >
-      </div>
-         <div :style="$themeConfig.fullscreen? {
-        'max-width': '860px',
-        'margin': '0 auto',
-        'padding': '4.6rem 2.5rem 0'
-      } : {}">
-    <!-- 标签集合 -->
-    <ModuleTransition>
-      <TagList
-        v-show="recoShowModule"
-        class="tags"
-        :currentTag="$currentTags.key"
-        @getCurrentTag="tagClick"></TagList>
-    </ModuleTransition>
+  <Common class="tag-wrapper" :sidebar="false" :style="$themeConfig.fullscreen ? {
+    'max-width': '2080px',
+    'margin': '0 auto',
+    'padding': '0'
+  } : {}">
+    <div v-if='$themeConfig.fullscreen' :class="$themeConfig.fullscreen ? 'tsfullPic' : ''" :style="$themeConfig.fullscreen ? {
+      'background': 'url(' + this.timestamp($themeConfig.categoryPic ? $themeConfig.categoryPic : coverRandom(true)) + ')'
+    } : {}">
+    </div>
+    <div :style="$themeConfig.fullscreen ? {
+      'max-width': '860px',
+      'margin': '0 auto',
+      'padding': '4.6rem 2.5rem 0'
+    } : {}">
+      <!-- 标签集合 -->
+      <ModuleTransition>
+        <TagList v-show="recoShowModule" class="tags" :currentTag="$currentTags.key" @getCurrentTag="tagClick">
+        </TagList>
+      </ModuleTransition>
 
-    <!-- 博客列表 -->
-    <ModuleTransition delay="0.08">
-      <note-abstract
-        v-show="recoShowModule"
-        class="list"
-        :data="posts"
-        :currentPage="currentPage"
-        @currentTag="$currentTags.key"></note-abstract>
-    </ModuleTransition>
+      <!-- 博客列表 -->
+      <ModuleTransition delay="0.08">
+        <note-abstract v-show="recoShowModule" class="list" :data="posts" :currentPage="currentPage"
+          @currentTag="$currentTags.key"></note-abstract>
+      </ModuleTransition>
 
-    <!-- 分页 -->
-    <ModuleTransition delay="0.16">
-      <pagation
-        class="pagation"
-        :total="posts.length"
-        :currentPage="currentPage"
-        @getCurrentPage="getCurrentPage"></pagation>
-    </ModuleTransition>
-         </div>
+      <!-- 分页 -->
+      <ModuleTransition delay="0.16">
+        <pagation class="pagation" :total="posts.length" :currentPage="currentPage" @getCurrentPage="getCurrentPage">
+        </pagation>
+      </ModuleTransition>
+    </div>
   </Common>
 </template>
 
@@ -60,7 +48,7 @@ export default {
   mixins: [pagination, moduleTransitonMixin],
   components: { Common, NoteAbstract, TagList, ModuleTransition },
 
-  data () {
+  data() {
     return {
       currentPage: 1,
       currentTag: '全部'
@@ -69,7 +57,7 @@ export default {
 
   computed: {
     // 时间降序后的博客列表
-    posts () {
+    posts() {
       let posts = this.$currentTags.pages
       posts = filterPosts(posts)
       sortPostsByStickyAndDate(posts)
@@ -77,13 +65,13 @@ export default {
     }
   },
 
-  mounted () {
+  mounted() {
     this._setPage(this._getStoragePage())
   },
 
   methods: {
     //新连接
-    timestamp(url){
+    timestamp(url) {
       // var getTimestamp=new Date().getTime();
       // if(url.indexOf("?")>-1){
       //   url=url+"&timestamp="+getTimestamp
@@ -93,22 +81,22 @@ export default {
       return url
     },
     // 获取当前tag
-    getCurrentTag (tag) {
+    getCurrentTag(tag) {
       this.$emit('currentTag', tag)
     },
-    tagClick (tagInfo) {
+    tagClick(tagInfo) {
       if (this.$route.path !== tagInfo.path) {
         this.$router.push({ path: tagInfo.path })
       }
     },
     // 获取当前页码
-    getCurrentPage (page) {
+    getCurrentPage(page) {
       this._setPage(page)
       setTimeout(() => {
         window.scrollTo(0, 0)
       }, 100)
     },
-    _setPage (page) {
+    _setPage(page) {
       this.currentPage = page
       this.$page.currentPage = page
       this._setStoragePage(page)
@@ -116,7 +104,7 @@ export default {
   },
 
   watch: {
-    $route () {
+    $route() {
       this._setPage(this._getStoragePage())
     }
   }

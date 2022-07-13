@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-11 15:16:09
+ * @LastEditTime: 2022-07-12 15:36:13
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -10,7 +10,7 @@
 -->
 
 <template>
-  <div class="nav-music" v-if="isPC"
+  <div class="nav-music" v-if="isPC && linksWrapOffsetWidth != null"
     :class="{
       pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed,
       fixed: isFixed,
@@ -127,10 +127,11 @@ export default {
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         that.linksWrapMaxWidth = null
       } else {
-        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || 0
+        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || null
       }
     }
-    handleLinksWrapWidth()
+    setTimeout(() => { handleLinksWrapWidth() }, 2000)
+    // handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
     window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
   },

@@ -1,43 +1,38 @@
 <template>
-  <main class="page" :class="this.isFull?'noright':''" :style="pageStyle">
+  <main class="page" :class="{ noright: isFull }" :style="pageStyle">
     <ModuleTransition>
-      <div v-show="recoShowModule && $page.title" class="page-title" :class="this.isFull?'fullPic':''" 
-      :style="(!$themeConfig.fullscreen ?{'margin-top':'2.2rem !important'}:{}),this.isFull?{'background':'url('+ this.cover +')'}:{}"
-      > 
-        <div v-if="this.isFull">
-        <h1 style="color: #fff"><center>{{$page.title}}</center></h1>
-        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="true" :showCopyright="true"></PageInfo>
+      <div v-show="recoShowModule && $page.title" class="page-title" :class="{ fullPic: isFull }" :style="
+        (!$themeConfig.fullscreen
+          ? { 'margin-top': '2.2rem !important' }
+          : {},
+          isFull ? { background: 'url(' + cover + ')' } : {})
+      ">
+        <div>
+          <h1 v-if="isFull" style="color: #fff">
+            <center>{{ $page.title }}</center>
+          </h1>
+          <h1 v-else>{{ $page.title }}</h1>
+          <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="isFull" :showCopyright="true">
+          </PageInfo>
         </div>
-        <div v-else>
-        <h1>{{$page.title}}</h1>
-        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :showCopyright="true"></PageInfo>
-        </div>
-        <!-- <component v-if="this.isFull && bubbles" :is="bubbles" style="height: 100%;width: 100%"></component> -->
       </div>
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
-      <Content v-show="recoShowModule" class="theme-reco-content" :style="this.isFull ?{'padding-top':'4rem !important'}:{}"/>
+      <Content v-show="recoShowModule" class="theme-reco-content"
+        :style="isFull ? { 'padding-top': '4rem !important' } : {}" />
     </ModuleTransition>
 
     <ModuleTransition delay="0.16">
       <footer v-show="recoShowModule" class="page-edit">
-        <div
-          class="edit-link"
-          v-if="editLink"
-        >
-          <a
-            :href="editLink"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ editLinkText }}</a>
-          <OutboundLink/>
+        <div class="edit-link" v-if="editLink">
+          <a :href="editLink" target="_blank" rel="noopener noreferrer">{{
+              editLinkText
+          }}</a>
+          <OutboundLink />
         </div>
 
-        <div
-          class="last-updated"
-          v-if="lastUpdated"
-        >
+        <div class="last-updated" v-if="lastUpdated">
           <span class="prefix">{{ lastUpdatedText }}: </span>
           <span class="time">{{ lastUpdated }}</span>
         </div>
@@ -47,28 +42,15 @@
     <ModuleTransition delay="0.24">
       <div class="page-nav" v-if="recoShowModule && (prev || next)">
         <p class="inner">
-          <span
-            v-if="prev"
-            class="prev"
-          >
+          <span v-if="prev" class="prev">
             ←
-            <router-link
-              v-if="prev"
-              class="prev"
-              :to="prev.path"
-            >
+            <router-link v-if="prev" class="prev" :to="prev.path">
               {{ prev.title || prev.path }}
             </router-link>
           </span>
 
-          <span
-            v-if="next"
-            class="next"
-          >
-            <router-link
-              v-if="next"
-              :to="next.path"
-            >
+          <span v-if="next" class="next">
+            <router-link v-if="next" :to="next.path">
               {{ next.title || next.path }}
             </router-link>
             →
@@ -78,206 +60,213 @@
     </ModuleTransition>
 
     <ModuleTransition delay="0.32">
-      <Comments v-if="recoShowModule" :isShowComments="shouldShowComments"/>
+      <CusComments v-if="recoShowModule" :isShowComments="shouldShowComments" />
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
-      <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="this.isFull?{'display':'none'}:{}"/>
+      <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}" />
     </ModuleTransition>
 
     <ModuleTransition delay="0.08">
-      <SubSidebar v-if="recoShowModule" class="side-bar" :style="this.isFull?{'display':'none'}:{}"/>
+      <SubSidebar v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}" />
     </ModuleTransition>
   </main>
 </template>
 
 <script>
-import PageInfo from '@theme/components/PageInfo'
-import { resolvePage, outboundRE, endingSlashRE } from '@theme/helpers/utils'
-import ModuleTransition from '@theme/components/ModuleTransition'
-import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
-import SubSidebar from '@theme/components/SubSidebar'
-import SubSidebarTip from '@theme/components/SubSidebarTip'
+import PageInfo from "@theme/components/PageInfo";
+import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
+import ModuleTransition from "@theme/components/ModuleTransition";
+import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
+import SubSidebar from "@theme/components/SubSidebar";
+import SubSidebarTip from "@theme/components/SubSidebarTip";
 
 export default {
   mixins: [moduleTransitonMixin],
   components: { PageInfo, ModuleTransition, SubSidebar, SubSidebarTip },
 
-  props: ['sidebarItems'],
+  props: ["sidebarItems"],
 
-  data () {
+  data() {
     return {
       isHasKey: true,
       isFull: false,
-      bubbles: null
-    }
+      bubbles: null,
+    };
   },
   mounted() {
-    //引入泡泡组件
-    import('vue-canvas-effect/src/components/bubbles').then(module => { 
-      this.bubbles = module.default
-    })
     const { isFull } = this.$frontmatter;
     this.isFull = isFull;
   },
   computed: {
-    cover () {
-      return this.coverRandom(true)
+    cover() {
+      return this.coverRandom(true);
     },
     // 是否显示评论
-    shouldShowComments () {
-      const { isShowComments } = this.$frontmatter
-      const { showComment } = this.$themeConfig.valineConfig || { showComment: true }
-      return (showComment !== false && isShowComments !== false) || (showComment === false && isShowComments === true)
+    shouldShowComments() {
+      const { isShowComments } = this.$frontmatter;
+      const { showComment } = this.$themeConfig.valineConfig || {
+        showComment: true,
+      };
+      return (
+        (showComment !== false && isShowComments !== false) ||
+        (showComment === false && isShowComments === true)
+      );
     },
-    showAccessNumber () {
+    showAccessNumber() {
       const {
-        $themeConfig: { valineConfig },
-        $themeLocaleConfig: { valineConfig: valineLocalConfig }
-      } = this
+        $themeConfig: { valineConfig, walineConfig },
+        $themeLocaleConfig: { valineConfig: valineLocalConfig },
+      } = this;
 
-      const vc = valineLocalConfig || valineConfig
+      const vc = valineLocalConfig || valineConfig || walineConfig;
       if (vc && vc.visitor != false) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
-    lastUpdated () {
-      return this.$page.lastUpdated
+    lastUpdated() {
+      return this.$page.lastUpdated;
     },
-    lastUpdatedText () {
-      if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
-        return this.$themeLocaleConfig.lastUpdated
+    lastUpdatedText() {
+      if (typeof this.$themeLocaleConfig.lastUpdated === "string") {
+        return this.$themeLocaleConfig.lastUpdated;
       }
-      if (typeof this.$themeConfig.lastUpdated === 'string') {
-        return this.$themeConfig.lastUpdated
+      if (typeof this.$themeConfig.lastUpdated === "string") {
+        return this.$themeConfig.lastUpdated;
       }
-      return 'Last Updated'
+      return "Last Updated";
     },
-    prev () {
-      const prev = this.$frontmatter.prev
+    prev() {
+      const prev = this.$frontmatter.prev;
       if (prev === false) {
-        return
+        return;
       } else if (prev) {
-        return resolvePage(this.$site.pages, prev, this.$route.path)
+        return resolvePage(this.$site.pages, prev, this.$route.path);
       } else {
-        return resolvePrev(this.$page, this.sidebarItems)
+        return resolvePrev(this.$page, this.sidebarItems);
       }
     },
-    next () {
-      const next = this.$frontmatter.next
+    next() {
+      const next = this.$frontmatter.next;
       if (next === false) {
-        return
+        return;
       } else if (next) {
-        return resolvePage(this.$site.pages, next, this.$route.path)
+        return resolvePage(this.$site.pages, next, this.$route.path);
       } else {
-        return resolveNext(this.$page, this.sidebarItems)
+        return resolveNext(this.$page, this.sidebarItems);
       }
     },
-    editLink () {
+    editLink() {
       if (this.$frontmatter.editLink === false) {
-        return false
+        return false;
       }
       const {
         repo,
         editLinks,
-        docsDir = '',
-        docsBranch = 'master',
-        docsRepo = repo
-      } = this.$themeConfig
+        docsDir = "",
+        docsBranch = "master",
+        docsRepo = repo,
+      } = this.$themeConfig;
 
       if (docsRepo && editLinks && this.$page.relativePath) {
-        return this.createEditLink(repo, docsRepo, docsDir, docsBranch, this.$page.relativePath)
+        return this.createEditLink(
+          repo,
+          docsRepo,
+          docsDir,
+          docsBranch,
+          this.$page.relativePath
+        );
       }
-      return ''
+      return "";
     },
-    editLinkText () {
+    editLinkText() {
       return (
-        this.$themeLocaleConfig.editLinkText || this.$themeConfig.editLinkText || `Edit this page`
-      )
+        this.$themeLocaleConfig.editLinkText ||
+        this.$themeConfig.editLinkText ||
+        `Edit this page`
+      );
     },
-    pageStyle () {
-      const headers = this.$page.headers || []
-      return headers.length > 0 ? {} : { paddingRight: '0' }
-    }
+    pageStyle() {
+      const headers = this.$page.headers || [];
+      return headers.length > 0 ? {} : { paddingRight: "0" };
+    },
   },
 
   methods: {
     //新连接
-    timestamp(url){
-      var getTimestamp=new Date().getTime();
-      if(url.indexOf("?")>-1){
-        url=url+"&timestamp="+getTimestamp
-      }else{
-        url=url+"?timestamp="+getTimestamp
+    timestamp(url) {
+      var getTimestamp = new Date().getTime();
+      if (url.indexOf("?") > -1) {
+        url = url + "&timestamp=" + getTimestamp;
+      } else {
+        url = url + "?timestamp=" + getTimestamp;
       }
-      return url
+      return url;
     },
-    createEditLink (repo, docsRepo, docsDir, docsBranch, path) {
-      const bitbucket = /bitbucket.org/
+    createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
+      const bitbucket = /bitbucket.org/;
       if (bitbucket.test(repo)) {
-        const base = outboundRE.test(docsRepo)
-          ? docsRepo
-          : repo
+        const base = outboundRE.test(docsRepo) ? docsRepo : repo;
         return (
-          base.replace(endingSlashRE, '') +
-           `/src` +
-           `/${docsBranch}/` +
-           (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-           path +
-           `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
-        )
+          base.replace(endingSlashRE, "") +
+          `/src` +
+          `/${docsBranch}/` +
+          (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
+          path +
+          `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
+        );
       }
 
       const base = outboundRE.test(docsRepo)
         ? docsRepo
-        : `https://github.com/${docsRepo}`
+        : `https://github.com/${docsRepo}`;
       return (
-        base.replace(endingSlashRE, '') +
+        base.replace(endingSlashRE, "") +
         `/edit` +
         `/${docsBranch}/` +
-        (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
+        (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
         path
-      )
-    }
-  }
+      );
+    },
+  },
+};
+
+function resolvePrev(page, items) {
+  return find(page, items, -1);
 }
 
-function resolvePrev (page, items) {
-  return find(page, items, -1)
+function resolveNext(page, items) {
+  return find(page, items, 1);
 }
 
-function resolveNext (page, items) {
-  return find(page, items, 1)
-}
-
-function find (page, items, offset) {
-  const res = []
-  flatten(items, res)
+function find(page, items, offset) {
+  const res = [];
+  flatten(items, res);
   for (let i = 0; i < res.length; i++) {
-    const cur = res[i]
-    if (cur.type === 'page' && cur.path === decodeURIComponent(page.path)) {
-      return res[i + offset]
+    const cur = res[i];
+    if (cur.type === "page" && cur.path === decodeURIComponent(page.path)) {
+      return res[i + offset];
     }
   }
 }
 
-function flatten (items, res) {
+function flatten(items, res) {
   for (let i = 0, l = items.length; i < l; i++) {
-    if (items[i].type === 'group') {
-      flatten(items[i].children || [], res)
+    if (items[i].type === "group") {
+      flatten(items[i].children || [], res);
     } else {
-      res.push(items[i])
+      res.push(items[i]);
     }
   }
 }
-
 </script>
 <style>
 .noright {
   padding-right: 0 !important;
   margin-top: -3.6rem;
 }
+
 .fullPic {
   margin-top: -5rem !important;
   max-width: 2080px !important;
@@ -366,5 +355,4 @@ function flatten (items, res) {
         font-size .8em
         float none
         text-align left
-
 </style>

@@ -19,13 +19,13 @@
     </span>
     <span v-show="showAccessNumber">
       <i class="iconfont reco-eye"></i>
-      <AccessNumber idVal="/" />
+      <CusAccessNumber idVal="/" />
     </span>
     <p class="cyber-security" v-if="$themeConfig.cyberSecurityRecord">
       <img src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png" alt="">
       <a :href="$themeConfig.cyberSecurityLink || '#'">{{ $themeConfig.cyberSecurityRecord }}</a>
     </p>
-    <Comments :isShowComments="false"/>
+    <CusComments :isShowComments="false"/>
   </div>
 </template>
 
@@ -40,11 +40,11 @@ export default {
   computed: {
     showAccessNumber () {
       const {
-        $themeConfig: { valineConfig },
+        $themeConfig: { valineConfig, walineConfig },
         $themeLocaleConfig: { valineConfig: valineLocalConfig }
       } = this
 
-      const vc = valineLocalConfig || valineConfig
+      const vc = valineLocalConfig || valineConfig || walineConfig
       if (vc && vc.visitor != false) {
         return true
       }

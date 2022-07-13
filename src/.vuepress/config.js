@@ -9,12 +9,12 @@ const NavPlayer = require('./config/NavPlayer')
 
 const sourceUrl = envConfig.sourceUrl
 
-// 检测网站是否被收录   site:blog.rayshine.site web9158
+// 检测网站是否被收录   site:blog.rayshine.site
 
 module.exports = {
   base: "/",
   title: "一ξひβθ光 i",
-  description: '当才华不足以支持也行的时候，你就应该努力了！',
+  description: '当才华不足以支持野心的时候，你就应该努力了！',
 	dest: 'dist',
   head: [
 		["meta", {name: "viewport",content: "width=device-width,initial-scale=1,user-scalable=no"}],
@@ -26,6 +26,9 @@ module.exports = {
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/noConsole.js"}],
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/fairyDustCursor.js"}],
 		["script", { src: "https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js" }],
+    ["link", { rel: "preconnect", href: "https://5KJPBBG282-dsn.algolia.net", crossorigin: true }],
+    ["script", {"language": "javascript","type": "text/javascript","src": "https://unpkg.com/@waline/client@v2/dist/waline.js"}],
+    ["link", { rel: "stylesheet", href: "https://unpkg.com/@waline/client@v2/dist/waline.css", crossorigin: true }],
 		//友盟+统计
 		// ["script", { src: "https://s9.cnzz.com/z_stat.php?id=1280664116&web_id=1280664116" }],
 		// ['script', {}, `
@@ -136,25 +139,25 @@ module.exports = {
         text: "标签" // 默认 “标签”Tag
       },
     },
-    valineConfig: {
-			appId: 'C1QftJERODGumPjT0jYf4lU1-gzGzoHsz',// your appId
-			appKey: 'ArQ4h9IPpKU31g1XkDRgmX0n', // your appKey
-			placeholder: '请务必填写联系方式，方便及时回复！',
-			pageSize: 20,
-			enableQQ: true,
-			recordIP:true,
-			visitor:true
-    },
-
-    // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
-    // algolia: {
-    //   apiKey: '2e7303515a032dfb8c91084fec9c4b66',
-    //   indexName: 'RayShineBlog',
-    //   // 如果 Algolia 没有为你提供 `appId` ，使用 `BH4D9OD16A` 或者移除该配置项
-    //   appId: '4L0A7VRWY5',
+    // 评论设置
+    commentsSolution: 'waline',
+    // valineConfig: {
+		// 	appId: 'C1QftJERODGumPjT0jYf4lU1-gzGzoHsz',// your appId
+		// 	appKey: 'ArQ4h9IPpKU31g1XkDRgmX0n', // your appKey
+		// 	placeholder: '请务必填写联系方式，方便及时回复！',
+		// 	pageSize: 20,
+		// 	enableQQ: true,
+		// 	recordIP:true,
+		// 	visitor:true
     // },
-
-
+    walineConfig: {
+      comment: true, // 评论数统计
+      pageview: true, // 浏览量统计
+      serverURL: 'https://waline.rayshine.site/',
+      lang: 'zh-CN',
+      pageSize: 5,
+      imageUploader: false
+    },
     // 导航栏
     nav,
     // 自定义左侧侧边栏
@@ -165,6 +168,8 @@ module.exports = {
     // 搜索设置
     search: true,
     searchMaxSuggestions: 10,
+    // // 第三方搜索工具  支持全文搜索且免费，内置的搜索只能搜索一级二级标题
+    algolia: envConfig.algolia,
     // 最后更新时间
     lastUpdated: "上次更新",
     // 作者

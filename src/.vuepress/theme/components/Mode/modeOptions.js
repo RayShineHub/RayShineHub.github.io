@@ -38,7 +38,37 @@ const modeOptions = {
     '--border-color': '#eaecef',
     '--code-color': 'rgba(27, 31, 35, 0.05)',
     '--mask-color': '#888',
-    '--border-top': '1px solid rgba(255, 255, 255, 0.5)'
+    '--border-top': '1px solid rgba(255, 255, 255, 0.5)',
+    // docsearch
+    '--docsearch-primary-color': 'var(--text-color-sub)',
+    '--docsearch-text-color': 'var(--text-color)',
+    '--docsearch-spacing': '12px',
+    '--docsearch-icon-stroke-width': '1.4',
+    '--docsearch-highlight-color': 'var(--docsearch-primary-color)',
+    '--docsearch-muted-color': 'rgb(150, 159, 175)',
+    '--docsearch-container-background': 'rgba(101, 108, 133, 0.8)',
+    '--docsearch-logo-color': 'var(--text-color-sub)',
+    '--docsearch-searchbox-background': 'none',
+    '--docsearch-key-gradient': 'linear-gradient(-225deg,var(--default-color-1),var(--default-color-10))',
+    '--docsearch-modal-background': 'var(--nav-background-color)',
+    '--docsearch-modal-shadow': 'var(--box-shadow)',
+    '--docsearch-hit-background': 'var(--nav-background-color)',
+    '--docsearch-hit-shadow': 'var(--box-shadow)',
+    '--docsearch-footer-background':'var(--nav-background-color)',
+    '--docsearch-searchbox-focus-background': 'var(--default-color-8)',
+    '--docsearch-hit-color': 'var(--text-color)',
+    '--docsearch-key-shadow': 'var(--box-shadow)',
+    '--docsearch-footer-shadow': 'var(--box-shadow)',
+
+    // waline
+    '--waline-bgcolor': 'var(--background-color)',
+    '--waline-bgcolor-light': 'none',
+    '--waline-border': '1px solid var(--text-color-sub)',
+    '--waline-info-bgcolor' : 'none',
+    '--waline-color': 'var(--text-color-sub)',
+    '--waline-bgcolor-hover': 'var(--text-color-sub)',
+    '--waline-info-color': 'var(--text-color-sub)'
+
   },
   dark: {
     // '--default-color-10': 'rgba(0, 0, 0, 1)',
@@ -79,7 +109,36 @@ const modeOptions = {
     '--border-color': 'rgba(0, 0, 0, .3)',
     '--code-color': 'rgba(0, 0, 0, .3)',
     '--mask-color': '#000',
-    '--border-top': '1px solid rgba(255, 255, 255, 0.07)'
+    '--border-top': '1px solid rgba(255, 255, 255, 0.07)',
+    // docsearch
+    '--docsearch-primary-color': 'var(--text-color-sub)',
+    '--docsearch-text-color': 'var(--text-color)',
+    '--docsearch-spacing': '12px',
+    '--docsearch-icon-stroke-width': '1.4',
+    '--docsearch-highlight-color': 'var(--docsearch-primary-color)',
+    '--docsearch-muted-color': 'rgba(255, 244, 192, .2)',
+    '--docsearch-container-background': 'rgba(32, 42, 64, .7)',
+    '--docsearch-logo-color': 'var(--text-color-sub)',
+    '--docsearch-searchbox-background': 'none',
+    '--docsearch-key-gradient': 'linear-gradient(-225deg,var(--default-color-1),var(--default-color-10))',
+    '--docsearch-modal-background': 'var(--background-color)',
+    '--docsearch-modal-shadow': 'var(--box-shadow)',
+    '--docsearch-hit-background': 'var(--nav-background-color)',
+    '--docsearch-hit-shadow': 'var(--box-shadow)',
+    '--docsearch-footer-background':'var(--nav-background-color)',
+    '--docsearch-searchbox-focus-background': 'var(--default-color-8)',
+    '--docsearch-hit-color': 'var(--text-color)',
+    '--docsearch-key-shadow': 'var(--box-shadow)',
+    '--docsearch-footer-shadow': 'var(--box-shadow)',
+
+    // waline
+    '--waline-bgcolor': 'var(--background-color)',
+    '--waline-bgcolor-light': 'none',
+    '--waline-border': '1px solid var(--text-color-sub)',
+    '--waline-info-bgcolor' : 'none',
+    '--waline-color': 'var(--text-color-sub)',
+    '--waline-bgcolor-hover': 'var(--text-color-sub)',
+    '--waline-info-color': 'var(--text-color-sub)'
   }
 }
 

@@ -27,7 +27,7 @@
     <i
       v-if="showAccessNumber === true"
       class="iconfont reco-eye">
-      <AccessNumber
+      <CusAccessNumber
         :idVal="pageInfo.path"
         :numStyle="numStyle" />
     </i>

@@ -2,8 +2,8 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-03 13:24:35
- * @FilePath: \RayShineHub\src\.vuepress\config\nav\index.js
+ * @LastEditTime: 2022-07-13 18:02:56
+ * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\config\nav\index.js
  * @Description: 统一自定义NavLinks配置中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -46,6 +46,11 @@ module.exports = [
           {
             text: "菜鸟工具",
             link: "https://c.runoob.com/",
+            icon: "rays-tupianbizhi"
+          },
+          {
+            text: "图标工具",
+            link: "https://img.shields.io/",
             icon: "rays-tupianbizhi"
           }
         ]

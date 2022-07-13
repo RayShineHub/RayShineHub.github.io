@@ -4,7 +4,7 @@
     class="algolia-search-wrapper search-box"
     role="search"
     :class="{
-      pagefull : ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home
+      pagefull : ($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
     }"
   >
     <i class="iconfont reco-search"></i>
@@ -40,8 +40,8 @@ export default {
   methods: {
     initialize (userOptions, lang) {
       Promise.all([
-        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
-        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
+        import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
+        import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
       ]).then(([docsearch]) => {
         docsearch = docsearch.default
         const { algoliaOptions = {} } = userOptions
@@ -50,9 +50,9 @@ export default {
           userOptions,
           {
             container: '.search-box',
-            inputSelector: '#algolia-search-input',
+            placeholder: '请输入关键词',
             // #697 Make docsearch work well at i18n mode.
-            algoliaOptions: Object.assign({
+            searchParameters: Object.assign({
               'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
             }, algoliaOptions),
             handleSelected: (input, event, suggestion) => {
