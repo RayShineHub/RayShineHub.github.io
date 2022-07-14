@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-14 00:23:55
+ * @LastEditTime: 2022-07-14 12:06:31
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -132,11 +132,11 @@ export default {
       const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
       let that = this
       debugger
-      let navSubOffsetWidth = (document.querySelector('.nav-sub') && document.querySelector('.nav-sub').offsetWidth) || null
+      let navSubOffsetWidth = (document.querySelector('.nav-sub') && document.querySelector('.nav-sub').offsetWidth) || 726
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         that.linksWrapMaxWidth = null
       } else {
-        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || null
+        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || 726
       }
       if (that.linksWrapOffsetWidth == null || that.linksWrapOffsetWidth > navSubOffsetWidth) setTimeout(() => { this.handleLinksWrapWidth() }, 2000)
     },
