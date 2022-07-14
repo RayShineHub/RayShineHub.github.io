@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-13 18:31:03
+ * @LastEditTime: 2022-07-14 12:44:28
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\plugins\index.js
  * @Description: 统一插件（plugins）管理中心
  * 
@@ -12,7 +12,7 @@ module.exports = {
 	"dynamic-title":
 	{
 		showIcon: "https://cdn.rayshine.site/blog/home/favicon.ico",
-		showText: "Welcome Back！",
+		showText: "Welcome Back !",
 		hideIcon: "https://cdn.rayshine.site/blog/home/favicon1.ico",
 		hideText: "Wait ...",
 		recoverTime: 2000
@@ -22,4 +22,9 @@ module.exports = {
 		successText: "复制成功!"
 	},
 	"vuepress-plugin-boxx": {},
+	'vuepress-plugin-sitemap': {
+		hostname: 'https://blog.rayshine.site',
+		exclude: ['/404.html']
+	},
+	'@vuepress-reco/comments': false
 }
