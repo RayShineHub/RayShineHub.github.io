@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-14 12:49:36
+ * @LastEditTime: 2022-07-14 23:05:32
  * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -131,14 +131,14 @@ export default {
     handleLinksWrapWidth() {
       const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
       let that = this
-      debugger
       let navSubOffsetWidth = (document.querySelector('.nav-sub') && document.querySelector('.nav-sub').offsetWidth) || 1872
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         that.linksWrapMaxWidth = null
       } else {
         that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || 726
       }
-      if (that.linksWrapOffsetWidth == null || that.linksWrapOffsetWidth > navSubOffsetWidth) setTimeout(() => { this.handleLinksWrapWidth() }, 2000)
+      debugger
+      if (that.linksWrapOffsetWidth == null || that.linksWrapOffsetWidth > navSubOffsetWidth) setTimeout(() => { this.handleLinksWrapWidth() }, 5000)
     },
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
