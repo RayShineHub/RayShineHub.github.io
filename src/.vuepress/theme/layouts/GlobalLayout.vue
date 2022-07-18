@@ -11,13 +11,12 @@
 import Aos from 'aos'
 import Vue from "vue"
 import Category from './Category.vue'
-import About from './About.vue'
 import Layout from './Layout.vue'
 import Tag from './Tag.vue'
 import Tags from './Tags.vue'
 import TimeLines from './TimeLines.vue'
 export default {
-  components: {Category, About, Layout, Tag, Tags, TimeLines},
+  components: {Category, Layout, Tag, Tags, TimeLines},
   computed: {
     layout () {
       if (this.$page.path) {
@@ -50,9 +49,10 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="stylus">
 .overflow {
   overflow: hidden
+  min-height: 100vh;
 }
 .background {
   background: var(--background-color)

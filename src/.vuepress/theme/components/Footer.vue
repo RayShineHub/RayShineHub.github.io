@@ -1,57 +1,55 @@
 <template>
   <div class="footer-wrapper">
-    <!-- <span>
-      <i class="iconfont reco-theme"></i>
+    <span>
+      <reco-icon icon="reco-theme" />
       <a target="blank" href="https://vuepress-theme-reco.recoluan.com">{{`vuepress-theme-reco@${version}`}}</a>
-    </span> -->
+    </span>
     <span v-if="$themeConfig.record">
-      <i class="iconfont reco-beian"></i>
+      <reco-icon icon="reco-beian" />
       <a :href="$themeConfig.recordLink || '#'">{{ $themeConfig.record }}</a>
     </span>
     <span>
-      <i class="iconfont reco-copyright"></i>
+      <reco-icon icon="reco-copyright" />
       <a>
-        <span v-if="$themeConfig.author || $site.title">{{ $themeConfig.author || $site.title }}</span>
+        <span v-if="$themeConfig.author">{{ $themeConfig.author }}</span>
         &nbsp;&nbsp;
         <span v-if="$themeConfig.startYear && $themeConfig.startYear != (new Date().getFullYear())">{{ $themeConfig.startYear }} - </span>
         {{ new Date().getFullYear() }}
       </a>
     </span>
     <span v-show="showAccessNumber">
-      <i class="iconfont reco-eye"></i>
-      <CusAccessNumber idVal="/" />
+      <reco-icon icon="reco-eye" />
+      <AccessNumber idVal="/" />
     </span>
     <p class="cyber-security" v-if="$themeConfig.cyberSecurityRecord">
       <img src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png" alt="">
       <a :href="$themeConfig.cyberSecurityLink || '#'">{{ $themeConfig.cyberSecurityRecord }}</a>
     </p>
-    <CusComments :isShowComments="false"/>
+    <Comments :isShowComments="false"/>
   </div>
 </template>
 
 <script>
+import { defineComponent, computed } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import { version } from '../package.json'
-export default {
-  data () {
-    return {
-      version
-    }
-  },
-  computed: {
-    showAccessNumber () {
-      const {
-        $themeConfig: { valineConfig, walineConfig },
-        $themeLocaleConfig: { valineConfig: valineLocalConfig }
-      } = this
+import { useInstance } from '@theme/helpers/composable'
 
-      const vc = valineLocalConfig || valineConfig || walineConfig
-      if (vc && vc.visitor != false) {
-        return true
-      }
-      return false
-    }
+export default defineComponent({
+  components: { RecoIcon },
+  setup (props, ctx) {
+    const instance = useInstance()
+    const showAccessNumber = computed(() => {
+      const valineConfig = instance?.$themeConfig?.valineConfig
+      const valineLocalConfig = instance?.$themeLocaleConfig?.valineConfig
+
+      const vc = valineLocalConfig || valineConfig
+
+      return vc && vc.visitor != false
+    })
+    return { version, showAccessNumber }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>

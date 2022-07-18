@@ -1,48 +1,77 @@
 <template>
-  <section class="sidebar-group" :class="[
-    {
-      collapsable,
-      'is-sub-group': depth !== 0,
-    },
-    `depth-${depth}`,
-  ]">
-    <router-link v-if="item.path" class="sidebar-heading clickable" :class="{
-      open,
-      active: isActive($route, item.path),
-    }" :to="item.path" @click.native="$emit('toggle')">
+  <section
+    class="sidebar-group"
+    :class="[
+      {
+        collapsable,
+        'is-sub-group': depth !== 0
+      },
+      `depth-${depth}`
+    ]"
+  >
+    <router-link
+      v-if="item.path"
+      class="sidebar-heading clickable"
+      :class="{
+        open,
+        'active': isActive($route, item.path)
+      }"
+      :to="item.path"
+      @click.native="$emit('toggle')"
+    >
       <span>{{ item.title }}</span>
-      <span class="arrow" v-if="collapsable" :class="open ? 'down' : 'right'">
+      <span
+        class="arrow"
+        v-if="collapsable"
+        :class="open ? 'down' : 'right'">
       </span>
     </router-link>
 
-    <p v-else class="sidebar-heading" :class="{ open }" @click="$emit('toggle')">
+    <p
+      v-else
+      class="sidebar-heading"
+      :class="{ open }"
+      @click="$emit('toggle')"
+    >
       <span>{{ item.title }}</span>
-      <span class="arrow" v-if="collapsable" :class="open ? 'down' : 'right'">
+      <span
+        class="arrow"
+        v-if="collapsable"
+        :class="open ? 'down' : 'right'">
       </span>
     </p>
 
     <DropdownTransition>
-      <SidebarLinks class="sidebar-group-items" :items="item.children" v-if="open || !collapsable"
-        :sidebarDepth="item.sidebarDepth" :depth="depth + 1" />
+      <SidebarLinks
+        class="sidebar-group-items"
+        :items="item.children"
+        v-if="open || !collapsable"
+        :sidebarDepth="item.sidebarDepth"
+        :depth="depth + 1"
+      />
     </DropdownTransition>
   </section>
 </template>
 
 <script>
-import { isActive } from "@theme/helpers/utils";
-import DropdownTransition from "@theme/components/DropdownTransition";
+import { defineComponent } from 'vue'
+import { isActive } from '@theme/helpers/utils'
+import DropdownTransition from '@theme/components/DropdownTransition'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
-  name: "SidebarGroup",
-  props: ["item", "open", "collapsable", "depth"],
+export default defineComponent({
+  name: 'SidebarGroup',
+  props: ['item', 'open', 'collapsable', 'depth'],
   components: { DropdownTransition },
-  // ref: https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
-  beforeCreate() {
-    this.$options.components.SidebarLinks =
-      require("./SidebarLinks.vue").default;
-  },
-  methods: { isActive },
-};
+
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    instance.$options.components.SidebarLinks = require('./SidebarLinks.vue').default
+
+    return { isActive }
+  }
+})
 </script>
 
 <style lang="stylus">
@@ -62,8 +91,8 @@ export default {
       line-height 1.4
       font-weight normal
       padding-left 2rem
-      // &:not(.clickable)
-      //   opacity 0.5
+      &:not(.clickable)
+        opacity 0.5
     & > .sidebar-group-items
       padding-left 1rem
       & > li > .sidebar-link

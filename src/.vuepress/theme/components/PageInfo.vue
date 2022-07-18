@@ -1,10 +1,11 @@
 <template>
   <div>
-    <!-- <i
-      class="iconfont reco-account"
-      v-if="pageInfo.frontmatter.author || $themeConfig.author || $site.title">
-      <span>{{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}</span>
-    </i> -->
+    <!-- <reco-icon
+      v-if="pageInfo.frontmatter.author || $themeConfig.author"
+      icon="reco-account"
+    >
+      <span>{{ pageInfo.frontmatter.author || $themeConfig.author }}</span>
+    </reco-icon> -->
     <!-- 增加原创和转载图标，去掉作者图标 add by Rayshine -->
     <img 
       v-if="pageInfo.frontmatter.reprint"
@@ -19,28 +20,32 @@
     <span class="iconfont reprintUrl" @click.stop="goHome()">
       {{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}
     </span>
-    <i
+
+    <reco-icon
       v-if="pageInfo.frontmatter.date"
-      class="iconfont reco-date">
-      <span>{{ pageInfo.frontmatter.date | formatDateValue }}</span>
-    </i>
-    <i
+      icon="reco-date"
+    >
+      <span>{{ formatDateValue(pageInfo.frontmatter.date) }}</span>
+    </reco-icon>
+    <reco-icon
       v-if="showAccessNumber === true"
-      class="iconfont reco-eye">
-      <CusAccessNumber
-        :idVal="pageInfo.path"
-        :numStyle="numStyle" />
-    </i>
-    <i
+      icon="reco-eye"
+    >
+      <AccessNumber :idVal="pageInfo.path" :numStyle="numStyle" />
+    </reco-icon>
+    <reco-icon
       v-if="pageInfo.frontmatter.tags"
-      class="iconfont reco-tag tags">
+      icon="reco-tag"
+      class="tags"
+    >
       <span
         v-for="(subItem, subIndex) in pageInfo.frontmatter.tags"
         :key="subIndex"
         class="tag-item"
         :class="{ 'active': currentTag == subItem }"
-        @click.stop="goTags(subItem)">{{subItem}}</span>
-    </i>
+        @click.stop="goTags(subItem)"
+      >{{subItem}}</span>
+    </reco-icon>
 
     <!-- 增加版权显示,原创显示版权,转载显示链接 -->
     <div v-if="showCopyright" class="copyright">
@@ -69,10 +74,12 @@
 </template>
 
 <script>
-// 引入时间格式化js文件
-import { formatDate } from '@theme/helpers/utils'
+import { defineComponent } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
+export default defineComponent({
+  components: { RecoIcon },
   props: {
     pageInfo: {
       type: Object,
@@ -97,49 +104,34 @@ export default {
       default: false
     }
   },
-  data () {
-    return {
-      numStyle: {
-        fontSize: '.9rem',
-        fontWeight: 'normal',
-        color: '#999'
+
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const numStyle = {
+      fontSize: '.9rem',
+      fontWeight: 'normal',
+      color: '#999'
+    }
+
+    const goTags = (tag) => {
+      if (instance.$route.path !== `/tag/${tag}/`) {
+        instance.$router.push({ path: `/tag/${tag}/` })
       }
     }
-  },
-  filters: {
-    formatDateValue (value) {
-      if (!value) return ''
-      // 返回的value的值都是这个样子2019-09-20T18:22:30.000Z
-      // 对value进行处理
-      value = value.replace('T', ' ').slice(0, value.lastIndexOf('.'))
-      // 转化后的value 2019-09-20 18:22:30
-      // 获取到时分秒
-      const h = Number(value.substr(11, 2))
-      const m = Number(value.substr(14, 2))
-      const s = Number(value.substr(17, 2))
-      // 判断时分秒是不是 00:00:00 (如果是用户手动输入的00:00:00也会不显示)
-      if (h > 0 || m > 0 || s > 0) {
-        // 时分秒有一个> 0 就说明用户输入一个非 00:00:00 的时分秒
-        return formatDate(value)
-      } else {
-        // 用户没有输入或者输入了 00:00:00
-        return formatDate(value, 'yyyy-MM-dd')
+
+    const formatDateValue = (value) => {
+      return new Intl.DateTimeFormat(instance.$lang).format(new Date(value))
+    }
+    const goHome = () => {
+      if (instance.$route.path !== `/`) {
+        instance.$router.push({ path: `/` })
       }
     }
-  },
-  methods: {
-    goTags (tag) {
-      if (this.$route.path !== `/tag/${tag}/`) {
-        this.$router.push({ path: `/tag/${tag}/` })
-      }
-    },
-    goHome () {
-      if (this.$route.path !== `/`) {
-        this.$router.push({ path: `/` })
-      }
-    }
+
+    return { numStyle, goTags, formatDateValue, goHome }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
@@ -157,6 +149,7 @@ export default {
 .iconfont
   display inline-block
   line-height 1.5rem
+  font-size .9rem
   &:not(:last-child)
     margin-right 1rem
   span

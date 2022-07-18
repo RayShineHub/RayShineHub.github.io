@@ -1,25 +1,24 @@
+/* eslint-disable no-proto */
 import 'aos/dist/aos.css'
 import 'axios'
-import '../public/cus-icon-font/iconfont.css'
+import '../public/font/iconfont.css'
 import postMixin from '@theme/mixins/posts'
 import localMixin from '@theme/mixins/locales'
-import { addLinkToHead } from '@theme/helpers/utils'
-import { registerCodeThemeCss } from '@theme/helpers/other'
+import { interceptRouterError, fixRouterError404 } from '@theme/helpers/other'
 
 export default ({
   Vue,
   siteData,
   isServer,
+  router
 }) => {
   Vue.mixin(postMixin)
   Vue.mixin(localMixin)
-  if (!isServer) {
-    // 自己的阿里图标库
-    // addLinkToHead('//at.alicdn.com/t/font_2506918_jnfhsnvqbu.css')
+  // if (!isServer) {
+  //   addScriptToHead('//kit.fontawesome.com/51b01de608.js')
+  //   registerCodeThemeCss(siteData.themeConfig.codeTheme)
+  // }
 
-    // reco阿里图标
-    addLinkToHead('//at.alicdn.com/t/font_1030519_2ciwdtb4x65.css')
-    
-    registerCodeThemeCss(siteData.themeConfig.codeTheme)
-  }
+  interceptRouterError(router)
+  fixRouterError404(router)
 }

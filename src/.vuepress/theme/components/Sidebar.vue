@@ -8,16 +8,15 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import SidebarLinks from '@theme/components/SidebarLinks'
 import NavLinks from '@theme/components/NavLinks'
 
-export default {
+export default defineComponent({
   name: 'Sidebar',
-
   components: { SidebarLinks, NavLinks },
-
   props: ['items']
-}
+})
 </script>
 
 <style lang="stylus">
@@ -31,9 +30,9 @@ export default {
     padding 0
     margin 0
     list-style-type none
-    // &.sidebar-links
-    //   > li
-    //     background $accentColor
+    &.sidebar-links
+      > li
+        background $accentColor
   a
     display inline-block
   .nav-links

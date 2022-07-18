@@ -20,7 +20,7 @@ function render (mode) {
  * @description: night-mask for website
  * @param {string} display
  */
-function nightMask (display = 'none') {
+ function nightMask (display = 'none') {
   const rootElement = document.querySelector('#night-mask')
   rootElement.style.setProperty('display', display)
 }

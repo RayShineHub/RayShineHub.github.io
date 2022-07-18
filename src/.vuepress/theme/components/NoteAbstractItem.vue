@@ -1,11 +1,10 @@
 <template>
-  
   <div v-if="!isPC"
     class="abstract-item"
     @click="$router.push(item.path)">
-    <i v-if="item.frontmatter.sticky" class="iconfont reco-sticky"></i>
+    <reco-icon v-if="item.frontmatter.sticky" icon="reco-sticky" />
     <div class="title">
-      <i v-if="item.frontmatter.keys" class="iconfont reco-lock"></i>
+      <reco-icon v-if="item.frontmatter.keys" icon="reco-lock" />
       <router-link :to="item.path">{{item.title}}</router-link>
     </div>
     <div class="abstract" v-html="item.excerpt"></div>
@@ -14,82 +13,72 @@
       :currentTag="currentTag">
     </PageInfo>
   </div>
-
   <!-- 改版 -->
   <div v-else
     class="abstract-item"
     @click="$router.push(item.path)"
-		data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0" data-aos-offset="-100"
+    data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0" data-aos-offset="-100"
     >
     <div 
-    :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ coverRandom(true) +') center/cover no-repeat'}"
-     class="cover-wrap" :class="num%2==0?'flyl':'flyr'">
-    <!-- 显示时间 add by spf-->
-    <i v-if="item.frontmatter.date"
-      class="tip-date iconfont reco-date">
-      <span>{{ item.frontmatter.date | formatDateValue }}</span>
-    </i>
-	</div>
-    <div class="abstract-content-wrap" :class="num%2==0?'flyl':'flyr'" :style="num%2==0?{'margin-left':'5%'}:{'margin-right':'5%'}">
-    <i v-if="item.frontmatter.sticky" class="iconfont reco-sticky"></i>
-    <div class="title">
-      <i v-if="item.frontmatter.keys" class="iconfont reco-lock"></i>
-      <router-link :to="item.path">{{item.title}}</router-link>
+      :style="item.frontmatter.pic?{'background':'url('+ item.frontmatter.pic +') center/cover no-repeat'}:{'background':'url('+ coverRandom(true) +') center/cover no-repeat'}"
+      class="cover-wrap" :class="num%2==0?'flyl':'flyr'">
+      <!-- 显示时间 add by spf-->
+      <reco-icon v-if="item.frontmatter.date"
+        icon="reco-date"
+        class="tip-date">
+        <span>{{ formatDateValue(item.frontmatter.date) }}</span>
+      </reco-icon>
     </div>
-    <div v-if="item.frontmatter.isAbstract" class="abstract" v-html="item.excerpt"></div>
-    <PageInfo
-      :pageInfo="item"
-      :currentTag="currentTag">
-    </PageInfo>
+    <div class="abstract-content-wrap" :class="num%2==0?'flyl':'flyr'" :style="num%2==0?{'margin-left':'5%'}:{'margin-right':'5%'}">
+      <reco-icon v-if="item.frontmatter.sticky" icon="reco-sticky" />
+      <div class="title">
+        <reco-icon v-if="item.frontmatter.keys" icon="reco-lock" />
+        <router-link :to="item.path">{{item.title}}</router-link>
+      </div>
+      <div v-if="item.frontmatter.isAbstract" class="abstract" v-html="item.excerpt"></div>
+      <PageInfo
+        :pageInfo="item"
+        :currentTag="currentTag">
+      </PageInfo>
     </div>
   </div>
-
 </template>
 
 <script>
+import { defineComponent, toRefs, reactive, computed, onMounted } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { useInstance } from '@theme/helpers/composable'
 import PageInfo from './PageInfo'
 // 引入时间格式化js文件
 import { formatDate } from '@theme/helpers/utils'
-export default {
-  components: { PageInfo },
-  props: ['item', 'num', 'currentPage', 'currentTag'],
-  data () {
-    return {
-      isPC: true
-    }
-  },
-  filters: {
-    formatDateValue (value) {
-      if (!value) return ''
-      // 返回的value的值都是这个样子2019-09-20T18:22:30.000Z
-      // 对value进行处理
-      value = value.replace('T', ' ').slice(0, value.lastIndexOf('.'))
-      // 转化后的value 2019-09-20 18:22:30
-      // 获取到时分秒
-      const h = Number(value.substr(11, 2))
-      const m = Number(value.substr(14, 2))
-      const s = Number(value.substr(17, 2))
-      // 判断时分秒是不是 00:00:00 (如果是用户手动输入的00:00:00也会不显示)
-      if (h > 0 || m > 0 || s > 0) {
-        // 时分秒有一个> 0 就说明用户输入一个非 00:00:00 的时分秒
-        return formatDate(value)
-      } else {
-        // 用户没有输入或者输入了 00:00:00
-        return formatDate(value, 'yyyy-MM-dd')
-      }
-    }
-  },
-  mounted () {
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-      this.isPC = false
-    } else {
-      this.isPC = true
-    }
-  }
-}
-</script>
 
-<style>
+export default defineComponent({
+  components: { PageInfo, RecoIcon },
+  props: ['item', 'num', 'currentPage', 'currentTag'],
+
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const state = reactive({
+      isPC: false
+    })
+    onMounted(() => {
+      if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        state.isPC = false
+      } else {
+        state.isPC = true
+      }
+    })
+
+     const formatDateValue = (value) => {
+      return new Intl.DateTimeFormat(instance.$lang).format(new Date(value))
+    }
+
+    return { formatDateValue, ...toRefs(state)}
+  }
+})
+</script>
+<style lang="stylus" scoped>
 .cover-wrap{
     width: 40%;
     flex: 1;
@@ -136,10 +125,20 @@ export default {
 	font-size: 12px;
 	transition: transform 0.35s, -webkit-transform 0.35s;
 	border-radius: 10px;
+  &:hover {
+    box-shadow: var(--box-shadow-hover)
+  }
+    
+  &:hover .tip-date {
+    transition: transform 0.35s, -webkit-transform 0.35s;
+	  border-radius: 10px;
+	  visibility visible
+	  -webkit-transform: translate(-35px,0);
+	  transform: translate(-35px,0);
+  }  
 }
 </style>
 <style lang="stylus" scoped>
-@require '../styles/mode.styl'
 .abstract-item
   position relative
   margin: 0 auto 20px;
@@ -182,10 +181,8 @@ export default {
 	  visibility visible
 	  -webkit-transform: translate(-35px,0);
 	  transform: translate(-35px,0);
-	// &:hover a
-	// 	visibility visible
-	// 	-webkit-transform: scaleX(1);
-	// 	transform: scaleX(1);
+  &:hover
+    box-shadow: var(--box-shadow-hover)
   .title
     position: relative;
     font-size: 1.2rem;
@@ -210,10 +207,10 @@ export default {
       transition: .3s ease-in-out;
     &:hover a
       color $accentColor
-		&:hover:after 
-			visibility visible
-			-webkit-transform: scaleX(1);
-			transform: scaleX(1);
+    &:hover:after
+      visibility visible
+      -webkit-transform: scaleX(1);
+      transform: scaleX(1);
   .tags
     .tag-item
       &.active

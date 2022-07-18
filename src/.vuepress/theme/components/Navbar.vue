@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar" >
+  <header class="navbar">
     <div class="nav-sub" :class="{fixed: isFixed, visible: isVisible}">
       <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
 
@@ -18,99 +18,90 @@
             pagefullTitle:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed
           }"
           v-if="$siteTitle">{{ $siteTitle }}</span>
-					<!-- :style="{color: isFixed ? '' : '#eee'}" -->
       </router-link>
 
-
       <div
-        ref="links"
         class="links"
-        :style="{
-          'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
-        <!-- 播放器 -->
-        <!-- <NavPlayer :linksWrapOffsetWidth="linksWrapOffsetWidth" :isNavFixed="isFixed"></NavPlayer> -->
-        <!-- 搜索框 -->
+        :style="linksWrapMaxWidth ? {
+          'max-width': linksWrapMaxWidth + 'px'
+        } : {}">
+
         <AlgoliaSearchBox
           v-if="isAlgoliaSearch"
           :options="algolia"
           :isNavFixed="isFixed"/>
         <SearchBox :isNavFixed="isFixed" v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
+        <NavLinks :isNavFixed="isFixed" class="can-hide"/>
 
-        <!-- 导航 -->
-				<NavLinks class="can-hide" :isNavFixed="isFixed"/>
-
-        <!-- 主题 -->
         <Mode />
-
       </div>
     </div>
   </header>
 </template>
 
 <script>
+import { defineComponent, ref, onMounted, computed, onBeforeUnmount } from 'vue'
 import AlgoliaSearchBox from '@AlgoliaSearchBox'
 import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton'
 import NavLinks from '@theme/components/NavLinks'
-// import Mode from '@theme/components/Mode'
-import Mode from '@theme/components/DayAndNight.vue'
-import NavPlayer from '../../components/NavPlayer.vue'
+import Mode from '@theme/components/DayAndNight'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode, NavPlayer},
+export default defineComponent({
+  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode },
 
-  data () {
-    let that = this
-    return {
-      linksWrapMaxWidth: null,
-      linksWrapOffsetWidth: null,
-      fixedHeight: 0,
-      pageYOffset: 44,
-      isFixed: false,
-      isVisible: false
+  setup (props, ctx) {
+    const instance = useInstance()
+    const linksWrapMaxWidth = ref(null)
+    const isFixed = ref(false)
+    const isVisible = ref(false)
+    const fixedHeight = ref(0)
+    const pageYOffset = ref(44)
+
+    const algolia = computed(() => {
+      return instance.$themeLocaleConfig.algolia || instance.$themeConfig.algolia || {}
+    })
+    const isAlgoliaSearch = computed(() => {
+      return algolia.value && algolia.value.apiKey && algolia.value.indexName
+    })
+
+    function css (el, property) {
+      // NOTE: Known bug, will return 'auto' if style value is 'auto'
+      const win = el.ownerDocument.defaultView
+      // null means not to return pseudo styles
+      return win.getComputedStyle(el, null)[property]
     }
-  },
-  props: {
-    musicList: {
-      type: Array,
-      default: () => []
-    },
-    currentMusic: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  mounted () {
-    const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
-    const NAVBAR_VERTICAL_PADDING = parseInt(css(this.$el, 'paddingLeft')) + parseInt(css(this.$el, 'paddingRight'))
-    let that = this
-    const handleLinksWrapWidth = () => {
-      if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
-        that.linksWrapMaxWidth = null
-      } else {
-        that.linksWrapMaxWidth = that.$el.offsetWidth - NAVBAR_VERTICAL_PADDING -
-          (that.$refs.siteName && that.$refs.siteName.offsetWidth || 0)
-        that.linksWrapOffsetWidth = (that.$refs.links && that.$refs.links.offsetWidth) || 0
+
+    onMounted(() => {
+      const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
+      const NAVBAR_VERTICAL_PADDING =
+        parseInt(css(instance.$el, 'paddingLeft')) +
+        parseInt(css(instance.$el, 'paddingRight'))
+
+      const handleLinksWrapWidth = () => {
+        if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
+          linksWrapMaxWidth.value = null
+        } else {
+          linksWrapMaxWidth.value =
+            instance.$el.offsetWidth -
+            NAVBAR_VERTICAL_PADDING -
+            (instance.$refs.siteName && instance.$refs.siteName.offsetWidth || 0)
+        }
       }
-    }
-    handleLinksWrapWidth()
-    window.addEventListener('resize', handleLinksWrapWidth, false)
-    window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
-  },
-  beforeDestroy () {
-    window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
-  },
-  computed: {
-    algolia () {
-      return this.$themeLocaleConfig.algolia || this.$themeConfig.algolia || {}
-    },
 
-    isAlgoliaSearch () {
-      return this.algolia && this.algolia.apiKey && this.algolia.indexName
-    }
-  },
+      handleLinksWrapWidth()
+      window.addEventListener('resize', handleLinksWrapWidth, false)
+      window.addEventListener('scroll', instance.throttle(instance.handleScroll, 500))
+    })
 
-  methods: {
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', instance.throttle(instance.handleScroll, 1000))
+    })
+
+    return { linksWrapMaxWidth, algolia, isAlgoliaSearch, css, isFixed, isVisible, fixedHeight, pageYOffset }
+  },
+    methods: {
     handleScroll () {
       this.isFixed = window.pageYOffset > this.fixedHeight
       this.throttle(this.handleVisible(), 1000)
@@ -145,27 +136,18 @@ export default {
       }
     }
   }
-}
-
-function css (el, property) {
-  // NOTE: Known bug, will return 'auto' if style value is 'auto'
-  const win = el.ownerDocument.defaultView
-  // null means not to return pseudo styles
-  return win.getComputedStyle(el, null)[property]
-}
+})
 </script>
-<style scoped="scoped">
-
-</style>
 
 <style lang="stylus">
 $navbar-vertical-padding = 0.7rem
 $navbar-horizontal-padding = 1.5rem
 
 .navbar
-  position relative
+  position relative !important
   padding $navbar-vertical-padding $navbar-horizontal-padding
   line-height $navbarHeight - 1.4rem
+  // box-shadow var(--box-shadow)
   // background var(--background-color)
   opacity 1
   animation 1s ease 0s 1 normal none running headerNoOpacity
@@ -206,24 +188,6 @@ $navbar-horizontal-padding = 1.5rem
     position relative
   .pagefullTitle
     color $pagefullNavColor
-  .nav-music
-    display: inline-block;
-    padding-right 1.5rem
-    box-sizing border-box
-    white-space nowrap
-    font-size 0.9rem
-    // position absolute
-    right $navbar-horizontal-padding
-    top $navbar-vertical-padding
-    display flex
-    // background-color var(--background-color)
-    .avatar
-      height $navbarHeight - 1rem
-      min-width $navbarHeight - 1rem
-      margin-right 0.8rem
-      vertical-align top
-      border-radius 50%
-      box-shadow 0 1px 8px 1px var(--text-color)
   .links
     padding-left 1.5rem
     box-sizing border-box
@@ -238,24 +202,11 @@ $navbar-horizontal-padding = 1.5rem
       flex: 0 0 auto
       vertical-align top
 
-@-webkit-keyframes animal
-  0%
-    transform rotate(0deg)
-    -ms-transform rotate(0deg);
-    -webkit-transform rotate(0deg);
-  100%
-    transform rotate(-360deg)
-    -ms-transform rotate(-360deg)
-    -webkit-transform rotate(-360deg)
-
 @media (max-width: $MQMobile)
   .navbar
     padding-left 4rem
-    .fixed
-      padding 10px 4rem
     .can-hide
       display none
     .links
       padding-left .2rem
 </style>
-

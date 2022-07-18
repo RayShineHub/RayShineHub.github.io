@@ -2,47 +2,48 @@
   <div class="tags">
     <span
       v-for="(item, index) in tags"
+      v-show="!item.pages || (item.pages && item.pages.length > 0)"
       :key="index"
       :class="{'active': item.name == currentTag}"
       :style="{ 'backgroundColor': getOneColor() }"
-      @click.stop="tagClick(item)"
       data-aos="zoom-in" data-aos-duration="300" data-aos-delay="0" data-aos-mirror="false"
-      >{{item.name}}</span>
+      @click="tagClick(item)">{{item.name}}</span>
   </div>
 </template>
 
 <script>
+import { defineComponent, computed } from 'vue'
 import { getOneColor } from '@theme/helpers/other'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
+export default defineComponent({
   props: {
     currentTag: {
       type: String,
       default: ''
     }
   },
-  computed: {
-    tags () {
-      return [{ name: this.$recoLocales.tag.all, path: '/tag/' }, ...this.$tags.list]
+  setup (props, ctx) {
+    const instance = useInstance()
+    const tags = computed(() => {
+      return [{ name: instance.$recoLocales.all, path: '/tag/' }, ...instance.$tagesList]
+    })
+
+    const tagClick = tag => {
+      ctx.emit('getCurrentTag', tag)
     }
-  },
-  methods: {
-    tagClick (tag) {
-      this.$emit('getCurrentTag', tag)
-    },
-    getOneColor
+
+    return { tags, tagClick, getOneColor }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
-@require '../styles/mode.styl'
-
 .tags
   margin 30px 0
   span
     vertical-align: middle;
-    margin: 4px 10px 10px;
+    margin: 4px 4px 10px;
     padding: 4px 8px;
     display: inline-block;
     cursor: pointer;

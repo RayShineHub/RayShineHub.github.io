@@ -1,27 +1,15 @@
 <template>
-  <div
-    class="dropdown-wrapper"
-    :class="{ open }"
-  >
-    <a
-      class="dropdown-title"
-      @click="toggle"
-    >
+  <div class="dropdown-wrapper" :class="{ open }">
+    <a class="dropdown-title" @click="toggle">
       <span class="title">
-        <i :class="`iconfont ${item.icon}`" ></i>
+        <reco-icon :icon="`${item.icon}`" />
         {{ item.text }}
       </span>
-      <span
-        class="arrow"
-        :class="open ? 'down' : 'right'"
-      ></span>
+      <span class="arrow" :class="open ? 'down' : 'right'"></span>
     </a>
 
     <DropdownTransition>
-      <ul
-        class="nav-dropdown"
-        v-show="open"
-      >
+      <ul class="nav-dropdown" v-show="open">
         <li
           class="dropdown-item"
           :key="subItem.link || index"
@@ -37,15 +25,10 @@
               class="dropdown-subitem"
               :key="childSubItem.link"
               v-for="childSubItem in subItem.items"
-            >
-              <NavLink :item="childSubItem"/>
-            </li>
+            ><NavLink :item="childSubItem"/></li>
           </ul>
 
-          <NavLink
-            v-else
-            :item="subItem"
-          />
+          <NavLink v-else :item="subItem" />
         </li>
       </ul>
     </DropdownTransition>
@@ -53,44 +36,35 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import NavLink from '@theme/components/NavLink'
 import DropdownTransition from '@theme/components/DropdownTransition'
 
-export default {
-  components: { NavLink, DropdownTransition },
-
-  data () {
-    return {
-      open: false
-    }
-  },
+export default defineComponent({
+  components: { NavLink, DropdownTransition, RecoIcon },
 
   props: {
     item: {
       required: true
-    },
-    isNavFixed: {
-	    type: Boolean,
-	    default: false
-	  }
+    }
   },
 
-  methods: {
-    toggle () {
-      this.open = !this.open
+  setup (props, ctx) {
+    const open = ref(false)
+
+    const toggle = () => {
+      open.value = !open.value
     }
+
+    return { open, toggle }
   }
-}
+})
 </script>
 
 <style lang="stylus">
-@require '../styles/mode.styl'
-
 .dropdown-wrapper
   cursor pointer
-  .isNavFixedarrow
-    .arrow
-      border-top: 6px solid var(--text-color) !important
   .dropdown-title
     display block
     &:hover
@@ -139,6 +113,7 @@ export default {
         margin-top 0
         padding-top 0
         border-top 0
+
 @media (max-width: $MQMobile)
   .dropdown-wrapper
     &.open .dropdown-title

@@ -1,10 +1,9 @@
-@require './mode'
 @require './code'
 @require './custom-blocks'
 @require './arrow'
 @require './wrapper'
 @require './toc'
-// @require './iconfont.css'
+@require '../fonts/iconfont.css'
 
 html, body
   padding 0
@@ -22,7 +21,7 @@ body
   margin-left $sidebarWidth
 
 .navbar
-  position relative
+  position fixed
   z-index 20
   top 0
   left 0
@@ -64,24 +63,9 @@ body
     border-radius 4px
   img
     max-width 100%
-	p a
-		text-decoration: none
-		transition: all .3s ease
-		position relative
-		&:hover
-			// color #42b983
-			&:after
-				width 100%
-		&:after
-			content: ""
-			display: block
-			width: 0
-			height: 2px
-			position: absolute
-			left: 0
-			bottom: -2px
-			background: #67cc86
-			transition: all .3s ease-in-out
+  *:first-child
+    margin-top 0
+
 .content__default.custom
   padding 0
   margin 0
@@ -128,55 +112,20 @@ h1, h2, h3, h4, h5, h6
   font-weight 500
   line-height 1.25
   .content__default:not(.custom) > &
-    // margin-top (0.5rem - $navbarHeight)
-    // padding-top ($navbarHeight + 1rem)
-    // margin-bottom 0
-    margin-top 2.5rem
-    padding-top 1.5rem
-    margin-bottom 1.5rem
+    margin-top (2.1rem - $navbarHeight)
+    padding-top $navbarHeight
+    margin-bottom 1rem
     &:first-child
       margin-top -3.5rem
-      margin-bottom 1rem
-      + p, + pre, + .custom-block
-        margin-top 2rem
 
 h1
   font-size 1.6rem
 
 h2
-  position relative
-  padding-left 0.8rem
   font-size 1.4rem
-  border-top: var(--border-top)
-  &::before
-    position: absolute
-    left 0
-    bottom 0
-    display: block
-    height 1.8rem
-    content: ''
-    border-left 5px solid $accentColor
 
 h3
   font-size 1.2rem
-h3 a
-	text-decoration: none
-	transition: all .3s ease
-	position relative
-	&:hover
-		color #42b983
-		&:after
-			width 100%
-	&:after
-		content: ""
-		display: block
-		width: 0
-		height: 2px
-		position: absolute
-		left: 0
-		bottom: -2px
-		background: #67cc86
-		transition: all .3s ease-in-out
 
 a.header-anchor
   font-size 0.85em
@@ -234,7 +183,8 @@ th, td
 @require 'mobile.styl'
 
 .iconfont
-  font-size: 0.9rem;
+  font-family: "iconfont",Ubuntu,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif !important
+  font-size: 13px;
   color: var(--text-color-sub);
 
 /************** 滚动条 **************/
@@ -271,9 +221,3 @@ th, td
     color: #fff;
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0)
     border: none;
-
-
-/*@font-face { 
-  font-family: firstFonts; 
-  src: url('https://zyj_yida.gitee.io/source/fonts/HYXinHaiXingKaiW.ttf');
-  };*/

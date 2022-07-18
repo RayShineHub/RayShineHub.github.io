@@ -8,36 +8,35 @@
   >
   <h3
     class="name"
-    v-if="$themeConfig.author || $site.title"
+    v-if="$themeConfig.author"
   >
-    {{ $themeConfig.author || $site.title }}
+    {{ $themeConfig.author }}
   </h3>
   <!-- <div class="num">
     <div>
-      <router-link
-        class="personal-link"
-        :to="link"
-        :exact="exact">
-        <h3>{{$recoPosts.length}}</h3>
-        <h6>{{homeBlogCfg.article}}</h6>
-      </router-link>
+      <h3>{{$recoPosts.length}}</h3>
+      <h6>{{$recoLocales.article}}</h6>
     </div>
     <div>
-      <router-link
-        class="personal-link"
-        :to="link"
-        :exact="exact">
-        <h3>{{$tags.list.length}}</h3>
-        <h6>{{homeBlogCfg.tag}}</h6>
-      </router-link>
+      <h3>{{$tags.list.length}}</h3>
+      <h6>{{$recoLocales.tag}}</h6>
     </div>
-  </div> -->
+  </div>
+  <ul class="social-links">
+    <li
+      class="social-item"
+      v-for="(item, index) in socialLinks"
+      :key="index"
+    >
+      <reco-icon :icon="item.icon" :link="item.link" :style="{ color: item.color }" />
+    </li>
+  </ul> -->
   <div class="social-links" v-if="socials && socialsLength > 0">
     <a v-if="item && !item.pop && item.show" v-for="item in socials" :href="item.url" :title="item.title" target="_blank" class="social-items">
       <i class="big" :class="`iconfont ${item.icon}`" :style="`color: ${item.color}`"></i>
     </a>
     <div v-if="item && item.pop && item.show" v-for="item in socials" :title="item.title" target="_blank" class="social-items" 
-    @mouseenter="toggleShow($event)" @mouseleave="toggleHide($event)"
+    @mouseenter="showDetail($event)" @mouseleave="hideDetail($event)"
     >
       <i class="big" :class="`iconfont ${item.icon}`" :style="`color: ${item.color}`"></i>
       <transition name="fade">
@@ -66,108 +65,107 @@
 </template>
 
 <script>
-import { ensureExt } from '@theme/helpers/utils'
-export default {
-  data () {
-    return {
-      isPC: true,
-      popupWindowStyle: {},
-      popupImgUrl:''
-    }
-  },
-  mounted() {
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-      this.isPC = false
-    } else {
-      this.isPC = true
-    }
-  },
-  computed: {
-    homeBlogCfg () {
-      return this.$recoLocales.homeBlog
-    },
-    link () {
-      return ensureExt('/tag/')
-    },
+import { defineComponent, reactive, computed, ref, onMounted } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { getOneColor } from '@theme/helpers/other'
+import { useInstance } from '@theme/helpers/composable'
 
-    exact () {
-      if (this.$site.locales) {
-        return Object.keys(this.$site.locales).some(rootLink => rootLink === '/tag/')
+const useDetail = () => {
+  const instance = useInstance()
+  const isPC = ref(true)
+
+  const popupWindowStyle = reactive({
+    left: 0,
+    top: 0
+  })
+
+  const adjustPosition = (dom) => {
+    const { offsetWidth } = document.body
+    const { x, width } = dom.getBoundingClientRect()
+    const distanceToRight = offsetWidth - (x + width)
+
+    if (distanceToRight < 0) {
+      const { offsetLeft } = dom
+      popupWindowStyle.left = offsetLeft + distanceToRight + 'px'
+    }
+  }
+
+  const showDetail = (e) => {
+    const currentDom = e.target
+    const popupWindowWrapper = currentDom.querySelector('.popup-window-wrapper')
+    popupWindowWrapper.style.display = 'block'
+    const popupWindow = currentDom.querySelector('.popup-window')
+    const infoWrapper = document.querySelector('.info-wrapper')
+    const { clientWidth } = currentDom
+    const { clientWidth: windowWidth, clientHeight: windowHeight } = popupWindow
+
+    if (isPC) {
+      popupWindowStyle.left = (clientWidth - windowWidth) / 2 + 'px'
+      popupWindowStyle.top = -windowHeight + 'px'
+
+      infoWrapper.style.overflow = 'visible'
+
+      instance.$nextTick(() => {
+        adjustPosition(popupWindow)
+      })
+    } else {
+      const getPosition = function (element) {
+        const dc = document
+        const rec = element.getBoundingClientRect()
+        let _x = rec.left
+        let _y = rec.top
+        _x += dc.documentElement.scrollLeft || dc.body.scrollLeft
+        _y += dc.documentElement.scrollTop || dc.body.scrollTop
+        return { left: _x, top: _y }
       }
-      return this.link === '/'
-    },
-    socials () {
-      return this.$themeConfig.socials
-    },
-    socialsLength () {
+
+      infoWrapper.style.overflow = 'hidden'
+      const left = getPosition(currentDom).left - getPosition(infoWrapper).left
+
+      popupWindowStyle.left = (-left + (infoWrapper.clientWidth - popupWindow.clientWidth) / 2) + 'px'
+      popupWindowStyle.top = -windowHeight + 'px'
+    }
+  }
+
+  const hideDetail = (e) => {
+    const currentDom = e.target.querySelector('.popup-window-wrapper')
+    currentDom.style.display = 'none'
+  }
+
+  onMounted(() => {
+    isPC.value = !/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)
+  })
+
+  return { popupWindowStyle, showDetail, hideDetail }
+}
+
+
+export default defineComponent({
+  components: { RecoIcon },
+  setup (props, ctx) {
+
+    const instance = useInstance()
+
+    const { popupWindowStyle, showDetail, hideDetail } = useDetail()
+
+    const socialLinks = computed(() => (instance.$themeConfig.blogConfig && instance.$themeConfig.blogConfig.socialLinks || []).map(item => {
+      if (!item.color) item.color = getOneColor()
+      return item
+    }))
+    
+    const socials = computed(() => { return instance.$themeConfig.socials })
+
+    const socialsLength = computed(() => { 
       let count = 0
-      for (let item of this.$themeConfig.socials) {
+      for (let item of instance.$themeConfig.socials) {
         if (item.show) count++
       }
       return count
-    }
-  },
-  methods: {
-    toggleShow (e) {
-      const currentDom = e.target
-      const popupWindowWrapper = currentDom.querySelector('.popup-window-wrapper')
-      const popupWindow = currentDom.querySelector('.popup-window')
-      const infoWrapper = document.querySelector('.info-wrapper')
-      popupWindowWrapper.style.display = 'block'
-      const { clientWidth } = currentDom
-      const {
-        clientWidth: windowWidth,
-        clientHeight: windowHeight
-      } = popupWindow
-      if (this.isPC) {
-        this.popupWindowStyle = {
-          left: (clientWidth - windowWidth) / 2 + 'px',
-          top: -windowHeight + 'px'
-        }
-        infoWrapper.style.overflow = 'visible'
-        this.$nextTick(() => {
-          this._adjustPosition(currentDom.querySelector('.popup-window'))
-        })
-      } else {
-        const getPosition = function (element) {
-          const dc = document
-          const rec = element.getBoundingClientRect()
-          let _x = rec.left
-          let _y = rec.top
-          _x += dc.documentElement.scrollLeft || dc.body.scrollLeft
-          _y += dc.documentElement.scrollTop || dc.body.scrollTop
-          return {
-            left: _x,
-            top: _y
-          }
-        }
-        infoWrapper.style.overflow = 'hidden'
-        const left = getPosition(currentDom).left - getPosition(infoWrapper).left
-        this.popupWindowStyle = {
-          left: (-left + (infoWrapper.clientWidth - popupWindow.clientWidth) / 2) + 'px',
-          top: -windowHeight + 'px'
-        }
-      }
-    },
-    toggleHide (e) {
-      const currentDom = e.target
-      const popupWindowWrapper = currentDom.querySelector('.popup-window-wrapper')
-      popupWindowWrapper.style.display = 'none'
-    },
-    _adjustPosition (dom) {
-      const { offsetWidth } = document.body
-      const { x, width } = dom.getBoundingClientRect()
-      const distanceToRight = offsetWidth - (x + width)
-      if (distanceToRight < 0) {
-        const { offsetLeft } = dom
-        this.popupWindowStyle = {
-          ...this.popupWindowStyle,
-          left: offsetLeft + distanceToRight + 'px'
-        }
-      }
-    }
+    })
+
+    return { socialLinks, socials, socialsLength, popupWindowStyle, showDetail, hideDetail }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
@@ -194,22 +192,46 @@ export default {
       &:first-child {
         border-right 1px solid #333
       }
-      .personal-link {
+      h3 {
+        line-height auto
+        margin 0 0 .6rem
         color var(--text-color)
-        &:hover {
-          color $accentColor
-        }
-        h3 {
-          line-height auto
-          margin 0 0 .6rem
-        }
-        h6 {
-          line-height auto
-          margin 0
-        }
+      }
+      h6 {
+        line-height auto
+        color var(--text-color)
+        margin 0
       }
     }
   }
+  // .social-links {
+  //   box-sizing border-box
+  //   display flex
+  //   flex-wrap wrap
+  //   padding 10px
+  //   .social-item {
+  //     width 39px
+  //     height 36px
+  //     line-height 36px
+  //     text-align center
+  //     list-style none
+  //     transition transform .3s
+  //     &:hover {
+  //       transform scale(1.08)
+  //     }
+  //     i {
+  //       cursor pointer
+  //       font-size 22px
+  //     }
+  //   }
+  //   .h1 {
+  //     margin 3rem 0
+  //   }
+  //   .big {
+  //     font-size 1.3rem
+  //     margin 0 .5rem
+  //   }
+  // }
   .social-links {
     box-sizing: border-box
     display: flex
@@ -228,9 +250,6 @@ export default {
     .big {
       font-size 1.3rem
       margin 0 .5rem
-      // &:hover {
-      //   transform: scale(1.04)
-      // }  
     }
   }
   .popup-window-wrapper {
@@ -282,45 +301,4 @@ export default {
     }
   }
 }
-.grey
-  color grey
-
-.orange
-  color orange
-
-.green
-  color green
-
-.blue
-  color deepskyblue
-
-.pink
-  color pink
-
-.dgreen
-  color forestgreen
-
-.black
-  color #849b87
-
-.coral
-  color coral
-
-.crimson
-  color crimson
-
-.indianred
-  color indianred
-
-.lightskyblue
-  color #2ca5f1
-
-.lightsalmon
-  color lightsalmon
-
-.dodgerblue
-  color dodgerblue
-
-.forestgreen
-  color forestgreen
 </style>

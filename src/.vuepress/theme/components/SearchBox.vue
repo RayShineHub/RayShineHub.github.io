@@ -1,9 +1,9 @@
 <template>
-  <div class="search-box" 
+  <div class="search-box"
   :class="{
-    pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
+    pagefull : ($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
   }">
-    <i class="iconfont reco-search"></i>
+    <reco-icon icon="reco-search" />
     <input
       @input="query = $event.target.value"
       aria-label="Search"
@@ -43,38 +43,46 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
+import { defineComponent, reactive, toRefs, computed } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { useInstance } from '@theme/helpers/composable'
+
+export default defineComponent({
+  components: { RecoIcon },
+  props: ['isNavFixed'],
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const state = reactive({
       query: '',
       focused: false,
       focusIndex: 0,
       placeholder: undefined
-    }
-  },
-  props: {
-	  isNavFixed: {
-	    type: Boolean,
-	    default: false
-	  }
-	},
-  mounted () {
-    this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
-  },
-  computed: {
-    showSuggestions () {
+    })
+
+    const showSuggestions = computed(() => {
       return (
-        this.focused && this.suggestions && this.suggestions.length
+        state.focused && suggestions.value && suggestions.value.length
       )
-    },
-    suggestions () {
-      const query = this.query.trim().toLowerCase()
+    })
+
+    const getPageLocalePath = (page) => {
+      for (const localePath in instance.$site.locales || {}) {
+        if (localePath !== '/' && page.path.indexOf(localePath) === 0) {
+          return localePath
+        }
+      }
+      return '/'
+    }
+
+    const suggestions = computed(() => {
+      const query = state.query.trim().toLowerCase()
       if (!query) {
         return
       }
-      const { pages } = this.$site
-      const max = this.$site.themeConfig.searchMaxSuggestions
-      const localePath = this.$localePath
+      const { pages } = instance.$site
+      const max = instance.$site.themeConfig.searchMaxSuggestions
+      const localePath = instance.$localePath
       const matches = item => (
         item && item.title && item.title.toLowerCase().indexOf(query) > -1
       )
@@ -83,7 +91,7 @@ export default {
         if (res.length >= max) break
         const p = pages[i]
         // filter out results that do not match current locale
-        if (this.getPageLocalePath(p) !== localePath) {
+        if (getPageLocalePath(p) !== localePath) {
           continue
         }
         if (matches(p)) {
@@ -102,60 +110,66 @@ export default {
         }
       }
       return res
-    },
-    // make suggestions align right when there are not enough items
-    alignRight () {
-      const navCount = (this.$site.themeConfig.nav || []).length
-      const repo = this.$site.repo ? 1 : 0
+    })
+
+    const alignRight = computed(() => {
+      const navCount = (instance.$site.themeConfig.nav || []).length
+      const repo = instance.$site.repo ? 1 : 0
       return navCount + repo <= 2
+    })
+
+    const onUp = () => {
+      if (showSuggestions.value) {
+        if (state.focusIndex > 0) {
+          state.focusIndex--
+        } else {
+          state.focusIndex = suggestions.value.length - 1
+        }
+      }
     }
-  },
-  methods: {
-    getPageLocalePath (page) {
-      for (const localePath in this.$site.locales || {}) {
-        if (localePath !== '/' && page.path.indexOf(localePath) === 0) {
-          return localePath
-        }
-      }
-      return '/'
-    },
-    onUp () {
-      if (this.showSuggestions) {
-        if (this.focusIndex > 0) {
-          this.focusIndex--
+
+    const onDown = () => {
+      if (showSuggestions.value) {
+        if (state.focusIndex < suggestions.value.length - 1) {
+          state.focusIndex++
         } else {
-          this.focusIndex = this.suggestions.length - 1
+          state.focusIndex = 0
         }
       }
-    },
-    onDown () {
-      if (this.showSuggestions) {
-        if (this.focusIndex < this.suggestions.length - 1) {
-          this.focusIndex++
-        } else {
-          this.focusIndex = 0
-        }
-      }
-    },
-    go (i) {
-      if (!this.showSuggestions) {
+    }
+
+    const go = (i) => {
+      if (!showSuggestions.value) {
         return
       }
-      this.$router.push(this.suggestions[i].path)
-      this.query = ''
-      this.focusIndex = 0
-    },
-    focus (i) {
-      this.focusIndex = i
-    },
-    unfocus () {
-      this.focusIndex = -1
+      instance.$router.push(suggestions.value[i].path)
+      state.query = ''
+      state.focusIndex = 0
     }
+
+    const focus = (i) => {
+      state.focusIndex = i
+    }
+
+    const unfocus = () => {
+      state.focusIndex = -1
+    }
+
+    return { showSuggestions, suggestions, alignRight, onUp, onDown, focus, unfocus, go, ...toRefs(state) }
+  },
+  mounted () {
+    this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
   }
-}
+})
 </script>
 
 <style lang="stylus">
+.pagefull
+  input
+    color lighten(rgba(255, 255, 255, 0.8), 80%)
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  i
+    color rgba(255, 255, 255, 0.6)
 .search-box
   display inline-block
   position relative
@@ -171,10 +185,10 @@ export default {
     cursor text
     width 10rem
     height: 2rem
-    color var(--text-color)
+    color lighten($textColor, 25%)
     display inline-block
-    border 1px solid var(--text-color-sub)
-    border-radius 25rem
+    border 1px solid var(--border-color)
+    border-radius $borderRadius
     font-size 0.9rem
     line-height 2rem
     padding 0 0.5rem 0 2rem
@@ -213,12 +227,6 @@ export default {
       background-color var(--border-color)
       a
         color $accentColor
-.pagefull
-  input
-    color lighten($pagefullNavColor, 80%)
-    border: 1px solid $pagefullNavColor
-  i
-    color $pagefullIconColor
 @media (max-width: $MQNarrow)
   .search-box
     input

@@ -5,7 +5,6 @@ showSponsor: true
 isShowComment: true
 isAbstract: true
 autoIgnore: true
-sidebar: false
 meta:
   - name: description
     content: GitHub Actions

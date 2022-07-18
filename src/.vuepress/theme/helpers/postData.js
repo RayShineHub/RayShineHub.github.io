@@ -1,17 +1,19 @@
 import { compareDate } from '@theme/helpers/utils'
 
 // 过滤博客数据
-export function filterPosts (posts, isTimeline) {
+export function filterPosts (posts, isTimeline = false, isIndex = false) {
   posts = posts.filter((item, index) => {
-    const { title, frontmatter: { home, date, publish } } = item
+    const { title, frontmatter: { home, date, publish, isShowIndex } } = item
     // 过滤多个分类时产生的重复数据
     if (posts.indexOf(item) !== index) {
       return false
     } else {
-      const someConditions = home == true || title == undefined || publish === false
+      const someConditions = home === true || title == undefined || publish === false
       const boo = isTimeline === true
         ? !(someConditions || date === undefined)
-        : !someConditions
+        : isIndex === true
+        ? !(someConditions || isShowIndex === false)
+        :!someConditions
       return boo
     }
   })

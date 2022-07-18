@@ -1,24 +1,17 @@
 <template>
-  <nav
-    class="nav-links"
-    :class="{
-      pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
-    }"
-    v-if="userLinks.length || repoLink"
-  >
+  <nav class="nav-links"
+  :class="{
+    pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
+  }"
+  v-if="userLinks.length || repoLink">
     <!-- user links -->
     <div
       class="nav-item"
       v-for="item in userLinks"
-      :key="item.link">
-      <DropdownLink
-        v-if="item.type === 'links'"
-        :item="item"
-        :isNavFixed="isNavFixed"/>
-      <NavLink
-        v-else
-        :item="item"
-        />
+      :key="item.link"
+    >
+      <DropdownLink v-if="item.type === 'links'" :item="item" />
+      <NavLink v-else :item="item" />
     </div>
 
     <!-- repo link -->
@@ -27,8 +20,9 @@
       :href="repoLink"
       class="repo-link"
       target="_blank"
-      rel="noopener noreferrer">
-      <i :class="`iconfont reco-${repoLabel.toLowerCase()}`"></i>
+      rel="noopener noreferrer"
+    >
+      <reco-icon :icon="`reco-${repoLabel.toLowerCase()}`" />
       {{ repoLabel }}
       <OutboundLink/>
     </a>
@@ -36,43 +30,47 @@
 </template>
 
 <script>
+import { defineComponent, computed } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import DropdownLink from '@theme/components/DropdownLink'
 import { resolveNavLinkItem } from '@theme/helpers/utils'
 import NavLink from '@theme/components/NavLink'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
-  components: { NavLink, DropdownLink },
-	
-	props: {
+export default defineComponent({
+  components: { NavLink, DropdownLink, RecoIcon },
+  props: {
 	  isNavFixed: {
 	    type: Boolean,
 	    default: false
 	  }
 	},
-	
-  computed: {
-    userNav () {
-      return this.$themeLocaleConfig.nav || this.$themeConfig.nav || []
-    },
+  setup (props, ctx) {
+    const instance = useInstance()
 
-    nav () {
-      const { $site: { locales }, userNav } = this
+    const userNav = computed(() => {
+      return instance.$themeLocaleConfig.nav || instance.$themeConfig.nav || []
+    })
+
+    const nav = computed(() => {
+      const locales = instance.$site.locales || {}
+
       if (locales && Object.keys(locales).length > 1) {
-        const currentLink = this.$page.path
-        const routes = this.$router.options.routes
-        const themeLocales = this.$themeConfig.locales || {}
+        const currentLink = instance.$page.path
+        const routes = instance.$router.options.routes
+        const themeLocales = instance.$themeConfig.locales || {}
         const languageDropdown = {
-          text: this.$themeLocaleConfig.selectText || 'Languages',
+          text: instance.$themeLocaleConfig.selectText || 'Languages',
           items: Object.keys(locales).map(path => {
             const locale = locales[path]
             const text = themeLocales[path] && themeLocales[path].label || locale.lang
             let link
             // Stay on the current page
-            if (locale.lang === this.$lang) {
+            if (locale.lang === instance.$lang) {
               link = currentLink
             } else {
               // Try to stay on the same page
-              link = currentLink.replace(this.$localeConfig.path, path)
+              link = currentLink.replace(instance.$localeConfig.path, path)
               // fallback to homepage
               if (!routes.some(route => route.path === link)) {
                 link = path
@@ -81,19 +79,20 @@ export default {
             return { text, link }
           })
         }
-        return [...userNav, languageDropdown]
+
+        return [...userNav.value, languageDropdown]
       }
 
       // blogConfig 的处理，根绝配置自动添加分类和标签
-      const blogConfig = this.$themeConfig.blogConfig || {}
-      const isHasCategory = userNav.some(item => {
+      const blogConfig = instance.$themeConfig.blogConfig || {}
+      const isHasCategory = userNav.value.some(item => {
         if (blogConfig.category) {
           return item.text === (blogConfig.category.text || '分类')
         } else {
           return true
         }
       })
-      const isHasTag = userNav.some(item => {
+      const isHasTag = userNav.value.some(item => {
         if (blogConfig.tag) {
           return item.text === (blogConfig.tag.text || '标签')
         } else {
@@ -103,56 +102,59 @@ export default {
 
       if (!isHasCategory && Object.hasOwnProperty.call(blogConfig, 'category')) {
         const category = blogConfig.category
-        const $categories = this.$categories
-        userNav.splice(parseInt(category.location || 2) - 1, 0, {
+        const $categories = instance.$categories
+        userNav.value.splice(parseInt(category.location || 2) - 1, 0, {
           items: $categories.list.map(item => {
             item.link = item.path
             item.text = item.name
             return item
           }),
-          text: category.text || '分类',
+          text: category.text || instance.$recoLocales.category,
           type: 'links',
           icon: 'reco-category'
         })
       }
+
       if (!isHasTag && Object.hasOwnProperty.call(blogConfig, 'tag')) {
         const tag = blogConfig.tag
-        userNav.splice(parseInt(tag.location || 3) - 1, 0, {
+        userNav.value.splice(parseInt(tag.location || 3) - 1, 0, {
           link: '/tag/',
-          text: tag.text || '标签',
+          text: tag.text || instance.$recoLocales.tag,
           type: 'links',
           icon: 'reco-tag'
         })
       }
 
-      return userNav
-    },
+      return userNav.value
+    })
 
-    userLinks () {
-      return (this.nav || []).map(link => {
+    const userLinks = computed(() => {
+      return (instance.nav || []).map(link => {
         return Object.assign(resolveNavLinkItem(link), {
           items: (link.items || []).map(resolveNavLinkItem)
         })
       })
-    },
+    })
 
-    repoLink () {
-      const { repo } = this.$themeConfig
+    const repoLink = computed(() => {
+      const { repo } = instance.$themeConfig
+
       if (repo) {
         return /^https?:/.test(repo)
           ? repo
           : `https://github.com/${repo}`
       }
-      return ''
-    },
 
-    repoLabel () {
-      if (!this.repoLink) return
-      if (this.$themeConfig.repoLabel) {
-        return this.$themeConfig.repoLabel
+      return ''
+    })
+
+    const repoLabel = computed(() => {
+      if (!instance.repoLink) return ''
+      if (instance.$themeConfig.repoLabel) {
+        return instance.$themeConfig.repoLabel
       }
 
-      const repoHost = this.repoLink.match(/^https?:\/\/[^/]+/)[0]
+      const repoHost = instance.repoLink.match(/^https?:\/\/[^/]+/)[0]
       const platforms = ['GitHub', 'GitLab', 'Bitbucket']
       for (let i = 0; i < platforms.length; i++) {
         const platform = platforms[i]
@@ -162,13 +164,14 @@ export default {
       }
 
       return 'Source'
-    }
+    })
+
+    return { userNav, nav, userLinks, repoLink, repoLabel }
   }
-}
+})
 </script>
 
 <style lang="stylus">
-
 // add by Rayshine 2022-07-01
 .pagefull
   .nav-item
@@ -191,7 +194,6 @@ export default {
           border-top: 6px solid $accentColor
           transform: rotate(-90deg)
           transition: transform .3s ease-in-out
-
 .nav-links
   display inline-block
   a
@@ -201,10 +203,6 @@ export default {
       color $accentColor
       .iconfont
         color $accentColor
-      .arrow
-          border-top: 6px solid $accentColor
-          transform: rotate(-90deg)
-          transition: transform .3s ease-in-out
   .nav-item
     position relative
     display inline-block

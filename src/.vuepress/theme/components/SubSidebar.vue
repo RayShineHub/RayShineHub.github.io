@@ -1,33 +1,34 @@
 <script>
+import { defineComponent, computed } from 'vue'
 import { isActive } from '@theme/helpers/utils'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
-  computed: {
-    headers () {
-      const headers = (this.$page.headers || []).filter(header => header.level === 2)
-      return headers
-    }
-  },
-  methods: {
-    isLinkActive (header) {
-      const active = isActive(this.$route, this.$page.path + '#' + header.slug)
+export default defineComponent({
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const headers = computed(() => {
+      return instance.$showSubSideBar ? instance.$page.headers : []
+    })
+
+    const isLinkActive = (header) => {
+      const active = isActive(instance.$route, instance.$page.path + '#' + header.slug)
       if (active) {
         setTimeout(() => {
-          // console.log(document.querySelector(`.${header.slug}`))
-          document.querySelector(`.${header.slug}`).scrollIntoView()
+          document.querySelector(`.reco-side-${header.slug}`).scrollIntoView()
         }, 300)
       }
       return active
     }
+
+    return { headers, isLinkActive }
   },
   render (h) {
-    // add by RayShine
-    // 增加提示
     return h('ul', {
       class: { 'sub-sidebar-wrapper': true },
-      style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
+      style: { width: this.headers.length > 0 ? '12rem' : '0' }
     }, [
-      ...(this.$page.headers || []).map(header => {
+      ...this.headers.map(header => {
         return h('li', {
           class: {
             active: this.isLinkActive(header),
@@ -36,31 +37,24 @@ export default {
           attr: { key: header.title }
         }, [
           h('router-link', {
-            class: { 'sidebar-link': true, 'group-hover:shift-x-4':true, [`${header.slug}`]: true, [`depth-${header.level}`]: true },
-            props: { to: `#${header.slug}` }
+            class: { 'sidebar-link': true, [`reco-side-${header.slug}`]: true,  [`depth-${header.level}`]: true},
+            props: { to: `${this.$page.path}#${header.slug}` }
           }, header.title)
         ])
       })
     ])
   }
-}
-
+})
 </script>
 
 <style lang="stylus" scoped>
-.sub-sidebar-tip
-  width 12rem
-  padding-left 0
-  list-style none
-  font-size 15px
 .sub-sidebar-wrapper
   width 12rem
   padding-left 0
   list-style none
   font-size 12px
-  line-height: 1.25rem
   li
-    // padding .2rem 0
+    padding .2rem 0
     cursor pointer
     border-left 1px solid var(--border-color)
     a
@@ -75,13 +69,13 @@ export default {
     &.active
       border-left 1px solid $accentColor
       a
-       color $accentColor
+        color $accentColor
     &.level-1
       padding-left .4rem
     &.level-2
       padding-left .9rem
     &.level-3
-      padding-left 1.1rem
+      padding-left 1.5rem
 .depth-2
   font-weight: 800
 .depth-3

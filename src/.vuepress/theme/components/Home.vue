@@ -9,7 +9,12 @@
           alt="hero">
       </ModuleTransition>
       <ModuleTransition delay="0.04">
-        <h1 v-if="recoShowModule && $frontmatter.heroText !== null">{{ $frontmatter.heroText || $title || 'vuePress-theme-reco' }}</h1>
+        <h1
+          v-if="recoShowModule && $frontmatter.heroText !== null"
+          :style="{ marginTop: $frontmatter.heroImage ? '0px' : '140px'}"
+        >
+          {{ $frontmatter.heroText || $title || 'vuePress-theme-reco' }}
+        </h1>
       </ModuleTransition>
       <ModuleTransition delay="0.08">
         <p v-if="recoShowModule && $frontmatter.tagline !== null" class="description">
@@ -38,35 +43,32 @@
 </template>
 
 <script>
+import { defineComponent, computed } from 'vue'
 import NavLink from '@theme/components/NavLink'
-import ModuleTransition from '@theme/components/ModuleTransition'
-import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
+import { ModuleTransition } from '@vuepress-reco/core/lib/components'
+import { useInstance, useShowModule } from '@theme/helpers/composable'
 
-export default {
-  mixins: [moduleTransitonMixin],
+export default defineComponent({
   components: { NavLink, ModuleTransition },
-  computed: {
 
-    actionLink () {
-      return {
-        link: this.$frontmatter.actionLink,
-        text: this.$frontmatter.actionText
-      }
-    },
+  setup (props, ctx) {
+    const instance = useInstance()
+    const recoShowModule = useShowModule()
+    const actionLink = computed(() => instance && {
+      link: instance.$frontmatter.actionLink,
+      text: instance.$frontmatter.actionText
+    })
+    const heroImageStyle = computed(() => instance.$frontmatter.heroImageStyle || {
+      maxHeight: '200px',
+      margin: '6rem auto 1.5rem'
+    })
 
-    heroImageStyle () {
-      return this.$frontmatter.heroImageStyle || {
-        maxHeight: '200px',
-        margin: '6rem auto 1.5rem'
-      }
-    }
+    return { recoShowModule, actionLink, heroImageStyle }
   }
-}
+})
 </script>
 
 <style lang="stylus">
-@require '../styles/mode.styl'
-
 .home {
   padding: $navbarHeight 2rem 0;
   max-width: 960px;
@@ -75,6 +77,7 @@ export default {
   .hero {
     text-align: center;
     h1 {
+      display: block;
       font-size: 2.5rem;
       color: var(--text-color);
     }
@@ -94,7 +97,7 @@ export default {
       font-size: 1.2rem;
       color: #fff;
       background-color: $accentColor;
-      padding: 0.6rem 1.2rem;
+      padding: 0.2rem 1.2rem;
       border-radius: $borderRadius
       transition: background-color 0.1s ease;
       box-sizing: border-box;
@@ -134,59 +137,6 @@ export default {
       transform scale(1.05)
     }
   }
-
-//   &.reco-hide {
-//   .hero {
-//     img {
-//       load-start()
-//     }
-//     .h1 {
-//       load-start()
-//     }
-//     .description {
-//       load-start()
-//     }
-//     .huawei {
-//       load-start()
-//     }
-//     .action-button {
-//       load-start()
-//     }
-//   }
-//   .features {
-//     load-start()
-//   }
-//   .home-center {
-//     load-start()
-//     padding 0
-//   }
-// }
-
-//   &.reco-show {
-//     .hero {
-//       img {
-//         load-end(0.08s)
-//       }
-//       .h1 {
-//         load-end(0.16s)
-//       }
-//       .description {
-//         load-end(0.24s)
-//       }
-//       .huawei {
-//         load-end(0.32s)
-//       }
-//       .action-button {
-//         load-end(0.4s)
-//       }
-//     }
-//     .features {
-//       load-end(0.40s)
-//     }
-//     .home-center {
-//       load-end(0.48s)
-//     }
-//   }
 }
 
 @media (max-width: $MQMobile) {

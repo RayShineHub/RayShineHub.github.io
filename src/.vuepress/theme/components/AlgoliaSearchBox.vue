@@ -7,7 +7,7 @@
       pagefull : ($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
     }"
   >
-    <i class="iconfont reco-search"></i>
+    <reco-icon icon="reco-search" />
     <input
       id="algolia-search-input"
       class="search-query"
@@ -17,28 +17,21 @@
 </template>
 
 <script>
-export default {
-  props: {
-    options: {
-      type: Object
-    },
-    isNavFixed: {
-	    type: Boolean,
-	    default: false
-	  }
-  },
-  data () {
-    return {
-      placeholder: undefined
-    }
-  },
-  mounted () {
-    this.initialize(this.options, this.$lang)
-    this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
-  },
+import { defineComponent, ref, onMounted } from 'vue'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { useInstance } from '@theme/helpers/composable'
 
-  methods: {
-    initialize (userOptions, lang) {
+export default defineComponent({
+  components: { RecoIcon },
+
+  props: ['options', 'isNavFixed'],
+
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const placeholder = ref(undefined)
+
+    const initialize = (userOptions, lang) => {
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
         import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
@@ -50,7 +43,7 @@ export default {
           userOptions,
           {
             container: '.search-box',
-            placeholder: '请输入关键词',
+            placeholder: placeholder.value,
             // #697 Make docsearch work well at i18n mode.
             searchParameters: Object.assign({
               'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
@@ -62,12 +55,19 @@ export default {
           }
         ))
       })
-    },
-
-    update (options, lang) {
-      this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">'
-      this.initialize(options, lang)
     }
+
+    const update = (options, lang) => {
+      instance.$el.innerHTML = '<input id="algolia-search-input" class="search-query">'
+      instance.initialize(options, lang)
+    }
+
+    onMounted(() => {
+      initialize(props.options, instance.$lang)
+      placeholder.value = instance.$site.themeConfig.searchPlaceholder || '请输入关键词'
+    })
+
+    return { placeholder, initialize, update }
   },
 
   watch: {
@@ -79,16 +79,19 @@ export default {
       this.update(newValue, this.$lang)
     }
   }
-}
+})
 </script>
 
 <style lang="stylus">
-@require '../styles/mode.styl'
+.pagefull
+  input
+    color lighten(rgba(255, 255, 255, 0.8), 80%)
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  i
+    color rgba(255, 255, 255, 0.6)
 .algolia-search-wrapper
   & > span
-    // modify by RayShine
-    // vertical-align middle
-    vertical-align bottom
+    vertical-align middle
   .algolia-autocomplete
     line-height normal
     .ds-dropdown-menu
@@ -108,12 +111,11 @@ export default {
       .ds-suggestions
         margin-top 0
       .ds-suggestion
-        border-bottom 1px solid $lightColor10
+        border-bottom 1px solid var(--border-color)
     .algolia-docsearch-suggestion--highlight
       color $accentColor
     .algolia-docsearch-suggestion
-      // border-color var(--border-color)
-      border-color $lightColor10
+      border-color var(--border-color)
       padding 0
       .algolia-docsearch-suggestion--category-header
         padding 5px 10px
@@ -133,34 +135,19 @@ export default {
       .algolia-docsearch-suggestion--subcategory-column
         vertical-align top
         padding 5px 7px 5px 5px
-        // border-color var(--border-color)
-				border-color $lightColor10
+        border-color var(--border-color)
         background var(--background-color)
         &:after
           display none
       .algolia-docsearch-suggestion--subcategory-column-text
         color var(--text-color)
     .algolia-docsearch-footer
-      // border-color var(--border-color)
-      border-color $lightColor10
+      border-color var(--border-color)
       background var(--background-color)
     .ds-cursor .algolia-docsearch-suggestion--content
       background-color #e7edf3 !important
       color $textColor
 
-.pagefull
-  input
-    color lighten(rgba(255, 255, 255, 0.8), 80%)
-    border: 1px solid rgba(255, 255, 255, 0.8);
-  i
-    color rgba(255, 255, 255, 0.6)
-
-.isNavFixed
-  input
-    color var(--text-color)
-    border: 1px solid var(--text-color-sub);
-  i
-    color var(--text-color)
 @media (min-width: $MQMobile)
   .algolia-search-wrapper
     .algolia-autocomplete

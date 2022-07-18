@@ -1,40 +1,21 @@
 import { filterPosts, sortPostsByStickyAndDate, sortPostsByDate } from '../helpers/postData'
-import { themeConfig } from './../../config.js'
+
 export default {
   computed: {
-    //随机背景图片
     $recoPosts () {
-      const {
-        $categories: { list: articles }
-      } = this
-
-      let posts = articles.reduce((allData, currentData) => {
-        return [...allData, ...currentData.pages]
-      }, [])
+      let posts = this.$site.pages
 
       posts = filterPosts(posts, false)
       sortPostsByStickyAndDate(posts)
 
       return posts
     },
-    //首页
-    $recoPostsIndex(){
-      const {
-        $categories: { list: articles }
-      } = this
+    $recoPostsIndex () {
+      let posts = this.$site.pages
 
-      let posts = articles.reduce((allData, currentData) => {
-        return [...allData, ...currentData.pages]
-      }, [])
-
-      posts = filterPosts(posts, false)
-       //过滤是否在首页显示
-      posts = posts.filter((item, index) => {
-        if(item.frontmatter.isShowIndex != false){
-        return item;
-      }
-      })
+      posts = filterPosts(posts, false, true)
       sortPostsByStickyAndDate(posts)
+
       return posts
     },
     $recoPostsForTimeline () {
@@ -62,20 +43,57 @@ export default {
       }
 
       return formatPagesArr
+    },
+    $categoriesList () {
+      return this.$categories.list.map(category => {
+        category.pages = category.pages.filter(page => {
+          return page.frontmatter.publish !== false
+        })
+        return category
+      })
+    },
+    $tagesList () {
+      return this.$tags.list.map(tag => {
+        tag.pages = tag.pages.filter(page => {
+          return page.frontmatter.publish !== false
+        })
+        return tag
+      })
+    },
+    $showSubSideBar () {
+      const {
+        $themeConfig: { subSidebar: themeSubSidebar, sidebar: themeSidebar },
+        $frontmatter: { subSidebar: pageSubSidebar, sidebar: pageSidebar }
+      } = this
+
+      const headers = this.$page.headers || []
+
+      if ([pageSubSidebar, pageSidebar].indexOf(false) > -1) {
+        return false
+      } else if ([pageSubSidebar, pageSidebar].indexOf('auto') > -1 && headers.length > 0) {
+        return true
+      } else if ([themeSubSidebar, themeSidebar].indexOf('auto') > -1 && headers.length > 0) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods:{
+    // add by Ray Shine
     coverRandom (isRandom = false, bgurl = undefined){
-      if(isRandom || themeConfig.back.isRandom) {
-        const urls = themeConfig.back.bgUrls
+      if(isRandom || this.$themeConfig.back.isRandom) {
+        const urls = this.$themeConfig.back.bgUrls
         const num = urls.length
         const inum = RandomNum(1,num)
         bgurl = urls[inum-1]
       }
-      return bgurl || themeConfig.back.bgImage
+      return bgurl || this.$themeConfig.back.bgImage
     },
   }
+
 }
+
 //获取范围内随机数
 function RandomNum (Min,Max) {
   var Range = Max - Min;
@@ -96,13 +114,4 @@ function dateFormat (date, type) {
   const day = dateObj.getDate()
   if (type == 'year') return year
   else return `${mon}-${day}`
-}
-function timestamp(url){
-  var getTimestamp=new Date().getTime();
-  if(url.indexOf("?")>-1){
-    url=url+"&timestamp="+getTimestamp
-  }else{
-    url=url+"?timestamp="+getTimestamp
-  }
-  return url
 }

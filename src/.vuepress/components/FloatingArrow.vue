@@ -35,7 +35,7 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="stylus" scoped>
 .main {
   width: 100%;
   overflow: hidden;

@@ -1,45 +1,62 @@
 <template>
-  <Common :sidebarItems="sidebarItems">
+  <Common :sidebarItems="sidebarItems" :showModule="show">
     <component v-if="$frontmatter.home" :is="homeCom"/>
-    <Page v-else :sidebar-items="sidebarItems"/>
+    <Page v-else :key="path" :sidebar-items="sidebarItems"/>
     <Footer v-if="$frontmatter.home" class="footer" />
   </Common>
 </template>
 
 <script>
-// import Aos from 'aos'
+import { defineComponent, computed, ref, onMounted } from 'vue'
 import Home from '@theme/components/Home'
 import HomeBlog from '@theme/components/HomeBlog'
 import Page from '@theme/components/Page'
 import Footer from '@theme/components/Footer'
 import Common from '@theme/components/Common'
 import { resolveSidebarItems } from '@theme/helpers/utils'
+import { useInstance } from '@theme/helpers/composable'
+import { ModuleTransition } from '@vuepress-reco/core/lib/components'
 
-export default {
-  components: { HomeBlog, Home, Page, Common, Footer },
-  computed: {
-    sidebarItems () {
-      return resolveSidebarItems(
-        this.$page,
-        this.$page.regularPath,
-        this.$site,
-        this.$localePath
-      )
-    },
-    homeCom () {
-      const { type } = this.$themeConfig
-      if (type !== undefined) {
+export default defineComponent({
+  components: { HomeBlog, Home, Page, Common, Footer, ModuleTransition },
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const sidebarItems = computed(() => {
+      const { $page, $site, $localePath } = instance
+      if ($page) {
+        return resolveSidebarItems(
+          $page,
+          $page.regularPath,
+          $site,
+          $localePath
+        )
+      } else {
+        return []
+      }
+    })
+
+    const homeCom = computed(() => {
+      const { type } = instance.$themeConfig || {}
+      if (type) {
         return type == 'blog' ? 'HomeBlog' : type
       }
       return 'Home'
-    }
-  },
-  beforeMount () {
-    // Aos.init({
-    //   easing: 'ease-in-sine', duration: 300, delay: 0, mirror: true, disable: 'mobile'
-    // })
+    })
+
+    const show = ref(false)
+    onMounted(() => {
+      show.value = true
+    })
+
+    const path = computed(() => {
+      return instance?.$page.path
+    })
+
+    return { sidebarItems, homeCom, show, path }
   }
-}
+})
 </script>
 
+<style src="prismjs/themes/prism-tomorrow.css"></style>
 <style src="../styles/theme.styl" lang="stylus"></style>

@@ -4,10 +4,10 @@
         'margin': '0 auto',
         'padding': '0'
       } : {}">
-      <div v-if='$themeConfig.fullscreen' 
+    <div v-if="$themeConfig.fullscreen"
       :class="$themeConfig.fullscreen?'sjfullPic hclass':'hclass'"
       :style="$themeConfig.fullscreen? {
-        'background': 'url(' + this.timestamp($themeConfig.timePic?$themeConfig.timePic:coverRandom(false,this.$themeConfig.back.homeImage )) +')'
+        'background': 'url(' + getPic() + ')'
       } : {}" >
       <h1 style="font-family: Regular,cursive;color: #fff;letter-spacing: 1rem">流时的间</h1>
       </div>
@@ -16,42 +16,49 @@
         'margin': '0 auto',
         'padding': '4.6rem 2.5rem 0'
       } : {}">
-    <ul class="timeline-content">
-      <ModuleTransition >
-        <li v-show="recoShowModule" class="desc">Yesterday Once More!</li>
-      </ModuleTransition>
-      <ModuleTransition
-        :delay="String(0.08 * (index + 1))"
-        v-for="(item, index) in $recoPostsForTimeline"
-        :key="index">
-        <li v-show="recoShowModule">
-          <h3 class="year"
-          data-aos="fade-left" data-aos-anchor-placement="top-bottom" data-aos-duration="600" data-aos-delay="0"
-          >{{item.year}}</h3>
-          <ul class="year-wrapper">
-            <li v-for="(subItem, subIndex) in item.data" :key="subIndex" data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0">
-              <span class="date">{{subItem.frontmatter.date | dateFormat}}</span>
-              <span class="title" @click="go(subItem.path)">{{subItem.title}}</span>
-            </li>
-          </ul>
-        </li>
-      </ModuleTransition>
-    </ul>
-       </div>
+      <ul class="timeline-content">
+        <ModuleTransition >
+          <li v-show="recoShowModule" class="desc">{{$recoLocales.timeLineMsg}}</li>
+        </ModuleTransition>
+        <ModuleTransition
+          :delay="String(0.08 * (index + 1))"
+          v-for="(item, index) in $recoPostsForTimeline"
+          :key="index">
+          <li v-show="recoShowModule">
+            <h3 class="year" 
+            data-aos="fade-left" data-aos-anchor-placement="top-bottom" data-aos-duration="600" data-aos-delay="0" data-aos-offset="-50"
+            >{{item.year}}</h3>
+            <ul class="year-wrapper">
+              <li v-for="(subItem, subIndex) in item.data" :key="subIndex" 
+              data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-duration="300" data-aos-delay="0" data-aos-offset="-50">
+                <span class="date">{{dateFormat(subItem.frontmatter.date)}}</span>
+                <span class="title" @click="go(subItem.path)">{{subItem.title}}</span>
+              </li>
+            </ul>
+          </li>
+        </ModuleTransition>
+      </ul>
+    </div>
   </Common>
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import Common from '@theme/components/Common'
-import ModuleTransition from '@theme/components/ModuleTransition'
-import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
+import { ModuleTransition } from '@vuepress-reco/core/lib/components'
+import { useInstance, useShowModule } from '@theme/helpers/composable'
 
-export default {
-  mixins: [moduleTransitonMixin],
+export default defineComponent({
   name: 'TimeLine',
   components: { Common, ModuleTransition },
-  filters: {
-    dateFormat (date, type) {
+  setup (props, ctx) {
+    const instance = useInstance()
+
+    const go = (url) => {
+      instance.$router.push({ path: url })
+    }
+
+    const dateFormat = (date, type) => {
       function renderTime (date) {
         const dateee = new Date(date).toJSON()
         return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/-/g, '/')
@@ -62,23 +69,17 @@ export default {
       const day = dateObj.getDate()
       return `${mon}-${day}`
     }
-  },
-  methods: {
-       //新连接
-    timestamp(url){
-      // var getTimestamp=new Date().getTime();
-      // if(url.indexOf("?")>-1){
-      //   url=url+"&timestamp="+getTimestamp
-      // }else{
-      //   url=url+"?timestamp="+getTimestamp
-      // }
-      return url
-    },
-    go (url) {
-      this.$router.push({ path: url })
+
+    const recoShowModule = useShowModule()
+
+    // add by Rayshine
+    const getPic = () => {
+      return instance.$themeConfig.timePic ? instance.$themeConfig.timePic : instance.coverRandom(false,instance.$themeConfig.back.homeImage)
     }
+
+    return { recoShowModule, go, dateFormat, getPic }
   }
-}
+})
 </script>
 <style>
 .sjfullPic {

@@ -1,7 +1,7 @@
 {
-  "name": "blog",
+  "name": "rayshine",
   "version": "1.0.0",
-  "author": "ranshine",
+  "author": "ray-shine",
   "keywords": [
     "blog",
     "vue",
@@ -10,38 +10,26 @@
   ],
   "homepage": "https://blog.rayshine.site/",
   "scripts": {
-    "dev": "vuepress dev src",
+    "dev": "vuepress dev src --open --host \"localhost\"",
     "build": "vuepress build src",
     "deploy": "bash deploy.sh",
     "push": "bash push.sh"
   },
   "devDependencies": {
     "directory-tree": "^3.3.0",
-    "glob": "^7.1.6",
-    "jquery": "^3.5.1",
-    "less": "^3.12.2",
-    "less-loader": "^7.0.0",
-    "mime": "^2.4.4",
-    "path": "^0.12.7",
-    "qiniu": "^7.3.0",
-    "vue-embed-gist": "^1.0.2",
-    "vuepress": "^1.7.1",
-    "vuepress-plugin-boxx": "^0.0.7",
-    "vuepress-plugin-dynamic-title": "^1.0.0"
+    "vuepress": "1.8.2",
+    "vuepress-theme-reco": "1.6.14"
   },
   "dependencies": {
     "@docsearch/js": "3",
+    "@vuepress-reco/vuepress-plugin-loading-page": "^1.6.13",
     "@vuepress/plugin-pwa": "^1.9.7",
     "aos": "^3.0.0-beta.6",
-    "container": "^0.0.2",
-    "express": "^4.17.1",
-    "markdown-it-progress": "^2.1.0",
     "markdown-it-task-lists": "^2.1.1",
     "vue-canvas-effect": "^0.0.12",
-    "vue-class-component": "^7.2.3",
-    "vue-property-decorator": "8.4.2",
+    "vuepress-plugin-boxx": "^0.0.7",
     "vuepress-plugin-code-copy": "^1.0.6",
-    "vuepress-theme-reco": "1.5.5"
+    "vuepress-plugin-dynamic-title": "^1.0.0"
   },
-  "description": "blog for rayshine"
+  "description": "blog for RayShine ! "
 }

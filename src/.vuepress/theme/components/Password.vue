@@ -1,125 +1,111 @@
 <template>
   <div class="password-shadow">
-    <ModuleTransition>
-      <h3 v-show="recoShowModule" class="title">{{isPage ? $frontmatter.title : $site.title || $localeConfig.title}}</h3>
-    </ModuleTransition>
+    <h3 class="title">{{isPage ? $frontmatter.title : $site.title || $localeConfig.title}}</h3>
 
-    <ModuleTransition delay="0.08">
-      <p class="description" v-if="recoShowModule && !isPage">{{$site.description || $localeConfig.description}}</p>
-    </ModuleTransition>
+    <p class="description" v-if="!isPage">{{$site.description || $localeConfig.description}}</p>
 
-    <ModuleTransition delay="0.16">
-      <label v-show="recoShowModule" class="inputBox" id="box">
-        <input
-          v-model="key"
-          type="password"
-          @keyup.enter="inter"
-          @focus="inputFocus"
-          @blur="inputBlur">
-        <span>{{warningText}}</span>
-        <button ref="passwordBtn" @click="inter">OK</button>
-      </label>
-    </ModuleTransition>
+    <label class="inputBox" id="box">
+      <input
+        v-model="key"
+        type="password"
+        @keyup.enter="inter"
+        @focus="inputFocus"
+        @blur="inputBlur">
+      <span>{{warningText}}</span>
+      <button ref="passwordBtn" @click="inter">OK</button>
+    </label>
 
-    <ModuleTransition delay="0.24">
-      <div v-show="recoShowModule" class="footer">
-        <span>
-          <i class="iconfont reco-theme"></i>
-          <a target="blank" href="https://vuepress-theme-reco.recoluan.com">vuePress-theme-reco</a>
-        </span>
-        <span>
-          <i class="iconfont reco-copyright"></i>
-          <a>
-            <span v-if="$themeConfig.author || $site.title">{{ $themeConfig.author || $site.title }}</span>
-            &nbsp;&nbsp;
-            <span v-if="$themeConfig.startYear && $themeConfig.startYear != year">{{ $themeConfig.startYear }} - </span>
-            {{ year }}
-          </a>
-        </span>
-      </div>
-    </ModuleTransition>
+    <div class="footer">
+      <span>
+        <reco-icon icon="reco-theme" />
+        <a target="blank" href="https://vuepress-theme-reco.recoluan.com">vuePress-theme-reco</a>
+      </span>
+      <span>
+        <reco-icon icon="reco-copyright" />
+        <a>
+          <span v-if="$themeConfig.author">{{ $themeConfig.author }}</span>
+          &nbsp;&nbsp;
+          <span v-if="$themeConfig.startYear && $themeConfig.startYear != year">{{ $themeConfig.startYear }} - </span>
+          {{ year }}
+        </a>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
+import { defineComponent, ref, toRefs } from 'vue'
 import md5 from 'md5'
-import ModuleTransition from '@theme/components/ModuleTransition'
-import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
+import { RecoIcon } from '@vuepress-reco/core/lib/components'
+import { useInstance } from '@theme/helpers/composable'
 
-export default {
-  mixins: [moduleTransitonMixin],
-  components: { ModuleTransition },
+export default defineComponent({
+  name: 'Password',
+  components: { RecoIcon },
   props: {
     isPage: {
       type: Boolean,
       default: false
     }
   },
-  name: 'Password',
-  data () {
-    return {
-      warningText: 'Konck! Knock!',
-      key: ''
-    }
-  },
-  computed: {
-    year () {
-      return new Date().getFullYear()
-    }
-  },
-  methods: {
-    inter () {
-      const {
-        key,
-        isPage,
-        isHasPageKey,
-        isHasKey,
-        $refs: { passwordBtn }
-      } = this
-      const keyVal = md5(key.trim())
-      const pageKey = `pageKey${window.location.pathname}`
-      const keyName = isPage ? pageKey : 'key'
-      sessionStorage.setItem(keyName, keyVal)
-      const isKeyTrue = isPage ? isHasPageKey() : isHasKey()
-      if (!isKeyTrue) {
-        this.warningText = 'Key Error'
-        return
-      }
+  setup (props, ctx) {
+    const instance = useInstance()
 
-      this.warningText = 'Key Success'
+    const year = new Date().getFullYear()
 
-      const width = document.getElementById('box').style.width
+    const key = ref('')
+    const warningText = ref('Konck! Knock!')
+    const { isPage } = toRefs(props)
 
-      passwordBtn.style.width = `${width - 2}px`
-      passwordBtn.style.opacity = 1
-      setTimeout(() => {
-        window.location.reload()
-      }, 800)
-    },
-    inputFocus () {
-      this.warningText = 'Input Your Key'
-    },
-    inputBlur () {
-      this.warningText = 'Konck! Knock!'
-    },
-    isHasKey () {
-      let { keys } = this.$themeConfig.keyPage
+    const isHasKey = () => {
+      let { keys } = instance.$themeConfig.keyPage
       keys = keys.map(item => item.toLowerCase())
       return keys.indexOf(sessionStorage.getItem('key')) > -1
-    },
-    isHasPageKey () {
-      const pageKeys = this.$frontmatter.keys.map(item => item.toLowerCase())
+    }
+    const isHasPageKey = () => {
+      const pageKeys = instance.$frontmatter.keys.map(item => item.toLowerCase())
       const pageKey = `pageKey${window.location.pathname}`
 
       return pageKeys && pageKeys.indexOf(sessionStorage.getItem(pageKey)) > -1
     }
+
+    const inter = () => {
+      const keyVal = md5(key.value.trim())
+      const pageKey = `pageKey${window.location.pathname}`
+      const keyName = isPage.value ? pageKey : 'key'
+      sessionStorage.setItem(keyName, keyVal)
+      const isKeyTrue = isPage.value ? isHasPageKey() : isHasKey()
+      if (!isKeyTrue) {
+        warningText.value = 'Key Error'
+        return
+      }
+
+      warningText.value = 'Key Success'
+
+      const width = document.getElementById('box').style.width
+
+      instance.$refs.passwordBtn.style.width = `${width - 2}px`
+      instance.$refs.passwordBtn.style.opacity = 1
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 800)
+    }
+
+    const inputFocus = () => {
+      warningText.value = 'Input Your Key'
+    }
+
+    const inputBlur = () => {
+      warningText.value = 'Konck! Knock!'
+    }
+
+    return { warningText, year, key, inter, inputFocus, inputBlur }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
-@require '../styles/mode.styl'
-
 .password-shadow {
   overflow hidden
   position relative
@@ -161,7 +147,7 @@ export default {
     box-sizing border-box
     opacity 0.9
     input{
-      width:600px;
+      width:570px;
       height:100%;
       border:none;
       padding:0;

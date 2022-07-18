@@ -2,8 +2,8 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-14 12:44:28
- * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\plugins\index.js
+ * @LastEditTime: 2022-07-18 17:35:16
+ * @FilePath: \RayShineHube:\Font Project\RayshineHub1.x\src\.vuepress\config\plugins\index.js
  * @Description: 统一插件（plugins）管理中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -26,5 +26,12 @@ module.exports = {
 		hostname: 'https://blog.rayshine.site',
 		exclude: ['/404.html']
 	},
-	'@vuepress-reco/comments': false
+	'@vuepress-reco/loading-page': {},
+	'@vuepress/pwa': {
+		serviceWorker: true,
+		updatePopup: {
+				message: "有新内容喔~",
+				buttonText: "Get"
+		}
+	}
 }

@@ -2,8 +2,8 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-13 18:02:56
- * @FilePath: \RayshineHub2.0e:\Font Project\RayShineHub\src\.vuepress\config\nav\index.js
+ * @LastEditTime: 2022-07-18 01:13:15
+ * @FilePath: \RayShineHube:\Font Project\RayshineHub1.x\src\.vuepress\config\nav\index.js
  * @Description: 统一自定义NavLinks配置中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -16,42 +16,42 @@ module.exports = [
 	//Contact
 	{
 	  text: "收藏", 
-	  icon: "rays-shoucang-4",
+	  icon: "iconfont rays-shoucang-4",
 	  items: [
       {
         text: "其他", 
-        icon: "rays-shoucang-4",
+        icon: "iconfont rays-shoucang-4",
         items: [
           {
             text: "精美壁纸",
             link: "https://wallhaven.cc/",
-            icon: "rays-tupianbizhi"
+            icon: "iconfont rays-tupianbizhi"
           },
           {
             text: "印记中文",
             link: "https://docschina.org/",
-            icon: "rays-lianjie"
+            icon: "iconfont rays-lianjie"
           },
           {
             text: "MDN",
             link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
-            icon: "rays-logo-javascript"
+            icon: "iconfont rays-logo-javascript"
           }
         ]
       },
       {
         text: "工具", 
-        icon: "rays-shoucang-4",
+        icon: "iconfont rays-shoucang-4",
         items: [
           {
             text: "菜鸟工具",
             link: "https://c.runoob.com/",
-            icon: "rays-tupianbizhi"
+            icon: "iconfont rays-tupianbizhi"
           },
           {
             text: "图标工具",
             link: "https://img.shields.io/",
-            icon: "rays-tupianbizhi"
+            icon: "iconfont rays-tupianbizhi"
           }
         ]
       },
