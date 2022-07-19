@@ -32,9 +32,49 @@ export default defineComponent({
     const placeholder = ref(undefined)
 
     const initialize = (userOptions, lang) => {
+      // Promise.all([
+      //   import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
+      //   import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
+      // ]).then(([docsearch]) => {
+      //   docsearch = docsearch.default
+      //   const { algoliaOptions = {} } = userOptions
+      //   docsearch(Object.assign(
+      //     {},
+      //     userOptions,
+      //     {
+      //       container: '.search-box',
+      //       placeholder: placeholder.value,
+      //       // #697 Make docsearch work well at i18n mode.
+      //       searchParameters: Object.assign({
+      //         'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
+      //       }, algoliaOptions),
+      //       // hitComponent: ({ hit, children }) => {
+      //       //   let el = document.createElement("a")
+      //       //   el.href = hit.url
+      //       //   debugger
+      //       //   let childNode = document.createElement(children.class)
+      //       //   el.appendChild(childNode)
+      //       //   return el
+      //       // },
+      //       transformItems: (items) => {
+      //         console.log(items)
+      //         return items.map((item) => ({
+      //           ...item,
+      //           url: item.url && item.url.replace('https://blog.rayshine.site','')
+      //         }));
+      //       },
+      //       navigator: {
+      //         navigate ({ itemUrl }) {
+      //           console.log(itemUrl);
+      //           instance.$router.push(`${itemUrl}`)
+      //         },
+      //       }
+      //     }
+      //   ))
+      // })
       Promise.all([
-        import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
-        import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
+        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
+        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
       ]).then(([docsearch]) => {
         docsearch = docsearch.default
         const { algoliaOptions = {} } = userOptions
@@ -42,15 +82,14 @@ export default defineComponent({
           {},
           userOptions,
           {
-            container: '.search-box',
-            placeholder: placeholder.value,
+            inputSelector: '#algolia-search-input',
             // #697 Make docsearch work well at i18n mode.
-            searchParameters: Object.assign({
+            algoliaOptions: Object.assign({
               'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
             }, algoliaOptions),
             handleSelected: (input, event, suggestion) => {
               const { pathname, hash } = new URL(suggestion.url)
-              this.$router.push(`${pathname}${hash}`)
+              instance.$router.push(`${pathname}${hash}`)
             }
           }
         ))

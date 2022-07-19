@@ -41,7 +41,7 @@ export default {
   watch: {
     '$route' (to, from) {
       if (to.path !== from.path) {
-        setTimeout(() => {window.scrollTo(0, 0)}, 10)
+        // setTimeout(() => {window.scrollTo(0, 0)}, 20)
         setTimeout(() => { Aos.refresh() }, 1000)
       }
     }

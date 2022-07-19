@@ -166,8 +166,11 @@ export default defineComponent({
 <style lang="stylus">
 .pagefull
   input
-    color lighten(rgba(255, 255, 255, 0.8), 80%)
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    color lighten(rgba(255, 255, 255, 0.8), 80%) !important
+    border: 1px solid rgba(255, 255, 255, 0.8) !important
+    &:focus
+      cursor auto !important
+      border-color $accentColor !important
   i
     color rgba(255, 255, 255, 0.6)
 .search-box
@@ -176,7 +179,7 @@ export default defineComponent({
   margin-right 1rem
   .iconfont
     position absolute
-    top 0
+    top .1rem
     bottom 0
     z-index 0
     left .6rem
@@ -187,7 +190,7 @@ export default defineComponent({
     height: 2rem
     color lighten($textColor, 25%)
     display inline-block
-    border 1px solid var(--border-color)
+    border 1px solid var(--text-color)
     border-radius $borderRadius
     font-size 0.9rem
     line-height 2rem

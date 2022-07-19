@@ -2,8 +2,8 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-18 17:30:59
- * @FilePath: \RayShineHube:\Font Project\RayshineHub1.x\src\.vuepress\components\NavPlayer.vue
+ * @LastEditTime: 2022-07-19 17:25:18
+ * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -36,15 +36,15 @@
         </div>
       </div>
       <div class="action-bar">
-        <!-- <i class="iconfont rays-qiege" @click="next"></i> -->
-        <i class="iconfont rays-bofang04-mianxing" @click="prev"></i>
-        <i v-if="!isPlaying" class="iconfont rays-bofang" @click="onPlay"></i>
-        <i v-if="isPlaying" class="iconfont rays-zanting" @click="onPlay"></i>
-        <i class="iconfont rays-bofang05-mianxing" @click="next"></i>
-        <i v-if="currentMusic.volume <= 0" class="iconfont rays-shengyin-jinyin" style="margin-left: 1rem"></i>
-        <i v-if="currentMusic.volume > 0" class="iconfont rays-shengyin-jian" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+        <!-- <i class="iconfont rays-switch" @click="next"></i> -->
+        <i class="iconfont rays-prev-face" @click="prev"></i>
+        <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
+        <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
+        <i class="iconfont rays-next-face" @click="next"></i>
+        <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
+        <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
         <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
-        <i class="iconfont rays-shengyin-jia" @click="onVolume('jia')"></i>
+        <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
       </div>
     </div>
 
@@ -76,7 +76,7 @@ export default {
         currentTime: 0,
         maxTime: 0,
         duration: 0,
-        volume: 0.2,
+        volume: 0.1,
         name: '',
         artist: '',
         url: '',
@@ -101,10 +101,10 @@ export default {
       return this.$themeConfig.NavPlayer.autoPlay || false
     },
     volumeStep () {
-      return this.$themeConfig.NavPlayer.volumeStep || 0.2
+      return this.$themeConfig.NavPlayer.volumeStep || 0.1
     },
     defaultVolume () {
-      return this.$themeConfig.NavPlayer.defaultVolume || 0.2
+      return this.$themeConfig.NavPlayer.defaultVolume || 0.1
     },
     playType () {
       // singleLoop单曲循环, listLoop列表循环, listNext列表顺序, random随机

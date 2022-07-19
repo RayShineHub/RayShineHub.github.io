@@ -117,15 +117,15 @@ sticky: 1
       </div>
       <!-- 上一首、播放/暂停、下一首、音量-、音量+ 按钮-->
       <div class="action-bar">
-        <!-- <i class="iconfont rays-qiege" @click="next"></i> -->
-        <i class="iconfont rays-bofang04-mianxing" @click="prev"></i>
-        <i v-if="!isPlaying" class="iconfont rays-bofang" @click="onPlay"></i>
-        <i v-if="isPlaying" class="iconfont rays-zanting" @click="onPlay"></i>
-        <i class="iconfont rays-bofang05-mianxing" @click="next"></i>
-        <i v-if="currentMusic.volume <= 0" class="iconfont rays-shengyin-jinyin" style="margin-left: 1rem"></i>
-        <i v-if="currentMusic.volume > 0" class="iconfont rays-shengyin-jian" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+        <!-- <i class="iconfont rays-switch" @click="next"></i> -->
+        <i class="iconfont rays-prev-face" @click="prev"></i>
+        <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
+        <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
+        <i class="iconfont rays-next-face" @click="next"></i>
+        <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
+        <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
         <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
-        <i class="iconfont rays-shengyin-jia" @click="onVolume('jia')"></i>
+        <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
       </div>
     </div>
     <!-- 引入Html Audio组件 -->
