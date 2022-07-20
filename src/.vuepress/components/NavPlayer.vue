@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-19 17:25:18
+ * @LastEditTime: 2022-07-20 14:32:21
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -457,6 +457,8 @@ export default {
   margin-right 1.5rem
   padding 0.1rem 0.5rem 0.1rem 0.5rem
   font-size 1.1rem
+  user-select none
+  image.png
   .avatar {
     height $navbarHeight - 1rem
     min-width $navbarHeight - 1rem

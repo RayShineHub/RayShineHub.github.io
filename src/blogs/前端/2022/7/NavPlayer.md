@@ -282,7 +282,7 @@ getMusic(musicId = '1868943615', br = 128000, type) {
 }
 ```
 
-### <Icon type="rays-bofang"/> <Icon type="rays-zanting"/> 播放/暂停
+### <Icon type="rays-play"/> <Icon type="rays-pause"/> 播放/暂停
 
 ```js
 /**
@@ -294,7 +294,7 @@ onPlay () {
 }
 ```
 
-### <Icon type="rays-bofang04-mianxing"/> 上一首
+### <Icon type="rays-prev-face"/> 上一首
 
 ```js
 /**
@@ -310,7 +310,7 @@ next (e) {
 }
 ```
 
-### <Icon type="rays-bofang05-mianxing"/> 下一首
+### <Icon type="rays-next-face"/> 下一首
 
 ```js
 /**
@@ -378,7 +378,7 @@ transTime(time) {
 }
 ```
 
-### <Icon type="rays-shengyin-jia"/> 音量控制
+### <Icon type="rays-volume-add"/> 音量控制
 
 ```js
 /**

@@ -30,13 +30,7 @@ export default {
     }
   },
   mounted() {
-    // var tipComponent = Vue.extend({
-    //         render: (h) =>
-    //             h(NavPlayer),
-    // }); //生成组件的dom
-    // const component = new tipComponent().$mount();
-    // var DomContent = component.$el; //将vue结构转化成dom
-    // document.getElementById("NavPlayer").appendChild(DomContent);
+    setTimeout(() => { Aos.refresh() }, 1000)
   },
   watch: {
     '$route' (to, from) {
