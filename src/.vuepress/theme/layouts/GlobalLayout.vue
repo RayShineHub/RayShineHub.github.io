@@ -43,17 +43,17 @@ export default {
     // })
   },
   mounted() {
-    Aos.init({
-        // offset: 50,
-        easing: 'ease-in-sine',
-        duration: 50,
-        delay: 0,
-        mirror: true,
-        disable: 'mobile',
-        throttleDelay: 10,
-        useClassNames: false, 
-        startEvent: 'DOMContentLoaded',
-    })
+    // Aos.init({
+    //     // offset: 50,
+    //     easing: 'ease-in-sine',
+    //     duration: 50,
+    //     delay: 0,
+    //     mirror: true,
+    //     disable: 'mobile',
+    //     throttleDelay: 10,
+    //     useClassNames: false, 
+    //     startEvent: 'DOMContentLoaded',
+    // })
     setTimeout(() => { Aos.refresh() }, 1000)
   },
   watch: {
