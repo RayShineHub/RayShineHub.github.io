@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted, onBeforeMount } from 'vue'
+import Aos from 'aos'
 import Common from '@theme/components/Common'
 import NoteAbstract from '@theme/components/NoteAbstract'
 import { ModuleTransition } from '@vuepress-reco/core/lib/components'
@@ -54,6 +55,20 @@ export default defineComponent({
 
   setup (_, ctx) {
     const instance = useInstance()
+
+    const AosInit = () => {
+      Aos.init({
+        // offset: 50,
+        easing: 'ease-in-sine',
+        duration: 50,
+        delay: 0,
+        mirror: true,
+        disable: 'mobile',
+        throttleDelay: 10,
+        useClassNames: false, 
+        startEvent: 'DOMContentLoaded',
+      })
+    }
 
     const posts = computed(() => {
       let posts = instance.$currentCategories.pages
@@ -83,6 +98,9 @@ export default defineComponent({
       return  instance.$themeConfig.categoryPic !== null ? instance.$themeConfig.categoryPic : instance.coverRandom(true)
     }
 
+    onBeforeMount(() => {
+      AosInit()
+    })
     return {
       posts,
       title,

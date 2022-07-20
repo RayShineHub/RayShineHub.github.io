@@ -22,7 +22,7 @@ module.exports = {
     ["script", {"language": "javascript","type": "text/javascript","src": "https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"}],
     ["script", {"language": "javascript","type": "text/javascript","src": "/js/mouseClick.js"}],
     ["script", {"language": "javascript","type": "text/javascript","src": "/js/bg.js"}],
-    ["script", {"src": "https://hm.baidu.com/hm.js?9f41253f09999faf9afb7881ac96ccf9"}],
+    ["script", {"src": "https://hm.baidu.com/hm.js?9f41253f09999faf9afb7881ac96ccf9", async: true}],
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/noConsole.js"}],
 		["script", {"language": "javascript","type": "text/javascript","src": "/js/fairyDustCursor.js"}],
 		["script", { src: "https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js" }],

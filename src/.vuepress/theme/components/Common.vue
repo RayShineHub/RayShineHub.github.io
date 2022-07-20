@@ -182,7 +182,7 @@ export default defineComponent({
     provide(showModuleSymbol, recoShowModule)
 
     onBeforeMount(() => {
-      AosInit()
+      // AosInit()
     })
 
     onMounted(() => {
