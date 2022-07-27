@@ -8,6 +8,7 @@ const friendLink = require("./config/friendLink")
 const plugins = require('./config/plugins')
 const NavPlayer = require('./config/NavPlayer')
 
+
 module.exports = {
   base: '/',
   title: "一ξひβθ光 i",

@@ -22,7 +22,7 @@ function render (mode) {
  */
  function nightMask (display = 'none') {
   const rootElement = document.querySelector('#night-mask')
-  rootElement.style.setProperty('display', display)
+  rootElement && rootElement.style.setProperty('display', display)
 }
 
 /**
