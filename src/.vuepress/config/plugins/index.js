@@ -33,5 +33,9 @@ module.exports = {
 				message: "有新内容喔~",
 				buttonText: "Get"
 		}
+	},
+	// 阅读进度条
+	'reading-progress': {
+		readingDir: /[^/]+$/
 	}
 }
