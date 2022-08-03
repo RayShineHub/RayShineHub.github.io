@@ -134,13 +134,13 @@ export default defineComponent({
   .algolia-autocomplete
     line-height normal
     .ds-dropdown-menu
-      background-color var(--background-color)
+      background-color var(--docsearch-modal-background)
       border-radius $borderRadius
       font-size 15px
       margin 6px 0 0
       padding 4px
       text-align left
-      box-shadow var(--box-shadow)
+      box-shadow var(--docsearch-modal-shadow)
       &:before
         display none
       [class*=ds-dataset-]
@@ -154,17 +154,21 @@ export default defineComponent({
     .algolia-docsearch-suggestion--highlight
       color $accentColor
     .algolia-docsearch-suggestion
+      // margin .1rem
+      background var(--background-color)
       border-color var(--border-color)
       padding 0
       .algolia-docsearch-suggestion--category-header
         padding 5px 10px
         margin-top 0
-        background $accentColor
-        color #fff
+        background var(--docsearch-searchbox-focus-background)
+        color var(--text-color)
         font-weight 600
+        border-bottom none
         .algolia-docsearch-suggestion--highlight
-          background rgba(255, 255, 255, 0.6)
+          background var(--docsearch-highlight-color) !important
       .algolia-docsearch-suggestion--wrapper
+        // box-shadow var(--box-shadow)
         background var(--background-color)
         padding 0
       .algolia-docsearch-suggestion--title
@@ -184,7 +188,7 @@ export default defineComponent({
       border-color var(--border-color)
       background var(--background-color)
     .ds-cursor .algolia-docsearch-suggestion--content
-      background-color #e7edf3 !important
+      background-color var(--docsearch-searchbox-focus-background) !important
       color $textColor
 
 @media (min-width: $MQMobile)

@@ -22,6 +22,7 @@ import { defineComponent, ref, toRefs, computed, onMounted } from 'vue'
 import pagination from '@theme/mixins/pagination'
 import NoteAbstractItem from './NoteAbstractItem'
 import { useInstance } from '@theme/helpers/composable'
+import Aos from 'aos'
 
 export default defineComponent({
   mixins: [pagination],
@@ -42,10 +43,11 @@ export default defineComponent({
       return data.value.slice(start, end)
     })
 
-    const getCurrentPage = (page) => {
+    const getCurrentPage = async (page) => {
       currentPage.value = page
       instance._setStoragePage(page)
-      ctx.emit('paginationChange', page)
+      await ctx.emit('paginationChange', page)
+      setTimeout(() => { Aos.refresh() }, 500)
     }
 
     onMounted(() => {

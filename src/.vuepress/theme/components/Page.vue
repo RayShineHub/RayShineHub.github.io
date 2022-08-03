@@ -1,12 +1,18 @@
 <template>
-  <main class="page" :style="pageStyle">
+  <main class="page" :style="pageStyle" :class="{ noright: isFull }">
     <section v-show="recoShowModule" class="article">
-      <div class="page-title">
-        <h1 class="title">{{$page.title}}</h1>
+      <div class="page-title"  :class="{ fullPic: isFull }" :style="
+        (!$themeConfig.fullscreen
+          ? { 'margin-top': '2.2rem !important' }
+          : {},
+          isFull ? { background: 'url(' + getPic() + ')' } : {})
+      ">
+        <h1 v-if="isFull" class="title"><center>{{$page.title}}</center></h1>
+        <h1 v-else class="title">{{$page.title}}</h1>
         <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="isFull" :showCopyright="true"></PageInfo>
       </div>
       <!-- 这里使用 v-show，否则影响 SSR -->
-      <Content class="theme-reco-content" />
+      <Content class="theme-reco-content" :style="isFull ? { 'padding-top': '4rem !important' } : {}"/>
     </section>
     <footer v-if="recoShowModule" class="page-edit">
       <div class="edit-link" v-if="editLink">
@@ -31,12 +37,12 @@
       <p class="inner">
         <span v-if="prev" class="prev">
           <router-link v-if="prev" class="prev" :to="prev.path">
-            {{ prev.title || prev.path }}
+            ← {{ prev.title || prev.path }}
           </router-link>
         </span>
         <span v-if="next" class="next">
           <router-link v-if="next" :to="next.path">
-            {{ next.title || next.path }}
+            {{ next.title || next.path }} →
           </router-link>
         </span>
       </p>
@@ -44,9 +50,9 @@
 
     <Comments v-if="recoShowModule" :isShowComments="shouldShowComments"/>
     
-    <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}" />
+    <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull  ? { display: 'none' } : {}" />
     
-    <SubSidebar v-if="recoShowModule" class="side-bar" />
+    <SubSidebar v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}"/>
 
   </main>
 </template>
@@ -66,11 +72,14 @@ export default defineComponent({
   props: ['sidebarItems'],
 
   setup (props, ctx) {
-    const isFull = false
 
     const instance = useInstance()
 
     const { sidebarItems } = toRefs(props)
+
+    const isFull = computed(() => {
+      return instance.$frontmatter.isFull || false
+    })
 
     const recoShowModule = useShowModule()
 
@@ -157,6 +166,11 @@ export default defineComponent({
       return instance.$showSubSideBar ? {} : { paddingRight: '0' }
     })
 
+    // add by Rayshine
+    const getPic = () => {
+      return instance.coverRandom(true)
+    }
+
     return {
       isFull,
       recoShowModule,
@@ -168,7 +182,8 @@ export default defineComponent({
       next,
       editLink,
       editLinkText,
-      pageStyle
+      pageStyle,
+      getPic
     }
   }
 })
@@ -235,6 +250,25 @@ function flatten (items, res) {
 
 <style lang="stylus">
 @require '../styles/wrapper.styl'
+
+.noright 
+  padding-right 0 !important
+  margin-top -3.6rem
+
+.fullPic 
+  margin-top -5rem !important
+  max-width 2080px !important
+  width 100% !important
+  height 50vh
+  background-position 50% 50% !important
+  background-size cover !important
+  background-repeat no-repeat !important
+  display flex
+  flex-direction column
+  justify-content center
+  align-items center
+  padding-left 0 !important
+  flex-direction column
 
 .page
   position relative

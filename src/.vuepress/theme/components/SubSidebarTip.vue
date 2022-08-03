@@ -12,7 +12,7 @@ export default {
     // 增加提示
     return h('div', {
       class: { 'sub-sidebar-tip': true },
-      style: { width: (this.$page.headers || []).length > 0 ? '12rem' : '0' }
+      style: { display: (this.$page.headers || []).length > 0 ? '' : 'none' }
     }, 'ON THIS PAGE')
   }
 }

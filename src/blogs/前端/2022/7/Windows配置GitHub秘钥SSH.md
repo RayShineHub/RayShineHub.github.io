@@ -33,7 +33,6 @@ categories:
  - 输入以下命令，然后一路回车即可。
 
   ```sh
-
   ssh-keygen -t rsa -C "your_email@youremail.com"
   ```
 
@@ -42,13 +41,11 @@ categories:
 4. 验证是否配置成功。输入以下命令
 
 ```sh
-
 ssh -T git@github.com
 ```
 
 5. 如果输出以下内容，表示成功。
 
 ```sh
-
 Hi ***! You've successfully authenticated, but GitHub does not provide shell access.
 ```
