@@ -47,7 +47,7 @@ export default defineComponent({
       currentPage.value = page
       instance._setStoragePage(page)
       await ctx.emit('paginationChange', page)
-      setTimeout(() => { Aos.refresh() }, 500)
+      setTimeout(() => { Aos.refresh() }, 1000)
     }
 
     onMounted(() => {
