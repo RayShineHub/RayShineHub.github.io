@@ -53,7 +53,7 @@ module.exports = (options, ctx) => ({
         }
       ]
     }],
-    'vuepress-plugin-smooth-scroll',
+    ['vuepress-plugin-smooth-scroll', false],
     ['container', {
       type: 'tip',
       before: info => `<div class="custom-block tip"><p class="title">${info}</p>`,

@@ -60,6 +60,7 @@ export default {
     '$route' (to, from) {
       if (to.path !== from.path) {
         // setTimeout(() => {window.scrollTo(0, 0)}, 20)
+        // debugger
         setTimeout(() => { Aos.refresh() }, 1000)
       }
     }

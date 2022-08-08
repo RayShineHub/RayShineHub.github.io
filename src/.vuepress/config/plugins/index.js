@@ -37,5 +37,12 @@ module.exports = {
 	// 阅读进度条
 	'reading-progress': {
 		readingDir: /[^/]+$/
-	}
+	},
+	// 著作权
+	'copyright': {
+		authorName: 'Ray Shine', // 选中的文字将无法被复制
+		minLength: 10, // 如果长度超过  30 个字符
+	},
+	// 
+	'@vuepress-reco/extract-code': {}
 }

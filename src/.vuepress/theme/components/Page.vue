@@ -1,59 +1,68 @@
 <template>
   <main class="page" :style="pageStyle" :class="{ noright: isFull }">
-    <section v-show="recoShowModule" class="article">
-      <div class="page-title"  :class="{ fullPic: isFull }" :style="
-        (!$themeConfig.fullscreen
-          ? { 'margin-top': '2.2rem !important' }
-          : {},
-          isFull ? { background: 'url(' + getPic() + ')' } : {})
-      ">
-        <h1 v-if="isFull" class="title"><center>{{$page.title}}</center></h1>
-        <h1 v-else class="title">{{$page.title}}</h1>
-        <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="isFull" :showCopyright="true"></PageInfo>
-      </div>
-      <!-- 这里使用 v-show，否则影响 SSR -->
-      <Content class="theme-reco-content" :style="isFull ? { 'padding-top': '4rem !important' } : {}"/>
-    </section>
-    <footer v-if="recoShowModule" class="page-edit">
-      <div class="edit-link" v-if="editLink">
-        <a
-          :href="editLink"
-          target="_blank"
-          rel="noopener noreferrer"
-        >{{ editLinkText }}</a>
-        <OutboundLink/>
-      </div>
+    <ModuleTransition>
+      <section v-show="recoShowModule" class="article">
+        <div class="page-title"  :class="{ fullPic: isFull }" :style="
+          (!$themeConfig.fullscreen
+            ? { 'margin-top': '2.2rem !important' }
+            : {},
+            isFull ? { background: 'url(' + getPic() + ')' } : {})
+        ">
+          <h1 v-if="isFull" class="title"><center>{{$page.title}}</center></h1>
+          <h1 v-else class="title">{{$page.title}}</h1>
+          <PageInfo :pageInfo="$page" :showAccessNumber="showAccessNumber" :isFull="isFull" :showCopyright="true"></PageInfo>
+        </div>
+        <!-- 这里使用 v-show，否则影响 SSR -->
+        <Content class="theme-reco-content" :style="isFull ? { 'padding-top': '4rem !important' } : {}"/>
+      </section>
+    </ModuleTransition>
+    <ModuleTransition delay="0.16">
+      <footer v-if="recoShowModule" class="page-edit">
+        <div class="edit-link" v-if="editLink">
+          <a
+            :href="editLink"
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{ editLinkText }}</a>
+          <OutboundLink/>
+        </div>
 
-      <div
-        class="last-updated"
-        v-if="lastUpdated"
-      >
-        <span class="prefix">{{ lastUpdatedText }}: </span>
-        <span class="time">{{ lastUpdated }}</span>
+        <div
+          class="last-updated"
+          v-if="lastUpdated"
+        >
+          <span class="prefix">{{ lastUpdatedText }}: </span>
+          <span class="time">{{ lastUpdated }}</span>
+        </div>
+      </footer>
+    </ModuleTransition>
+    <ModuleTransition delay="0.24">
+      <div class="page-nav" v-if="recoShowModule && (prev || next)">
+        <p class="inner">
+          <span v-if="prev" class="prev">
+            <router-link v-if="prev" class="prev" :to="prev.path">
+              ← {{ prev.title || prev.path }}
+            </router-link>
+          </span>
+          <span v-if="next" class="next">
+            <router-link v-if="next" :to="next.path">
+              {{ next.title || next.path }} →
+            </router-link>
+          </span>
+        </p>
       </div>
-    </footer>
+    </ModuleTransition>
+    <ModuleTransition delay="0.32">
+      <Comments v-if="recoShowModule" :isShowComments="shouldShowComments"/>
+    </ModuleTransition>
     
-    <div class="page-nav" v-if="recoShowModule && (prev || next)">
-      <p class="inner">
-        <span v-if="prev" class="prev">
-          <router-link v-if="prev" class="prev" :to="prev.path">
-            ← {{ prev.title || prev.path }}
-          </router-link>
-        </span>
-        <span v-if="next" class="next">
-          <router-link v-if="next" :to="next.path">
-            {{ next.title || next.path }} →
-          </router-link>
-        </span>
-      </p>
-    </div>
-
-    <Comments v-if="recoShowModule" :isShowComments="shouldShowComments"/>
+    <ModuleTransition delay="0.24">
+      <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull  ? { display: 'none' } : {}" />
+    </ModuleTransition>
     
-    <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull  ? { display: 'none' } : {}" />
-    
-    <SubSidebar v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}"/>
-
+    <ModuleTransition delay="0.24">
+      <SubSidebar v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}"/>
+    </ModuleTransition>
   </main>
 </template>
 

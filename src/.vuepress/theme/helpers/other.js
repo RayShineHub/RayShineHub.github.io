@@ -1,5 +1,6 @@
 /* eslint-disable no-proto */
 import { addLinkToHead } from './utils'
+import Vue from 'vue'
 export function getOneColor () {
   const tagColorArr = [
     '#e15b64',
@@ -57,6 +58,7 @@ export function fixRouterError404 (router) {
     if (decodeURIComponent(to.path) !== to.path) {
       return next(
         Object.assign({}, to, {
+          hash: decodeURIComponent(to.hash),
           path: decodeURIComponent(to.path),
           fullPath: decodeURIComponent(to.fullPath)
         })
@@ -65,4 +67,43 @@ export function fixRouterError404 (router) {
 
     next()
   })
+}
+
+export function RouterSmoothScroll(Vue, router) {
+  router.options.scrollBehavior = (to, from, savedPosition) => {
+    if (savedPosition) {
+        return window.scrollTo({
+            top: savedPosition.y,
+            behavior: 'smooth',
+        });
+    }
+    else if (to.hash) {
+        if (Vue.$vuepress.$get('disableScrollBehavior')) {
+            return;
+        }
+        const targetElement = document.querySelector(decodeURIComponent(to.hash));
+        if (targetElement) {
+            return window.scrollTo({
+                top: getElementPosition(targetElement).y,
+                behavior: 'smooth',
+            });
+        }
+    }
+    else {
+        return window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
+  }
+}
+
+function getElementPosition(el) {
+  const docEl = document.documentElement;
+  const docRect = docEl.getBoundingClientRect();
+  const elRect = el.getBoundingClientRect();
+  return {
+      x: elRect.left - docRect.left,
+      y: elRect.top - docRect.top,
+  };
 }
