@@ -67,7 +67,10 @@ const modeOptions = {
     '--waline-info-bgcolor' : 'none',
     '--waline-color': 'var(--text-color-sub)',
     '--waline-bgcolor-hover': 'var(--text-color-sub)',
-    '--waline-info-color': 'var(--text-color-sub)'
+    '--waline-info-color': 'var(--text-color-sub)',
+
+    
+    '--tw-border-opacity': '1'
 
   },
   dark: {
@@ -138,7 +141,10 @@ const modeOptions = {
     '--waline-info-bgcolor' : 'none',
     '--waline-color': 'var(--text-color-sub)',
     '--waline-bgcolor-hover': 'var(--text-color-sub)',
-    '--waline-info-color': 'var(--text-color-sub)'
+    '--waline-info-color': 'var(--text-color-sub)',
+
+    
+    '--tw-border-opacity': '1'
   }
 }
 
