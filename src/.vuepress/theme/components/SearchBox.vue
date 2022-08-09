@@ -186,12 +186,12 @@ export default defineComponent({
     margin auto
   input
     cursor text
-    width 10rem
+    width 6rem
     height: 2rem
     color lighten($textColor, 25%)
     display inline-block
     border 1px solid var(--text-color)
-    border-radius $borderRadius
+    border-radius 25rem
     font-size 0.9rem
     line-height 2rem
     padding 0 0.5rem 0 2rem

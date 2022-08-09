@@ -14,7 +14,8 @@
     :target="isMailto(link) || isTel(link) ? null : '_blank'"
     :rel="isMailto(link) || isTel(link) ? null : 'noopener noreferrer'"
   >
-    <reco-icon :icon="`${item.icon}`" />
+    <img v-if="item.imgUrl" :src="item.imgUrl" class="link-img">
+    <reco-icon v-else :icon="`${item.icon}`" />
     {{ item.text }}
     <OutboundLink/>
   </a>
@@ -53,3 +54,9 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="stylus">
+.link-img
+ width 1rem
+ height 1rem
+ margin-bottom -0.2rem
+</style>

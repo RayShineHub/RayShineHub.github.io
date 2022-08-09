@@ -57,11 +57,11 @@
     </ModuleTransition>
     
     <ModuleTransition delay="0.24">
-      <SubSidebarTip v-if="recoShowModule" class="side-bar" :style="isFull  ? { display: 'none' } : {}" />
+      <SubSidebarTip v-if="recoShowModule" :style="isFull  ? { display: 'none' } : {}" />
     </ModuleTransition>
     
     <ModuleTransition delay="0.24">
-      <SubSidebar v-if="recoShowModule" class="side-bar" :style="isFull ? { display: 'none' } : {}"/>
+      <SubSidebar v-if="recoShowModule" :style="isFull ? { display: 'none' } : {}"/>
     </ModuleTransition>
   </main>
 </template>
@@ -348,6 +348,10 @@ function flatten (items, res) {
   .page
     padding-right 0
     .side-bar
+      display none
+    .sub-sidebar-tip
+      display none
+    .sub-sidebar-wrapper
       display none
     .page-title
       padding: 0 1rem;

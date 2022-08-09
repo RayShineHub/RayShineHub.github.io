@@ -3,7 +3,7 @@ title: 收藏篇 -- GitHub Emoji
 date: 2022-08-01
 isAbstract: true
 reprint: true
-reprintUrl: https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md?plain=1
+reprintUrl: https://github.com/ikatyang/emoji-cheat-sheet
 tags:
  - GitHub Emoji       
 categories: 

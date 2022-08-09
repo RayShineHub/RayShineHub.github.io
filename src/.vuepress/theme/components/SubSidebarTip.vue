@@ -21,11 +21,11 @@ export default {
 
 <style lang="stylus" scoped>
 .sub-sidebar-tip
-  width: 12rem !important
+  width: 12rem 
   position: fixed
-  top: 9rem !important
-  bottom: 10rem !important
-  right: 8rem !important
+  top: 9rem 
+  bottom: 10rem 
+  right: 8rem 
   font-weight: 700
 </style>
 

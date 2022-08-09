@@ -19,6 +19,31 @@ module.exports = [
 	  icon: "iconfont rays-favicon-star-face",
 	  items: [
       {
+        text: "文档", 
+        items: [
+          {
+            text: "Vue.js",
+            link: "https://cn.vuejs.org/",
+            icon: "iconfont rays-vuejs"
+          },
+          {
+            text: "React",
+            link: "https://react.docschina.org/",
+            icon: "iconfont rays-react"
+          },
+          {
+            text: "MDN",
+            link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
+            icon: "iconfont rays-javascript"
+          },
+          {
+            text: "uniapp",
+            link: "https://uniapp.dcloud.net.cn/",
+            imgUrl: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/d23e842c-58fc-4574-998d-17fdc7811cc3.png?v=1556263038788"
+          }
+        ]
+      },
+      {
         text: "其他", 
         items: [
           {
@@ -30,11 +55,6 @@ module.exports = [
             text: "印记中文",
             link: "https://docschina.org/",
             icon: "iconfont rays-link"
-          },
-          {
-            text: "MDN",
-            link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
-            icon: "iconfont rays-javascript"
           }
         ]
       },

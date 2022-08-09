@@ -26,7 +26,7 @@ export default defineComponent({
   render (h) {
     return h('ul', {
       class: { 'sub-sidebar-wrapper': true },
-      style: { width: this.headers.length > 0 ? '12rem' : '0' }
+      style: { width: this.headers.length > 0 ? '18rem' : '0' }
     }, [
       ...this.headers.map(header => {
         return h('li', {
@@ -53,6 +53,12 @@ export default defineComponent({
   padding-left 0
   list-style none
   font-size 12px
+
+  position fixed
+  top 10rem
+  bottom 10rem
+  right 2rem
+  overflow-y scroll
   li
     padding .2rem 0
     cursor pointer

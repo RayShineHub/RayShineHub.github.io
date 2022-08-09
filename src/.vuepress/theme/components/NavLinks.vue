@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-links"
   :class="{
-    pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed
+    pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isNavFixed && isPC
   }"
   v-if="userLinks.length || repoLink">
     <!-- user links -->
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, toRefs, reactive, computed, onMounted } from 'vue'
 import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import DropdownLink from '@theme/components/DropdownLink'
 import { resolveNavLinkItem } from '@theme/helpers/utils'
@@ -47,6 +47,10 @@ export default defineComponent({
 	},
   setup (props, ctx) {
     const instance = useInstance()
+
+    const state = reactive({
+      isPC: false
+    })
 
     const userNav = computed(() => {
       return instance.$themeLocaleConfig.nav || instance.$themeConfig.nav || []
@@ -166,7 +170,14 @@ export default defineComponent({
       return 'Source'
     })
 
-    return { userNav, nav, userLinks, repoLink, repoLabel }
+    onMounted(() => {
+      if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        state.isPC = false
+      } else {
+        state.isPC = true
+      }
+    })
+    return { userNav, nav, userLinks, repoLink, repoLabel, ...toRefs(state) }
   }
 })
 </script>

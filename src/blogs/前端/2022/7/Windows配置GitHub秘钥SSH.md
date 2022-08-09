@@ -1,5 +1,5 @@
 ---
-title: '记录篇 -- Windows配置GitHub的SSH'
+title: '记录篇 -- Windows 配置GitHub的SSH'
 description: Windows配置GitHub的SSH Key并使用SSH方式访问
 date: 2022-07-22
 showSponsor: true
@@ -24,7 +24,7 @@ categories:
 
 <!-- more -->
 
-1. 进入到你当前用户的根目录的 `.ssh` 文件夹下。如我的地址是C:\Users\Administrator\.ssh 。
+1. 进入到你当前用户的根目录的 `.ssh` 文件夹下。如我的地址是 `C:\Users\Administrator\.ssh` 。
 
 2. 查看是否存在秘钥文件。文件名称为：`id_rsa` 和 `id_rsa.pub`。
 
