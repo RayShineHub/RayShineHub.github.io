@@ -45,7 +45,13 @@ export default defineComponent({
     const sortArticles = (item) => {
       const children = item.children || []
       if (children.length > 0) {
+        if (children[0].children && children[0].children.length > 0) {
           children.sort( (a,b) => {
+          if (a.children[0] && b.children[0] && a.children[0].frontmatter && b.children[0].frontmatter) return a.children[0].frontmatter.sidebarSeq - b.children[0].frontmatter.sidebarSeq
+          return
+        })
+        }
+        children.sort( (a,b) => {
           if (a.frontmatter && b.frontmatter) return a.frontmatter.sidebarSeq - b.frontmatter.sidebarSeq
           return
         })

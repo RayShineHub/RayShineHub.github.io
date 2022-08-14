@@ -22,8 +22,6 @@
  *
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
  */
-
-
 const path = require("path")
 const rootpath = path.resolve(__dirname) //执行一次dirname将目录定位到docs的上级目录，也就是博客根目录
 const docs = rootpath;
@@ -31,6 +29,8 @@ const  autoGetSidebarOptionBySrcDir  = require('./getFileName.js');
 module.exports = {
     // 每日一题
     '/blogs/每日一题/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/每日一题/'), true, 'dirName', 'up', {reg: /[\u4e00-\u9fa5]|\.md$/g, to: ''}),
+		// CSS
 		'/blogs/前端/CSS/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/CSS/'), false),
+		// JS
 		'/blogs/前端/JavaScript/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/JavaScript/'), false)
 };

@@ -59,6 +59,7 @@ export default defineComponent({
   bottom 10rem
   right 2rem
   overflow-y scroll
+  overflow-x hidden
   li
     padding .2rem 0
     cursor pointer

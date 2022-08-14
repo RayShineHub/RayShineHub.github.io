@@ -12,7 +12,7 @@
       <h1 style="font-family: Regular,cursive;color: #fff;letter-spacing: 1rem">流时的间</h1>
       </div>
        <div :style="$themeConfig.fullscreen? {
-        'max-width': '860px',
+        'max-width': '960px',
         'margin': '0 auto',
         'padding': '4.6rem 2.5rem 0'
       } : {}">

@@ -70,7 +70,12 @@ module.exports = [
             text: "图标工具",
             link: "https://img.shields.io/",
             icon: "iconfont rays-link"
-          }
+          },
+          {
+            text: "CodePen",
+            link: "https://codepen.io/your-work/?item_type=pen",
+            imgUrl: "https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
+          },
         ]
       },
 	  ],
