@@ -20,6 +20,7 @@ module.exports = {
     ["meta", {name: "viewport",content: "width=device-width,initial-scale=1,user-scalable=no"}],
     ["meta", {name: "baidu-site-verification",content: "code-U0ZDB2tiQp"}],
     ["link", { rel: "icon", href: "/favicon.ico" }],
+    ['link', { rel: 'manifest', href: '/manifest.json' }],
     ["script", {"language": "javascript","type": "text/javascript","src": "https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"}],
     ["script", {"language": "javascript","type": "text/javascript","src": "/js/mouseClick.js"}],
     ["script", {"language": "javascript","type": "text/javascript","src": "/js/bg.js"}],
