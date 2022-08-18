@@ -1,0 +1,15 @@
+{
+  "name": "一ξひβθ光 i",
+  "short_name": "一ξひβθ光 i",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#3eaf7c"
+}
