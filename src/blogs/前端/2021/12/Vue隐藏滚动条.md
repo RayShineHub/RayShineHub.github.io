@@ -10,7 +10,7 @@ meta:
   - name: keywords
     content: Vue 隐藏滚动条
 tags:
-- 'vue'
+- 'Vue'
 categories:
 - '前端'
 ---

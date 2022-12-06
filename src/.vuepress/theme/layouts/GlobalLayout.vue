@@ -1,6 +1,6 @@
 <!-- .vuepress/theme/layouts/GlobalLayout.vue -->
 <template>
-  <div id="global-layout" :class="{background: layout != 'NotFound',overflow: layout != 'Layout' }">
+  <div id="global-layout" :class="{background: layout != 'NotFound',overflow: layout != 'Layout', 'gray': isHomeGray }">
     <component :is="layout"/>
     <NavPlayer v-show="layout != 'NotFound'"></NavPlayer>
     <!-- <div id="NavPlayer" v-show="layout != 'NotFound'"></div> -->
@@ -27,6 +27,9 @@ export default {
         return 'Layout'
       }
       return 'NotFound'
+    },
+    isHomeGray () {
+      return this.$frontmatter.home && this.$frontmatter.isGray
     }
   },
   beforeMount() {
@@ -75,5 +78,13 @@ export default {
 }
 .background {
   background: var(--background-color)
+}
+.gray {
+  -webkit-filter: grayscale(.95);
+  -moz-filter: grayscale(.95);
+  -ms-filter: grayscale(.95);
+  -o-filter: grayscale(.95);
+  filter: grayscale(.95);
+  // filter: progid: DXImageTransform.Microsoft.BasicImage(grayscale=1);
 }
 </style>
