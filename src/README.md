@@ -1,6 +1,6 @@
 ---
 home: true
-isGray: true   # 特殊情况首页灰色滤镜
+isGray: false   # 特殊情况首页灰色滤镜
 all: true
 #heroText: 愿你保持初心和善良,笑里尽是温暖与坦荡。
 #tagline: A simple and beautiful vuepress blog theme.
