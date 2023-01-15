@@ -1,9 +1,9 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-19 11:01:39
- * @FilePath: \RayShineHub\src\.vuepress\config\nav\index.js
+ * @LastEditors: SPF spf1773@gmail.com
+ * @LastEditTime: 2023-01-15 23:16:49
+ * @FilePath: /RayShineBlog/src/.vuepress/config/nav/index.js
  * @Description: 统一自定义NavLinks配置中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -40,6 +40,11 @@ module.exports = [
             text: "uniapp",
             link: "https://uniapp.dcloud.net.cn/",
             imgUrl: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/d23e842c-58fc-4574-998d-17fdc7811cc3.png?v=1556263038788"
+          },
+          {
+            text: "DocSearch",
+            link: "https://docsearch.algolia.com/",
+            imgUrl: "https://docsearch.algolia.com/img/favicon.ico"
           }
         ]
       },
