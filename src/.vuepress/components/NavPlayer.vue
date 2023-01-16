@@ -1,9 +1,9 @@
 <!--
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-20 14:32:21
- * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
+ * @LastEditors: SPF spf1773@gmail.com
+ * @LastEditTime: 2023-01-16 18:30:02
+ * @FilePath: /RayShineBlog/src/.vuepress/components/NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -429,7 +429,7 @@ export default {
 }
 .fixed {
   position fixed
-  top -3.3rem !important
+  top -3.7rem !important
   z-index 20
   padding: 0.7rem 1.5rem
   color var(--text-color)
