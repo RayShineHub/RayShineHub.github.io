@@ -49,22 +49,7 @@ module.exports = [
         ]
       },
       {
-        text: "其他", 
-        items: [
-          {
-            text: "精美壁纸",
-            link: "https://wallhaven.cc/",
-            icon: "iconfont rays-picture"
-          },
-          {
-            text: "印记中文",
-            link: "https://docschina.org/",
-            icon: "iconfont rays-link"
-          }
-        ]
-      },
-      {
-        text: "工具", 
+        text: "导航 & 工具", 
         items: [
           {
             text: "菜鸟工具",
@@ -81,8 +66,28 @@ module.exports = [
             link: "https://codepen.io/your-work/?item_type=pen",
             imgUrl: "https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
           },
+					{
+						text: "站联导航",
+						link: "https://www.zhanlian.net/",
+						imgUrl: "https://www.zhanlian.net/wp-content/uploads/2021/12/%E4%BA%92%E8%81%94%E7%BD%91.png"
+					}
         ]
       },
+			{
+			  text: "其他", 
+			  items: [
+			    {
+			      text: "精美壁纸",
+			      link: "https://wallhaven.cc/",
+			      icon: "iconfont rays-picture"
+			    },
+			    {
+			      text: "印记中文",
+			      link: "https://docschina.org/",
+			      icon: "iconfont rays-link"
+			    }
+			  ]
+			}
 	  ],
 	},
   //About
