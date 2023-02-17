@@ -1,9 +1,9 @@
 <!--
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: SPF spf1773@gmail.com
- * @LastEditTime: 2023-01-16 18:30:02
- * @FilePath: /RayShineBlog/src/.vuepress/components/NavPlayer.vue
+ * @LastEditors: Ray Shine spf1773@gmail.com
+ * @LastEditTime: 2023-02-17 18:09:21
+ * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -17,21 +17,55 @@
       visible: isVisible
     }"
     :style="linksWrapOffsetWidth ? {'right': linksWrapOffsetWidth + 'px'} : {}">
-    <div class="img-box">
-      <img class="avatar" :class="{playing: isPlaying}"
-      :src="currentMusic? currentMusic.cover : ''"
-      />
+
+    <div class="dropdown-wrapper">
+      <a class="img-box">
+        <img class="avatar" :class="{playing: isPlaying}"
+        :src="currentMusic? currentMusic.cover : ''"
+        />
+      </a>
+      <DropdownTransition>
+        <ul class="music-dropdown" style="margin-top:-.3rem">
+          <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
+            <div class="music-info" @click="getCurrentMusic('change', item)">
+              <!-- 头像 -->
+              <img class="avatar" :src="item? item.cover : ''"/>
+              <div class="detail">
+                <!-- 名称 -->
+                <div class="title-name">
+                  <span>
+                    {{  item.name || ''}}  
+                  </span>
+                </div>
+                <!-- 歌手 -->
+                <div class="title-name-sub">
+                  <span>
+                    {{item.artist || ''}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </DropdownTransition>
     </div>
     <div class="actions">
       <div class="title">
-        <div class="time" v-if="currentMusic.currentTime != 0">
+        <div class="time" v-if="currentMusic.currentTime != 0 && !loading">
           <span style="margin-right: 0.1rem">
             {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
           </span>
         </div>
+        <div class="loading" v-if="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="title-name">
           <span>
-            {{currentMusic.artist || ''}} {{currentMusic.name? ' - ':''}}  {{  currentMusic.name || ''}}  
+            {{isPlaying ? currentMusic.lrc : (currentMusic.artist || '') + (currentMusic.name ? ' - ':'') + (currentMusic.name || '')}}  
           </span>
         </div>
       </div>
@@ -51,7 +85,7 @@
     <audio ref="audio" 
     :autoplay="false" 
     :src="currentMusic.url"
-    :volume="currentMusic.volume"
+    :volume="0.3"
     @play="play" 
     @pause="pause"
     @loadedmetadata="onLoadedmetadata"
@@ -63,12 +97,35 @@
 
 <script>
 import axios from 'axios'
+import DropdownTransition from '@theme/components/DropdownTransition'
+const throttle = function (func, delay = 200) {
+  let timer = null
+  let startTime = Date.now()
+ 
+  return function () {
+    const curTime = Date.now()
+    const remaining = delay - (curTime - startTime)
+    const args = arguments
+    const context = this
+    clearTimeout(timer)
+    if (remaining <= 0) {
+      func.apply(context, args)
+      startTime = Date.now()
+    } 
+    // else {
+    //   timer = setTimeout(func, remaining)
+    // }
+  }
+}
 export default {
+  components: { DropdownTransition },
   data () {
     let that = this
     return {
+      time: 0,
+      loading: true,
       isPC: true,
-      playHistory: false,
+      playHistory: true,
       isPlaying: false,
       musicList: [],
       currentMusic: {
@@ -76,12 +133,13 @@ export default {
         currentTime: 0,
         maxTime: 0,
         duration: 0,
-        volume: 0.1,
+        volume: 0.3,
         name: '',
         artist: '',
         url: '',
         cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg', // prettier-ignore
         lrc: '',
+        lrcList:[],
         sort: 0,
         brList: []
       },
@@ -104,11 +162,11 @@ export default {
       return this.$themeConfig.NavPlayer.volumeStep || 0.1
     },
     defaultVolume () {
-      return this.$themeConfig.NavPlayer.defaultVolume || 0.1
+      return this.$themeConfig.NavPlayer.defaultVolume || 0.3
     },
     playType () {
       // singleLoop单曲循环, listLoop列表循环, listNext列表顺序, random随机
-      return this.$themeConfig.NavPlayer.playType || 'random'
+      return this.$themeConfig.NavPlayer.playType || 'listLoop'
     }
   },
   watch: {},
@@ -156,13 +214,13 @@ export default {
     throttle (func, delay = 200) {
       let timer = null
       let startTime = Date.now()
-
+      
       return function () {
         const curTime = Date.now()
         const remaining = delay - (curTime - startTime)
-        const context = this
         const args = arguments
-
+        const context = this
+        
         clearTimeout(timer)
         if (remaining <= 0) {
           func.apply(context, args)
@@ -221,18 +279,25 @@ export default {
                   sort: sort++
                 }
               })
+              // 设置默认音量
+              that.$refs.audio.volume = that.defaultVolume
+              // 显示默认音量
+              that.currentMusic.volume = that.$refs.audio.volume
               // 加载一首歌
               that.getCurrentMusic('first')
               // console.log('musicList ->', that.musicList)
               // console.log('currentMusic ->', that.currentMusic)
             }
+            
           }, function(err) {
+            that.loading = false
             that.currentMusic.artist = err.response.data.message
             that.currentMusic.currentTime = 0
             console.log(err);
           });
         }
       }, function(err) {
+        that.loading = false
         that.currentMusic.artist = '歌单获取失败'
         that.currentMusic.currentTime = 0
         console.log(err);
@@ -242,9 +307,9 @@ export default {
      * @description: Add by RayShine 从歌单中选一首歌
      * @return {*}
      */    
-    getCurrentMusic(type = 'first') {
+    getCurrentMusic(type = 'first', music = {}) {
       // 随机取，但是不能和当前歌曲相同
-      if(this.playType == 'random'){
+      if(this.playType == 'random' && type !== 'change'){
         // 排除相同的歌曲
         let musicList = this.musicList.filter((music) => {
           return music.musicId != this.currentMusic.musicId
@@ -254,6 +319,8 @@ export default {
       }else{
         if (type === 'first') {
           this.currentMusic = Object.assign({},this.currentMusic, this.musicList[0])
+        } else if (type === 'change'){
+          this.currentMusic = Object.assign({},this.currentMusic, music)
         } else {
           let nextSort = type == 'prev' ? this.currentMusic.sort-- : this.currentMusic.sort++
           if (type === 'next' && nextSort > this.musicList.length - 1) {
@@ -276,6 +343,7 @@ export default {
     getMusic(musicId = '1868943615', br = 128000, type) {
       let that = this
       if (musicId === '') return
+      that.loading = true
       // 检查音乐是否可用
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
@@ -291,27 +359,81 @@ export default {
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200) {
+              that.loading = false
+              that.pause();
               // 替换 http 为 https
               that.currentMusic.url = response.data.data[0].url.match('^http://') ?  response.data.data[0].url.replace("http://","https://") : response.data.data[0].url;
-              that.$refs.audio.volume = that.defaultVolume
-              // 显示默认音量
-              that.currentMusic.volume = that.$refs.audio.volume
               // 首次加载歌单，是否自动播放取决于用户设置
               if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 2000)
             }
+            // 获取歌词
+            that.getMusicLrc(musicId)
+
           }, function(err) {
+            that.loading = false
             console.log(err);
           });
         }
       }, function(err) {
+        that.loading = false
         that.currentMusic.artist = err.response.data.message
         that.currentMusic.url = ''
         that.currentMusic.name = ''
         that.currentMusic.currentTime = 0
-        setTimeout(() => { that.next() }, 2000)
+        if (type != 'change') {
+          setTimeout(() => { that.next() }, 2000)
+        }
         console.log(err);
       });
     },
+    /**
+     * @description: Add by RayShine 获取歌词
+     * @return {*}
+     */  
+    getMusicLrc(musicId = '1868943615'){
+      let that = this
+      if (!musicId) return
+      // 获取歌词
+      axios({
+            baseURL: that.$themeConfig.back.musicUrl,
+            url:"/lyric?id=" + musicId,
+            withCredentials: true
+          }).then(function(response) {
+            if (response.status === 200) {
+              let lrcStr = response.data.lrc.lyric
+              that.currentMusic.lrcList = lrcStr.split('\n').map(lrc => {
+                let time = lrc.substring(lrc.indexOf("[")+1,lrc.indexOf("]")+0).split(":")
+                return {
+                  // timestemp: Math.floor((time[0] * 60 + time[1]) * 100 ) / 100,
+                  timestemp: parseInt(Math.floor(time[0] * 60) + Math.floor(time[1])),
+                  str:lrc.substring(lrc.indexOf("]") + 1)
+                }
+              })
+              console.log(that.currentMusic.lrcList)
+            }
+      },function(err){
+        console.log(err)
+      })
+    },
+    /**
+     * @description: Add by RayShine 转换歌词
+     * @return {*}
+     */   
+    transformLrc:throttle(function () {
+      let time = this.time
+      let that = this
+      let str = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
+        // return lrc.timestemp - 0.5 >= Math.floor(time * 100 ) / 100 >= lrc.timestemp + 0.5
+        return lrc.timestemp == parseInt(time)
+      }).map(res => {
+        return res.str
+      }).join(",")
+
+      if (str) {
+        that.currentMusic.lrc = str
+      }
+      console.log(str)
+    }, 500),
     /**
      * @description: Add by RayShine 播放与暂停切换 需要防抖
      * @return {*}
@@ -375,7 +497,12 @@ export default {
      * @return {*}
      */    
     onTimeupdate(e) {
+      // let that = this
+      // 实时显示时间
       this.currentMusic.currentTime = this.transTime(this.currentMusic.duration - e.target.currentTime)
+      // 装换歌词
+      this.time = e.target.currentTime
+      this.transformLrc()
     },
     /**
      * @description: Add by RayShine 获取音频总时长
@@ -425,11 +552,16 @@ export default {
 .pagefull {
   .actions {
     color $pagefullNavColor
+    .title {
+      .loading span {
+      background: $pagefullNavColor !important;
+    }
+    }
   } 
 }
 .fixed {
   position fixed
-  top -3.7rem !important
+  margin-top -3.7rem !important
   z-index 20
   padding: 0.7rem 1.5rem
   color var(--text-color)
@@ -453,7 +585,7 @@ export default {
   top $navbar-vertical-padding
   display flex
   // background-color var(--background-color)
-  margin-top -0.3rem
+  // margin-top -0.3rem
   margin-right 1.5rem
   padding 0.1rem 0.5rem 0.1rem 0.5rem
   font-size 1.1rem
@@ -468,24 +600,141 @@ export default {
     border-radius 50%
     box-shadow 0 1px 8px 1px var(--text-color)
   }
+  .dropdown-wrapper{
+    &:hover .music-dropdown {
+      // override the inline style.
+      display block !important
+    }
+  }
   .img-box {
     display: flex;
-    align-items: center;
+    // align-items: center;
     .time {
       position: fixed;
       margin-left: 0.2rem;
     }
+
+  }
+  .music-dropdown {
+    display none
+    // Avoid height shaked by clicking
+    width: 100%;
+    max-height 20rem !important
+    box-sizing border-box;
+    max-height calc(100vh - 2.7rem)
+    overflow-y auto
+    position absolute
+    top 100%
+    // right 0
+    background-color var(--background-color)
+    padding 0rem 0
+    box-shadow: var(--box-shadow);
+    text-align left
+    border-radius $borderRadius
+    white-space nowrap
+    margin 0
+    overflow: scroll-y;
+    &:hover {
+      display block !important
+    }
+    .music-dropdown-item {
+      color inherit
+      line-height 1.7rem
+      padding: .2rem
+      .music-info {
+        display flex
+        border-top: 1px solid var(--border-color);
+        padding .2rem
+        &:hover .title-name{
+          color $accentColor;
+        }
+        .detail {
+          display grid
+          margin-left: 0.5rem;
+          .title-name {
+            font-size: 12px;
+            font-weight 600;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: keep-all;
+            display: inline-flex;
+            &:hover {
+              overflow: visible;
+              animation: 3s siderbar linear infinite normal;
+            }
+          }
+          .title-name-sub {
+            font-size: 8px;
+          }
+        }
+      }
+      &:first-child .music-info {
+        padding .2rem
+        border-top 0
+      }
+    }
+
   }
   .actions{
     .title {
+      display: flex;
       margin: 0.5rem 0;
       font-size: .8rem;
       font-weight: 600;
       padding-left: 0.3rem;
       .time {
-        width: 2rem
+        width: 2.5rem
         display: inline-block
       }
+      // 加载动画
+      .loading{
+        // margin-right: .5rem;
+        width: 2.5rem;
+        height: auto;
+        display: flex;
+        align-items: center;
+        // margin: 0 auto;
+        // margin-top:100px;
+      }
+      .loading span{
+        display: inline-block;
+        width: .2rem;
+        height: .2rem;
+        margin-right: .1rem;
+        border-radius: 50%;
+        background: var(--text-color);
+        -webkit-animation: load 1.04s ease infinite;
+      }
+      .loading span:last-child{
+        margin-right: 0px;
+      }
+      @-webkit-keyframes load{
+        0%{
+          opacity: 1;
+        }
+        100%{
+          opacity: 0;
+        }
+      }
+      .loading span:nth-child(1){
+        -webkit-animation-delay:0.13s;
+      }
+      .loading span:nth-child(2){
+        -webkit-animation-delay:0.26s;
+      }
+      .loading span:nth-child(3){
+        -webkit-animation-delay:0.39s;
+      }
+      .loading span:nth-child(4){
+        -webkit-animation-delay:0.52s;
+      }
+      .loading span:nth-child(5){
+        -webkit-animation-delay:0.65s;
+      }
+
+
       .title-name {
         width: 8rem;
         overflow: hidden;
@@ -515,10 +764,21 @@ export default {
     }
   }
   .playing {
-    -webkit-animation animal 3s infinite linear
+    -webkit-animation rotate 3s linear infinite
     -webkit-transform-origin center center
     -ms-transform-origin center center
     transform-origin center center
+  }
+  @--webkit-keyframes rotate {
+    0%{
+      --webkit-transform:rotate(0deg);
+    }
+    50%{
+      --webkit-transform:rotate(180deg);
+    }
+    100%{
+      --webkit-transform:rotate(360deg);
+    }
   }
 }
 
