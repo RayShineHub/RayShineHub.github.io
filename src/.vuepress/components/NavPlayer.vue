@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-17 18:09:21
+ * @LastEditTime: 2023-02-17 18:22:51
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -308,6 +308,8 @@ export default {
      * @return {*}
      */    
     getCurrentMusic(type = 'first', music = {}) {
+      // 清除歌词
+      this.currentMusic.lrc = ""
       // 随机取，但是不能和当前歌曲相同
       if(this.playType == 'random' && type !== 'change'){
         // 排除相同的歌曲
@@ -409,7 +411,7 @@ export default {
                   str:lrc.substring(lrc.indexOf("]") + 1)
                 }
               })
-              console.log(that.currentMusic.lrcList)
+              // console.log(that.currentMusic.lrcList)
             }
       },function(err){
         console.log(err)
@@ -432,7 +434,7 @@ export default {
       if (str) {
         that.currentMusic.lrc = str
       }
-      console.log(str)
+      // console.log(str)
     }, 500),
     /**
      * @description: Add by RayShine 播放与暂停切换 需要防抖
