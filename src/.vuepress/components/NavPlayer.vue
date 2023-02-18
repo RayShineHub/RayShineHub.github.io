@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-17 18:22:51
+ * @LastEditTime: 2023-02-18 20:14:02
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -14,7 +14,7 @@
     :class="{
       pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed,
       fixed: isFixed,
-      visible: isVisible
+      visible: isVisible && !open
     }"
     :style="linksWrapOffsetWidth ? {'right': linksWrapOffsetWidth + 'px'} : {}">
 
@@ -22,6 +22,7 @@
       <a class="img-box">
         <img class="avatar" :class="{playing: isPlaying}"
         :src="currentMusic? currentMusic.cover : ''"
+        @click="immerse"
         />
       </a>
       <DropdownTransition>
@@ -81,6 +82,91 @@
         <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
       </div>
     </div>
+    <!-- 沉浸模式 -->
+    <div class="immerse-wapper" v-show="open">
+      <!-- 操作栏 -->
+      <div class="immerse-action">
+        <span class="immerse-close" @click="immerse"></span>
+      </div>
+      <!-- 歌曲主体 -->
+      <div class="immerse-main">
+        <!-- 头像 -->
+        <div class="immerse-avtar">
+          <img class="avatar" :class="{playing: isPlaying}"
+          :src="currentMusic? currentMusic.cover : ''"
+          style="width: 20rem;height: 20rem;border-radius: 500px;"
+          />
+        </div>
+        <!-- 歌名 & 歌词 -->
+        <div class="immerse-cover">
+          <div class="immerse-title">
+            <span>
+              {{currentMusic.name || ''}}  
+            </span>
+            <!-- <span style="font-size: 1rem;">
+              {{ currentMusic.artist }}
+            </span> -->
+          </div>
+          <ul class="immerse-lrc" ref="lyric">
+            <div style="margin: 30% 0;">
+              <li class="lrc" 
+              :class="isPlaying && (lrcItem.timestemp <= currentMusic.timestemp && (index != currentMusic.lrcList.length -1 && currentMusic.timestemp < parseInt(currentMusic.lrcList[index + 1].timestemp))) ? 'active' : ''" 
+              v-if="lrcItem.str"
+              :key="index" 
+              v-for="(lrcItem, index) in currentMusic.lrcList"
+              >{{ lrcItem.str }}</li>
+            </div>
+          </ul>
+        </div>
+        <!-- 歌单列表 -->
+        <div class="immerse-musicList">
+          <div>
+            歌单列表
+          </div>
+          <div>
+            <ul class="immerse-musicList-wapper">
+              <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
+                <div class="music-info" @click="getCurrentMusic('change', item)">
+                  <!-- 头像 -->
+                  <img class="avatar" :src="item? item.cover : ''"/>
+                  <div class="detail">
+                    <!-- 名称 -->
+                    <div class="title-name">
+                      <span>
+                        {{  item.name || ''}}  
+                      </span>
+                    </div>
+                    <!-- 歌手 -->
+                    <div class="title-name-sub">
+                      <span>
+                        {{item.artist || ''}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <!-- 底部操作栏 -->
+      <div class="immerse-footer">
+        <div class="action-bar">
+          <!-- <i class="iconfont rays-switch" @click="next"></i> -->
+          <i class="iconfont rays-prev-face" @click="prev"></i>
+          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
+          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
+          <i class="iconfont rays-next-face" @click="next"></i>
+          <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
+          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+          <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
+          <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
+        </div>
+      </div>
+      
+      
+    </div>
 
     <audio ref="audio" 
     :autoplay="false" 
@@ -122,6 +208,7 @@ export default {
   data () {
     let that = this
     return {
+      open: false,
       time: 0,
       loading: true,
       isPC: true,
@@ -138,11 +225,13 @@ export default {
         artist: '',
         url: '',
         cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg', // prettier-ignore
+        timestemp: 0,
         lrc: '',
         lrcList:[],
         sort: 0,
         brList: []
       },
+      lineNo: 1,
       linksWrapOffsetWidth: null,
       linksWrapMaxWidth: null,
       fixedHeight: 0,
@@ -365,6 +454,8 @@ export default {
               that.pause();
               // 替换 http 为 https
               that.currentMusic.url = response.data.data[0].url.match('^http://') ?  response.data.data[0].url.replace("http://","https://") : response.data.data[0].url;
+              // 歌词置顶
+              that.lineNo = 1
               // 首次加载歌单，是否自动播放取决于用户设置
               if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 2000)
             }
@@ -410,7 +501,10 @@ export default {
                   timestemp: parseInt(Math.floor(time[0] * 60) + Math.floor(time[1])),
                   str:lrc.substring(lrc.indexOf("]") + 1)
                 }
+              }).filter(res => {
+                return res.str
               })
+
               // console.log(that.currentMusic.lrcList)
             }
       },function(err){
@@ -421,7 +515,7 @@ export default {
      * @description: Add by RayShine 转换歌词
      * @return {*}
      */   
-    transformLrc:throttle(function () {
+    transformLrc() {
       let time = this.time
       let that = this
       let str = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
@@ -431,11 +525,14 @@ export default {
         return res.str
       }).join(",")
 
-      if (str) {
+      if (str && that.currentMusic.lrc != str) {
         that.currentMusic.lrc = str
+        that.lineNo = that.lineNo + that.currentMusic.lrc.split(",").length
       }
+      // 歌词滚动 (每一行是固定的)
+      that.$refs.lyric.scrollTop = 45.08 * that.lineNo - 85
       // console.log(str)
-    }, 500),
+    },
     /**
      * @description: Add by RayShine 播放与暂停切换 需要防抖
      * @return {*}
@@ -502,6 +599,7 @@ export default {
       // let that = this
       // 实时显示时间
       this.currentMusic.currentTime = this.transTime(this.currentMusic.duration - e.target.currentTime)
+      this.currentMusic.timestemp =  parseInt(Math.floor(e.target.currentTime * 100) / 100)
       // 装换歌词
       this.time = e.target.currentTime
       this.transformLrc()
@@ -545,6 +643,13 @@ export default {
         }
       }
       this.currentMusic.volume = this.$refs.audio.volume
+    },
+    /**
+     * @description: Add by RayShine 沉浸模式开关
+     * @param {*} e 
+     */
+    immerse(e) {
+      this.open = !this.open
     }
   }
 }
@@ -572,6 +677,161 @@ export default {
 .visible {
   transition all 0.5s
   transform translate3d(0, 100%, 0)
+}
+
+// 沉浸模式 ********* start *********
+.immerse-wapper{
+  z-index 501
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+  overflow-y: hidden;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  .immerse-action {  // 操作栏
+    height: 5%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .immerse-title {
+      font-weight 500
+    }
+    .immerse-close {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 200px;
+      color: var(--text-color);
+      text-align: center;
+      background-color: var(--background-color);
+      position: fixed;
+      right: 0.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow var(--box-shadow)
+    }
+    .immerse-close::before {
+      content: "\2716"
+    }
+  }
+  .immerse-main {  // 沉浸主体
+    height: 85%;
+    width: 100%;
+    display: flex;
+    .immerse-avtar {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .immerse-cover {
+      width: 50%;
+      text-align: center;
+      .immerse-title {
+        height 10%;
+        font-weight 500
+        font-size 2rem
+      }
+      .immerse-lrc {
+        scroll-behavior:smooth;
+        display grid;
+        padding: 0;
+        height: 85%;
+        overflow hidden;
+        overflow-y auto;
+        .lrc {
+          transition .3s 
+          padding .2rem
+        }
+        &:first-child .lrc {
+          margin-top: 10rem
+        }
+        // &:last-child .lrc {
+        //   margin-bottom: 10rem
+        // }
+      }
+      .active {
+        font-size: 20px;
+        font-weight: 600;
+        transform: scale(1.4)
+      }
+    }
+  }
+  .immerse-musicList {
+    width: 25%;
+    .immerse-musicList-wapper {
+      max-height: 83%;
+      width: 100%;
+      overflow: hidden;
+      box-sizing border-box;
+      overflow-y auto
+      position absolute
+      padding 0rem 0
+      text-align left
+      white-space nowrap
+      margin 0
+      .music-dropdown-item {
+        color inherit
+        line-height 1.7rem
+        padding: .2rem
+        .music-info {
+          display flex
+          border-top: 1px solid var(--border-color);
+          padding .2rem
+          &:hover .title-name{
+            color $accentColor;
+          }
+          .detail {
+            display grid
+            margin-left: 0.5rem;
+            .title-name {
+              font-size: 12px;
+              font-weight 600;
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              word-break: keep-all;
+              display: inline-flex;
+              &:hover {
+                overflow: visible;
+                animation: 3s siderbar linear infinite normal;
+              }
+            }
+            .title-name-sub {
+              font-size: 8px;
+            }
+          }
+        }
+        &:first-child .music-info {
+        padding .2rem
+        border-top 0
+      }
+      }
+    }
+  }
+  .immerse-footer {
+    text-align: center;
+    font-size 2rem;
+    .iconfont {
+      font-size 2rem;
+      margin .6rem;
+      &:hover {
+        color $accentColor
+      }
+    }
+  }
+}
+
+@-webkit-keyframes HeightFrom0To100{
+
+0%{opacity:;}
+
+100%{opacity:;}
+
 }
 .nav-music {
   z-index 21

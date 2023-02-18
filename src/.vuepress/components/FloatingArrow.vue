@@ -43,7 +43,7 @@ export default {
 
   .scroll-down {
     position: fixed;
-    z-index: 500;
+    z-index: 5;
     -webkit-transition: -webkit-transform 0.5s 1.5s, opacity 0.3s 1.7s,
       z-index 0.5s 1.5s;
     transition: transform 0.5s 1.5s, opacity 0.3s 1.7s, z-index 0.5s 1.5s;
