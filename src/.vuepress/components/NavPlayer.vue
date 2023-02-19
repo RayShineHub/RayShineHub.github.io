@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-18 20:14:02
+ * @LastEditTime: 2023-02-19 18:44:55
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -14,41 +14,17 @@
     :class="{
       pagefull:($frontmatter.layout || ($themeConfig.fullscreen && $frontmatter.isFull) || $frontmatter.home ) && !isFixed,
       fixed: isFixed,
-      visible: isVisible && !open
+      visible: isVisible
     }"
-    :style="linksWrapOffsetWidth ? {'right': linksWrapOffsetWidth + 'px'} : {}">
-
-    <div class="dropdown-wrapper">
-      <a class="img-box">
-        <img class="avatar" :class="{playing: isPlaying}"
-        :src="currentMusic? currentMusic.cover : ''"
-        @click="immerse"
-        />
+    :style="[{right: linksWrapOffsetWidth ?  linksWrapOffsetWidth + 'px' : ''}]">
+    <div class="img-box">
+      <a class="point_box" @click="immerse">
+        <div class="point_1"></div>
+        <div class="point_2"></div>
       </a>
-      <DropdownTransition>
-        <ul class="music-dropdown" style="margin-top:-.3rem">
-          <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
-            <div class="music-info" @click="getCurrentMusic('change', item)">
-              <!-- 头像 -->
-              <img class="avatar" :src="item? item.cover : ''"/>
-              <div class="detail">
-                <!-- 名称 -->
-                <div class="title-name">
-                  <span>
-                    {{  item.name || ''}}  
-                  </span>
-                </div>
-                <!-- 歌手 -->
-                <div class="title-name-sub">
-                  <span>
-                    {{item.artist || ''}}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </DropdownTransition>
+      <img class="avatar" :class="{playing: isPlaying}"
+      :src="currentMusic? currentMusic.cover : ''"
+      />
     </div>
     <div class="actions">
       <div class="title">
@@ -66,7 +42,7 @@
         </div>
         <div class="title-name">
           <span>
-            {{isPlaying ? currentMusic.lrc : (currentMusic.artist || '') + (currentMusic.name ? ' - ':'') + (currentMusic.name || '')}}  
+            {{isPlaying && currentMusic.lrc ? currentMusic.lrc : (currentMusic.artist || '') + (currentMusic.name ? ' - ':'') + (currentMusic.name || '')}}  
           </span>
         </div>
       </div>
@@ -76,14 +52,44 @@
         <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
         <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
         <i class="iconfont rays-next-face" @click="next"></i>
-        <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
+        <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: .5rem"></i>
         <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
         <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
         <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
+        
+        <div class="dropdown-wrapper">
+          <a class="dropdown-box">
+            <i class="iconfont rays-songlist palylist"></i>
+          </a>
+          <DropdownTransition>
+            <ul class="music-dropdown" style="margin-top:-.5rem">
+              <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
+                <div class="music-info" @click="getCurrentMusic('change', item)">
+                  <!-- 头像 -->
+                  <img class="avatar" :src="item? item.cover : ''"/>
+                  <div class="detail">
+                    <!-- 名称 -->
+                    <div class="title-name">
+                      <span>
+                        {{  item.name || ''}}  
+                      </span>
+                    </div>
+                    <!-- 歌手 -->
+                    <div class="title-name-sub">
+                      <span>
+                        {{item.artist || ''}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </DropdownTransition>
+        </div>
       </div>
     </div>
-    <!-- 沉浸模式 -->
-    <div class="immerse-wapper" v-show="open">
+    <!-- 沉浸模式   -->
+    <div class="immerse-wapper" :style="open? 'height: 100%;': 'height: 0;'" >
       <!-- 操作栏 -->
       <div class="immerse-action">
         <span class="immerse-close" @click="immerse"></span>
@@ -92,23 +98,29 @@
       <div class="immerse-main">
         <!-- 头像 -->
         <div class="immerse-avtar">
+          <div class="time" style="position: fixed;top: 15rem;" v-if="currentMusic.currentTime != 0 && !loading">
+            <span>
+              {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
+            </span>
+          </div>
           <img class="avatar" :class="{playing: isPlaying}"
           :src="currentMusic? currentMusic.cover : ''"
           style="width: 20rem;height: 20rem;border-radius: 500px;"
+          @click="onPlay"
           />
         </div>
         <!-- 歌名 & 歌词 -->
         <div class="immerse-cover">
           <div class="immerse-title">
             <span>
-              {{currentMusic.name || ''}}  
+              {{currentMusic.name || currentMusic.artist || ''}}  
             </span>
             <!-- <span style="font-size: 1rem;">
               {{ currentMusic.artist }}
             </span> -->
           </div>
           <ul class="immerse-lrc" ref="lyric">
-            <div style="margin: 30% 0;">
+            <div style="max-width: 60rem;" :style="{margin: isArrow ? '30% 0' : '10% 0'}">
               <li class="lrc" 
               :class="isPlaying && (lrcItem.timestemp <= currentMusic.timestemp && (index != currentMusic.lrcList.length -1 && currentMusic.timestemp < parseInt(currentMusic.lrcList[index + 1].timestemp))) ? 'active' : ''" 
               v-if="lrcItem.str"
@@ -120,8 +132,21 @@
         </div>
         <!-- 歌单列表 -->
         <div class="immerse-musicList">
-          <div>
-            歌单列表
+          <div style="display: flex;padding: 0.5rem 1rem;">
+            <div class="catgBtns">
+              <div class="listBtn" v-for="(catgItme, index) in catgList"
+              :class="{'listBtn_1':index == 0, 'listBtn_2' : index!=0 && index == catgList.length -1, 'selected': catgItme.index == currentMusic.playListIndex}"
+               @click="getMusicList(catgItme.index, catgItme.id)">
+                <span>
+                  {{ catgItme.name }}
+                </span>
+              </div>
+            </div> 
+            <div class="refreshBtn" :class="isListRefresh ? 'refreshing': ''">
+              <i class="iconfont rays-shuaxin1"
+               @click="getMusicList('refresh', playlistId)"></i>
+            </div>
+    
           </div>
           <div>
             <ul class="immerse-musicList-wapper">
@@ -215,7 +240,27 @@ export default {
       playHistory: true,
       isPlaying: false,
       musicList: [],
+      catgList:[
+        {
+          name:'我的歌单',
+          index: 'mine',
+          id: '144719593'
+        },
+        //  要登录
+        // {
+        //   name: '我喜欢',
+        //   index: 'like',
+        //   id: '130541802'
+        // },
+        {
+          name:'游戏必备',
+          index: 'dj',
+          id: '946216567'
+        }
+      ],
       currentMusic: {
+        playListId: '144719593',
+        playListIndex: 'mine',
         musicId: '',
         currentTime: 0,
         maxTime: 0,
@@ -232,12 +277,14 @@ export default {
         brList: []
       },
       lineNo: 1,
+      isArrow: true,
       linksWrapOffsetWidth: null,
       linksWrapMaxWidth: null,
       fixedHeight: 0,
       pageYOffset: 44,
       isFixed: false,
-      isVisible: false
+      isVisible: false,
+      isListRefresh: false
     }
   },
   computed: {
@@ -265,7 +312,7 @@ export default {
       this.isPC = false
     } else {
       this.isPC = true
-      this.getMusicList(this.playlistId)
+      this.getMusicList('first',this.playlistId)
     }
     this.handleLinksWrapWidth()
     window.addEventListener('resize', this.handleLinksWrapWidth, false)
@@ -324,9 +371,15 @@ export default {
      * @param {*} playlistId
      * @return {*}
      */    
-    getMusicList(playlistId = '144719593'){
+    getMusicList(type='first', playlistId = '144719593'){
       let that = this
       let sort = 0
+      that.isListRefresh = true
+      // 刷新不换歌单
+      if (type == 'refresh') {
+        type = that.currentMusic.playListIndex
+        playlistId = that.currentMusic.playListId
+      } 
       // 获取音乐文件   https://autumnfish.cn
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
@@ -368,12 +421,24 @@ export default {
                   sort: sort++
                 }
               })
-              // 设置默认音量
-              that.$refs.audio.volume = that.defaultVolume
-              // 显示默认音量
-              that.currentMusic.volume = that.$refs.audio.volume
-              // 加载一首歌
-              that.getCurrentMusic('first')
+              
+              // 设置刷新标志
+              setTimeout(() => {
+                that.isListRefresh = false
+              }, 2000); 
+              // 第一次获取歌单，加载一首歌
+              if (type == 'first') {
+                type = 'mine'
+                that.getCurrentMusic(type)
+                // 设置默认音量
+                that.$refs.audio.volume = that.defaultVolume
+                // 显示默认音量
+                that.currentMusic.volume = that.$refs.audio.volume
+              }
+
+              // 歌单赋值
+              that.currentMusic.playListId = playlistId
+              that.currentMusic.playListIndex = type
               // console.log('musicList ->', that.musicList)
               // console.log('currentMusic ->', that.currentMusic)
             }
@@ -397,8 +462,13 @@ export default {
      * @return {*}
      */    
     getCurrentMusic(type = 'first', music = {}) {
+      // 暂停
+      this.$refs.audio.pause()
+      // 同一首歌不切换
+      if (music && music.musicId == this.currentMusic.musicId) return
       // 清除歌词
       this.currentMusic.lrc = ""
+      this.currentMusic.lrcList = []
       // 随机取，但是不能和当前歌曲相同
       if(this.playType == 'random' && type !== 'change'){
         // 排除相同的歌曲
@@ -443,6 +513,8 @@ export default {
       }).then(function(response) {
         // 返回 { success: true, message: 'ok' } 或者 { success: false, message: '亲爱的,暂无版权' }
         if (response.status === 200 && response.data.success) {
+          // 获取歌词
+          that.getMusicLrc(musicId)
           // 获取音乐文件
           axios({
             baseURL: that.$themeConfig.back.musicUrl,
@@ -459,8 +531,6 @@ export default {
               // 首次加载歌单，是否自动播放取决于用户设置
               if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 2000)
             }
-            // 获取歌词
-            that.getMusicLrc(musicId)
 
           }, function(err) {
             that.loading = false
@@ -504,7 +574,8 @@ export default {
               }).filter(res => {
                 return res.str
               })
-
+              that.isArrow = true
+              if (!that.currentMusic.lrcList[1].timestemp && that.currentMusic.lrcList[1].timestemp != 0) that.isArrow = false
               // console.log(that.currentMusic.lrcList)
             }
       },function(err){
@@ -512,7 +583,7 @@ export default {
       })
     },
     /**
-     * @description: Add by RayShine 转换歌词
+     * @description: Add by RayShine 转换歌词 && 沉浸式歌词滚动
      * @return {*}
      */   
     transformLrc() {
@@ -524,13 +595,15 @@ export default {
       }).map(res => {
         return res.str
       }).join(",")
-
+      
+      // 歌词转换
       if (str && that.currentMusic.lrc != str) {
         that.currentMusic.lrc = str
         that.lineNo = that.lineNo + that.currentMusic.lrc.split(",").length
       }
+      
       // 歌词滚动 (每一行是固定的)
-      that.$refs.lyric.scrollTop = 45.08 * that.lineNo - 85
+      if (that.isArrow) that.$refs.lyric.scrollTop = 45.08 * that.lineNo - 85
       // console.log(str)
     },
     /**
@@ -555,7 +628,7 @@ export default {
      */    
     next (e) {
       // 暂停音乐
-      this.$refs.audio.pause()
+      // this.$refs.audio.pause()
       // 获取歌曲
       this.getCurrentMusic('next')
     },
@@ -566,7 +639,7 @@ export default {
      */    
     prev (e) {
       // 暂停音乐
-      this.$refs.audio.pause()
+      // this.$refs.audio.pause()
       // 获取歌曲
       this.getCurrentMusic('prev')
     },
@@ -664,19 +737,40 @@ export default {
       background: $pagefullNavColor !important;
     }
     }
-  } 
+  }
+  .immerse-wapper {
+    color rgba(50, 65, 100, 1)
+    .refreshBtn {
+      .iconfont {
+        color rgba(50, 65, 100, 1) !important
+      }
+    }
+    .listBtn {
+      color rgba(50, 65, 100, 1) !important
+      border 2px solid rgba(50, 65, 100, 1) !important
+    }
+    .music-info {
+      border-top: 1px solid rgba(255, 255, 255, .3) !important;
+    }
+    hr {
+      border-top: 1px solid rgba(255, 255, 255, .3) !important;
+    }
+  }
+  
 }
 .fixed {
   position fixed
-  margin-top -3.7rem !important
+  top -3.7rem !important
   z-index 20
   padding: 0.7rem 1.5rem
   color var(--text-color)
-  transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out
+  transition transform 0.2s ease-in-out, top 0.2s ease-in-out
 }
 .visible {
-  transition all 0.5s
-  transform translate3d(0, 100%, 0)
+  // transition all 0.5s
+  // transform translate3d(0, 100%, 0)
+  top -0.1rem !important
+  transition transform 0.2s ease-in-out, top 0.5s ease-in-out
 }
 
 // 沉浸模式 ********* start *********
@@ -687,10 +781,11 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
-  overflow-y: hidden;
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  -webkit-backdrop-filter: blur(100px);
+  backdrop-filter: blur(100px);
+  // overflow-y: hidden;
+  overflow hidden;
+  transition: transform .2s ease-in-out, height .2s ease-in-out;
   .immerse-action {  // 操作栏
     height: 5%;
     width: 100%;
@@ -724,6 +819,7 @@ export default {
     .immerse-avtar {
       width: 25%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
@@ -745,6 +841,10 @@ export default {
         .lrc {
           transition .3s 
           padding .2rem
+          font-family cursive
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
         &:first-child .lrc {
           margin-top: 10rem
@@ -762,8 +862,49 @@ export default {
   }
   .immerse-musicList {
     width: 25%;
+    .refreshBtn {
+      display: flex; 
+      align-items: center;
+      padding: 0 1rem;
+      .iconfont {
+        color var(--text-color)
+        font-size 1.5rem
+        &:hover {
+          color $accentColor
+        }  
+      }
+    }
+    .catgBtns {
+      display flex
+      .listBtn {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4rem;
+        margin-left -2px
+        color: var(--text-color);
+        border: 2px solid var(--text-color-sub);
+        box-shadow var(--box-shadow);
+        &:hover {
+          color $accentColor !important;
+          border: 2px solid $accentColor !important;
+        }
+      }
+      .listBtn_1 {
+        border-radius: 50px 0 0 50px;
+      }
+      .listBtn_2 {
+        border-radius: 0 50px 50px 0;
+      }
+      .selected {
+        border-color $accentColor !important
+        color $accentColor !important
+      }
+    }
+
     .immerse-musicList-wapper {
-      max-height: 83%;
+      max-height: calc(80% - .1rem);
       width: 100%;
       overflow: hidden;
       box-sizing border-box;
@@ -780,7 +921,7 @@ export default {
         .music-info {
           display flex
           border-top: 1px solid var(--border-color);
-          padding .2rem
+          padding 0.2rem 1rem 0 1rem;
           &:hover .title-name{
             color $accentColor;
           }
@@ -807,9 +948,9 @@ export default {
           }
         }
         &:first-child .music-info {
-        padding .2rem
-        border-top 0
-      }
+          padding 0.45rem 1rem 0 1rem;
+          border-top 0 !important
+        }
       }
     }
   }
@@ -825,20 +966,11 @@ export default {
     }
   }
 }
-
-@-webkit-keyframes HeightFrom0To100{
-
-0%{opacity:;}
-
-100%{opacity:;}
-
-}
 .nav-music {
   z-index 21
   position fixed
-  top 0.1rem
+  top -0.1rem
   right 45rem 
-  display inline-block
   padding-right 1.5rem
   box-sizing border-box
   white-space nowrap
@@ -861,6 +993,7 @@ export default {
     vertical-align top
     border-radius 50%
     box-shadow 0 1px 8px 1px var(--text-color)
+    cursor: pointer
   }
   .dropdown-wrapper{
     &:hover .music-dropdown {
@@ -871,12 +1004,95 @@ export default {
   .img-box {
     display: flex;
     // align-items: center;
+    cursor pointer
+    &:hover .point_box {
+      display block !important
+    }
     .time {
       position: fixed;
       margin-left: 0.2rem;
     }
 
   }
+  .point_box {
+    display none
+    height $navbarHeight - 1rem
+    min-width $navbarHeight - 1rem
+    margin-top 0.5rem
+    margin-right -($navbarHeight - 1rem)
+    vertical-align top
+    border-radius 50%
+    box-shadow 0 1px 8px 1px var(--text-color)
+    cursor: pointer
+    backdrop-filter: blur(1px);
+    z-index: 1;
+    .point_1:after {
+      content: "";
+      position: absolute;
+      display: block;
+      top: .5rem;
+      left: 1rem;
+      margin-bottom 1rem
+      width: .5rem;
+      height: .5rem;
+      border: 0.15rem solid rgb(247 247 247 / 0.90);
+      border-left: none;
+      border-top: none;
+      -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      -webkit-animation: arrowMove 1.2s infinite;
+      animation: arrowMove 1.2s infinite;
+      z-index 1
+    }
+    .point_2:after {
+      content: "";
+      position: absolute;
+      display: block;
+      top: .9rem;
+      left: 1rem;
+      width: .5rem;
+      height: .5rem;
+      border: 0.15rem solid rgb(247 247 247 / 0.90);
+      border-left: none;
+      border-top: none;
+      -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      -webkit-animation: arrowMove 1.2s infinite;
+      animation: arrowMove 1.2s infinite;
+      z-index 1
+    }
+    @-webkit-keyframes arrowMove {
+      from {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      to {
+        -webkit-transform: rotate(45deg) translateY(.2rem) translateX(.2rem);
+        transform: rotate(45deg) translateY(.2rem) translateX(.2rem);
+        opacity: 0;
+      }
+    }
+    @keyframes arrowMove {
+      from {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      to {
+        -webkit-transform: rotate(45deg) translateY(.2rem) translateX(.2rem);
+        transform: rotate(45deg) translateY(.2rem) translateX(.2rem);
+        opacity: 0;
+      }
+    }
+  }
+
   .music-dropdown {
     display none
     // Avoid height shaked by clicking
@@ -887,10 +1103,11 @@ export default {
     overflow-y auto
     position absolute
     top 100%
-    // right 0
+    right 0
     background-color var(--background-color)
     padding 0rem 0
     box-shadow: var(--box-shadow);
+    color: var(--text-color);
     text-align left
     border-radius $borderRadius
     white-space nowrap
@@ -906,7 +1123,7 @@ export default {
       .music-info {
         display flex
         border-top: 1px solid var(--border-color);
-        padding .2rem
+        padding 0.2rem 1rem 0 1rem;
         &:hover .title-name{
           color $accentColor;
         }
@@ -933,7 +1150,7 @@ export default {
         }
       }
       &:first-child .music-info {
-        padding .2rem
+        padding 0.45rem 1rem 0 1rem;
         border-top 0
       }
     }
@@ -998,7 +1215,7 @@ export default {
 
 
       .title-name {
-        width: 8rem;
+        width: 9rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -1012,34 +1229,60 @@ export default {
     }
     .action-bar {
       margin: -0.3rem 0 0 0;
+      display flex
       .volume{
         font-family: fantasy;
       }
       .iconfont {
         font-size 1.3rem
-        // margin 0 .2rem
+        margin 0 .2rem
         transition: all .3s ease-in-sine
         &:hover {
           color $accentColor
         }  
       }
+      .playlist {
+        &:hover .music-dropdown {
+          // override the inline style.
+          display block !important
+        }
+      }
     }
+  }
+  .refreshing {
+    -webkit-transform: rotate(360deg);
+    animation: rotation 1s linear infinite;
+    -moz-animation: rotation 1s linear infinite;
+    -webkit-animation: rotation 1s linear infinite;
+    -o-animation: rotation 1s linear infinite;
   }
   .playing {
-    -webkit-animation rotate 3s linear infinite
-    -webkit-transform-origin center center
-    -ms-transform-origin center center
-    transform-origin center center
+    -webkit-transform: rotate(360deg);
+    animation: rotation 3s linear infinite;
+    -moz-animation: rotation 3s linear infinite;
+    -webkit-animation: rotation 3s linear infinite;
+    -o-animation: rotation 3s linear infinite;
   }
-  @--webkit-keyframes rotate {
-    0%{
-      --webkit-transform:rotate(0deg);
+  @--webkit-keyframes rotation {
+    0% {
+      -webkit-transform:rotate(0deg);
     }
-    50%{
-      --webkit-transform:rotate(180deg);
+    50% {
+      -webkit-transform:rotate(180deg);
     }
-    100%{
-      --webkit-transform:rotate(360deg);
+    100% {
+      -webkit-transform:rotate(360deg);
+    }
+  }
+  @keyframes rotation {
+    0% {
+      -webkit-transform:rotate(0deg);
+    }
+    50% {
+      -webkit-transform:rotate(180deg);
+    }
+    100% {
+      -webkit-transform:rotate(360deg);
     }
   }
 }

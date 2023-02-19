@@ -18,7 +18,7 @@ export default ({
   Vue.mixin(localMixin)
   Vue.mixin(smoothscroll)
   if (!isServer) {
-    addLinkToHead('//at.alicdn.com/t/c/font_2506918_1oz6bb3qy0t.css')
+    addLinkToHead('//at.alicdn.com/t/c/font_2506918_dobta6mpl1t.css')
     // registerCodeThemeCss(siteData.themeConfig.codeTheme)
   }
   
