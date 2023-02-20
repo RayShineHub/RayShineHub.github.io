@@ -1,8 +1,8 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-07-11 13:40:38
- * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-19 17:18:34
+ * @LastEditors: Ray Shine spf1773@gmail.com
+ * @LastEditTime: 2023-02-20 18:23:59
  * @FilePath: \RayShineHub\src\.vuepress\config\NavPlayer\index.js
  * @Description: Create by RayShine 导航栏音乐播放器配置
  * 
@@ -11,8 +11,26 @@
 
 module.exports = {
   playlistId: '144719593',
-  playType: 'random',   // singleLoop单曲循环, listLoop列表循环, listNext列表顺序, random随机
+  playType: 'playorder',   // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
   autoPlay: false,
   volumeStep: 0.1,
-  defaultVolume: 0.1
+  defaultVolume: 0.2,
+  catgList: [    // 歌单
+    {
+      name:'我的歌单',
+      index: 'mine',
+      id: '144719593'
+    },
+    //  要登录
+    // {
+    //   name: '我喜欢',
+    //   index: 'like',
+    //   id: '130541802'
+    // },
+    {
+      name:'游戏必备',
+      index: 'dj',
+      id: '946216567'
+    }
+  ]
 };

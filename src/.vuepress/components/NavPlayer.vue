@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-19 18:44:55
+ * @LastEditTime: 2023-02-21 01:09:26
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -56,7 +56,7 @@
         <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
         <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
         <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
-        
+        <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" style="font-size: 1.2rem;"></i>
         <div class="dropdown-wrapper">
           <a class="dropdown-box">
             <i class="iconfont rays-songlist palylist"></i>
@@ -98,11 +98,6 @@
       <div class="immerse-main">
         <!-- 头像 -->
         <div class="immerse-avtar">
-          <div class="time" style="position: fixed;top: 15rem;" v-if="currentMusic.currentTime != 0 && !loading">
-            <span>
-              {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
-            </span>
-          </div>
           <img class="avatar" :class="{playing: isPlaying}"
           :src="currentMusic? currentMusic.cover : ''"
           style="width: 20rem;height: 20rem;border-radius: 500px;"
@@ -135,7 +130,7 @@
           <div style="display: flex;padding: 0.5rem 1rem;">
             <div class="catgBtns">
               <div class="listBtn" v-for="(catgItme, index) in catgList"
-              :class="{'listBtn_1':index == 0, 'listBtn_2' : index!=0 && index == catgList.length -1, 'selected': catgItme.index == currentMusic.playListIndex}"
+              :class="{'listBtn_1':index == 0, 'listBtn_2' : index!=0 && index == catgList.length -1, 'selected': catgItme.id == currentMusic.playListId}"
                @click="getMusicList(catgItme.index, catgItme.id)">
                 <span>
                   {{ catgItme.name }}
@@ -174,35 +169,39 @@
           </div>
         </div>
       </div>
-      <hr>
+      
       <!-- 底部操作栏 -->
       <div class="immerse-footer">
         <div class="action-bar">
           <!-- <i class="iconfont rays-switch" @click="next"></i> -->
           <i class="iconfont rays-prev-face" @click="prev"></i>
-          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
-          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
+          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;"></i>
+          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay" style="font-size: 3rem;"></i>
           <i class="iconfont rays-next-face" @click="next"></i>
+          <!-- controls  controlslist="nodownload" -->
+          <audio ref="audio"
+          controls
+          :loop="playType == 'playsingle'"
+          :autoplay="false" 
+          :src="currentMusic.url"
+          :volume="0.3"
+          @volumechange="onVolume"
+          @play="play" 
+          @pause="pause"
+          @loadedmetadata="onLoadedmetadata"
+          @timeupdate="onTimeupdate"
+          @ended="onEnded"
+          ></audio>
           <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
           <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
           <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
           <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
+          <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" ></i>
         </div>
       </div>
       
-      
     </div>
 
-    <audio ref="audio" 
-    :autoplay="false" 
-    :src="currentMusic.url"
-    :volume="0.3"
-    @play="play" 
-    @pause="pause"
-    @loadedmetadata="onLoadedmetadata"
-    @timeupdate="onTimeupdate"
-    @ended="onEnded"
-    ></audio>
   </div> 
 </template>
 
@@ -237,30 +236,13 @@ export default {
       time: 0,
       loading: true,
       isPC: true,
-      playHistory: true,
+      playHistory: false,
       isPlaying: false,
+      // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
+      playType: that.defaultPlayType,
       musicList: [],
-      catgList:[
-        {
-          name:'我的歌单',
-          index: 'mine',
-          id: '144719593'
-        },
-        //  要登录
-        // {
-        //   name: '我喜欢',
-        //   index: 'like',
-        //   id: '130541802'
-        // },
-        {
-          name:'游戏必备',
-          index: 'dj',
-          id: '946216567'
-        }
-      ],
       currentMusic: {
         playListId: '144719593',
-        playListIndex: 'mine',
         musicId: '',
         currentTime: 0,
         maxTime: 0,
@@ -291,6 +273,9 @@ export default {
     playlistId () {
       return this.$themeConfig.NavPlayer.playlistId || ''
     },
+    catgList () {
+      return this.$themeConfig.NavPlayer.catgList || []
+    },
     autoPlay () {
       return this.$themeConfig.NavPlayer.autoPlay || false
     },
@@ -300,9 +285,9 @@ export default {
     defaultVolume () {
       return this.$themeConfig.NavPlayer.defaultVolume || 0.3
     },
-    playType () {
-      // singleLoop单曲循环, listLoop列表循环, listNext列表顺序, random随机
-      return this.$themeConfig.NavPlayer.playType || 'listLoop'
+    defaultPlayType () {
+      // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
+      return this.$themeConfig.NavPlayer.playType || 'playloop'
     }
   },
   watch: {},
@@ -311,6 +296,7 @@ export default {
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
     } else {
+      this.playType = this.defaultPlayType
       this.isPC = true
       this.getMusicList('first',this.playlistId)
     }
@@ -367,6 +353,31 @@ export default {
       }
     },
     /**
+     * @description: Add by RayShine 切换播放模式
+     * @param {*} playlistId
+     * @return {*}
+     */  
+    playTypeHandle () {
+      // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
+      switch (this.playType) {
+        case 'playsingle':
+          this.playType = 'playloop'
+          break;
+
+        case 'playloop':
+          this.playType = 'playorder'
+          break;
+
+        case 'playorder':
+          this.playType = 'playrandom'
+          break;
+      
+        default:
+        this.playType = 'playsingle'
+          break;
+      }
+    },
+    /**
      * @description: Add by RayShine 获取歌单列表
      * @param {*} playlistId
      * @return {*}
@@ -377,7 +388,6 @@ export default {
       that.isListRefresh = true
       // 刷新不换歌单
       if (type == 'refresh') {
-        type = that.currentMusic.playListIndex
         playlistId = that.currentMusic.playListId
       } 
       // 获取音乐文件   https://autumnfish.cn
@@ -428,7 +438,7 @@ export default {
               }, 2000); 
               // 第一次获取歌单，加载一首歌
               if (type == 'first') {
-                type = 'mine'
+                // type = 'mine'
                 that.getCurrentMusic(type)
                 // 设置默认音量
                 that.$refs.audio.volume = that.defaultVolume
@@ -438,13 +448,13 @@ export default {
 
               // 歌单赋值
               that.currentMusic.playListId = playlistId
-              that.currentMusic.playListIndex = type
               // console.log('musicList ->', that.musicList)
               // console.log('currentMusic ->', that.currentMusic)
             }
             
           }, function(err) {
             that.loading = false
+            that.isListRefresh = false
             that.currentMusic.artist = err.response.data.message
             that.currentMusic.currentTime = 0
             console.log(err);
@@ -452,6 +462,7 @@ export default {
         }
       }, function(err) {
         that.loading = false
+        that.isListRefresh = false
         that.currentMusic.artist = '歌单获取失败'
         that.currentMusic.currentTime = 0
         console.log(err);
@@ -462,36 +473,38 @@ export default {
      * @return {*}
      */    
     getCurrentMusic(type = 'first', music = {}) {
-      // 暂停
-      this.$refs.audio.pause()
       // 同一首歌不切换
       if (music && music.musicId == this.currentMusic.musicId) return
+      // 暂停
+      this.$refs.audio.pause()
       // 清除歌词
       this.currentMusic.lrc = ""
       this.currentMusic.lrcList = []
       // 随机取，但是不能和当前歌曲相同
-      if(this.playType == 'random' && type !== 'change'){
+      if(this.playType == 'playrandom' && type !== 'change'){
         // 排除相同的歌曲
         let musicList = this.musicList.filter((music) => {
           return music.musicId != this.currentMusic.musicId
         })
         this.currentMusic = Object.assign({},this.currentMusic, musicList[Math.floor(Math.random() * musicList.length)])
-      // 单曲循环或者列表循环，取下一首歌曲
+      // 列表顺序或者列表循环，取下一首歌曲
       }else{
         if (type === 'first') {
           this.currentMusic = Object.assign({},this.currentMusic, this.musicList[0])
         } else if (type === 'change'){
           this.currentMusic = Object.assign({},this.currentMusic, music)
         } else {
-          let nextSort = type == 'prev' ? this.currentMusic.sort-- : this.currentMusic.sort++
+          // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
+          let nextSort = type == 'prev' ? --this.currentMusic.sort : ++this.currentMusic.sort
           if (type === 'next' && nextSort > this.musicList.length - 1) {
             nextSort = 0
+            if (this.playType == 'playorder') return
           } else if (type === 'prev' && nextSort < 0) {
             nextSort = this.musicList.length - 1
           }
+          this.currentMusic.sort = nextSort
           this.currentMusic = Object.assign({},this.currentMusic, this.musicList[nextSort])
         }
-        
       }
       // 加载歌曲 获取最高音质
       this.getMusic(this.currentMusic.musicId, this.currentMusic.brList[this.currentMusic.brList.length - 1], type)
@@ -523,13 +536,11 @@ export default {
           }).then(function(response) {
             if (response.status === 200) {
               that.loading = false
-              that.pause();
+              // that.pause();
               // 替换 http 为 https
               that.currentMusic.url = response.data.data[0].url.match('^http://') ?  response.data.data[0].url.replace("http://","https://") : response.data.data[0].url;
-              // 歌词置顶
-              that.lineNo = 1
               // 首次加载歌单，是否自动播放取决于用户设置
-              if ((type != 'first' || (type == 'first' && that.autoPlay)) && that.playHistory) setTimeout(() => { that.$refs.audio.play() }, 2000)
+              if (type != 'first' || (type == 'first' && that.autoPlay)) setTimeout(() => { that.$refs.audio.play() }, 2000)
             }
 
           }, function(err) {
@@ -543,9 +554,6 @@ export default {
         that.currentMusic.url = ''
         that.currentMusic.name = ''
         that.currentMusic.currentTime = 0
-        if (type != 'change') {
-          setTimeout(() => { that.next() }, 2000)
-        }
         console.log(err);
       });
     },
@@ -564,16 +572,19 @@ export default {
           }).then(function(response) {
             if (response.status === 200) {
               let lrcStr = response.data.lrc.lyric
+              let lineNo = 1
               that.currentMusic.lrcList = lrcStr.split('\n').map(lrc => {
                 let time = lrc.substring(lrc.indexOf("[")+1,lrc.indexOf("]")+0).split(":")
                 return {
                   // timestemp: Math.floor((time[0] * 60 + time[1]) * 100 ) / 100,
                   timestemp: parseInt(Math.floor(time[0] * 60) + Math.floor(time[1])),
-                  str:lrc.substring(lrc.indexOf("]") + 1)
+                  str:lrc.substring(lrc.indexOf("]") + 1),
+                  lineNo: lrc.substring(lrc.indexOf("]") + 1) && lineNo++
                 }
               }).filter(res => {
                 return res.str
               })
+              // 初始化歌词显示的位置，如果不支持滚动的歌词就靠上一点，支持滚动的就靠中间一点显示
               that.isArrow = true
               if (!that.currentMusic.lrcList[1].timestemp && that.currentMusic.lrcList[1].timestemp != 0) that.isArrow = false
               // console.log(that.currentMusic.lrcList)
@@ -586,26 +597,37 @@ export default {
      * @description: Add by RayShine 转换歌词 && 沉浸式歌词滚动
      * @return {*}
      */   
-    transformLrc() {
-      let time = this.time
+    transformLrc:throttle(function(time) {
       let that = this
-      let str = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
+      // 不支持滚动的歌词
+      if (!that.isArrow) return
+      // 查找时间相同的歌词
+      let musicList = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
         // return lrc.timestemp - 0.5 >= Math.floor(time * 100 ) / 100 >= lrc.timestemp + 0.5
+        return lrc.timestemp <= time
+      })
+      // 提取歌词，准备mini模式的切换展示
+      let str = musicList.filter(lrc => {
         return lrc.timestemp == parseInt(time)
       }).map(res => {
         return res.str
       }).join(",")
       
-      // 歌词转换
+      // 歌词切换
       if (str && that.currentMusic.lrc != str) {
         that.currentMusic.lrc = str
-        that.lineNo = that.lineNo + that.currentMusic.lrc.split(",").length
       }
-      
-      // 歌词滚动 (每一行是固定的)
-      if (that.isArrow) that.$refs.lyric.scrollTop = 45.08 * that.lineNo - 85
+      // 找出当前行的行序号
+      let currentLineNo = Math.max.apply(null, musicList.map(res => {
+        return res.lineNo
+      }))
+
+      // 歌词滚动 (每一行的高度是固定的)   排除 Infinity
+      if (currentLineNo && isFinite(currentLineNo)) that.$refs.lyric.scrollTop = 45.08 * currentLineNo - 85
+
+      // console.log('currentLineNo->', currentLineNo)
       // console.log(str)
-    },
+    }, 500),
     /**
      * @description: Add by RayShine 播放与暂停切换 需要防抖
      * @return {*}
@@ -614,11 +636,11 @@ export default {
       return this.isPlaying ? this.$refs.audio.pause() : this.$refs.audio.play()
     },
     play () {
-      this.playHistory = false
+      this.playHistory = true
       this.isPlaying = true
     },
     pause () {
-      this.playHistory = true
+      this.playHistory = false
 			this.isPlaying = false
 		},
     /**
@@ -674,8 +696,7 @@ export default {
       this.currentMusic.currentTime = this.transTime(this.currentMusic.duration - e.target.currentTime)
       this.currentMusic.timestemp =  parseInt(Math.floor(e.target.currentTime * 100) / 100)
       // 装换歌词
-      this.time = e.target.currentTime
-      this.transformLrc()
+      this.transformLrc(this.currentMusic.timestemp)
     },
     /**
      * @description: Add by RayShine 获取音频总时长
@@ -702,17 +723,19 @@ export default {
     onVolume(e) {
       let currentVolume = parseInt(this.$refs.audio.volume * 10)
       let step = this.volumeStep * 10
-      if (e === 'jian') {
-        if (currentVolume - step <= 0) {
-          this.$refs.audio.volume = 0
+      if (typeof(e) == 'string') {
+        if (e === 'jian') {
+          if (currentVolume - step <= 0) {
+            this.$refs.audio.volume = 0
+          } else {
+            this.$refs.audio.volume = (parseInt(this.$refs.audio.volume * 10) - step) / 10
+          }
         } else {
-          this.$refs.audio.volume = (parseInt(this.$refs.audio.volume * 10) - step) / 10
-        }
-      } else {
-        if (currentVolume + step >= 10 ) {
-          this.$refs.audio.volume = 1
-        }else {
-          this.$refs.audio.volume = (parseInt(this.$refs.audio.volume * 10) + step) / 10
+          if (currentVolume + step >= 10 ) {
+            this.$refs.audio.volume = 1
+          }else {
+            this.$refs.audio.volume = (parseInt(this.$refs.audio.volume * 10) + step) / 10
+          }
         }
       }
       this.currentMusic.volume = this.$refs.audio.volume
@@ -729,6 +752,72 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+audio {
+  width: 25%;
+  height: 2rem;
+  opacity .5
+  margin: 0 3rem;
+  // margin-top 1rem
+  // background-color var(--nav-background-color)
+  border-color none
+  color var(--text-color)
+}
+
+audio::-webkit-media-controls {
+    width: inherit;
+    height: inherit;
+    position: relative;
+    display: -webkit-flex;
+    // background-color var(--nav-background-color)
+    -webkit-align-items: flex-start;
+    -webkit-justify-content: flex-end;
+    -webkit-flex-direction: column;
+}
+
+audio::-webkit-media-controls-mute-button {
+    // display: none;
+}
+
+audio::-webkit-media-controls-panel {
+  -webkit-justify-content: center;
+  height: 100%;
+  // background-color: var(--nav-background-color);
+  backdrop-filter: blur(100px);
+}
+
+/* Removes the timeline */
+audio::-webkit-media-controls-timeline {
+  // display: none !important;
+}
+// audio::-webkit-media-controls-timeline, video::-webkit-media-controls-timeline {
+//     -webkit-appearance: media-slider;
+//     display: -webkit-flex;
+//     -webkit-flex: 1 1;
+//     background-color: initial;
+//     border: initial;
+//     color: inherit;
+//     margin: initial;
+//     min-width: 0;
+// }
+
+/* Removes the time stamp */
+audio::-webkit-media-controls-current-time-display {
+  // display: none;
+}
+audio::-webkit-media-controls-time-remaining-display {
+  // display: none;
+}
+audio::-webkit-media-controls-play-button {
+  display: none;
+}
+audio::-webkit-media-controls-overlay-play-button {
+  display: none;
+}
+audio::-webkit-media-controls-timeline-container {
+  display: none;
+}
+
 .pagefull {
   .actions {
     color $pagefullNavColor
@@ -957,13 +1046,23 @@ export default {
   .immerse-footer {
     text-align: center;
     font-size 2rem;
-    .iconfont {
-      font-size 2rem;
-      margin .6rem;
-      &:hover {
-        color $accentColor
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top var(--border-top)
+    .action-bar {
+      display flex
+      align-items: center;
+      justify-content: center;
+      .iconfont {
+        font-size 2rem;
+        margin .6rem;
+        &:hover {
+          color $accentColor
+        }
       }
     }
+    
   }
 }
 .nav-music {
@@ -1215,7 +1314,7 @@ export default {
 
 
       .title-name {
-        width: 9rem;
+        width: 10rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
