@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-21 16:40:52
+ * @LastEditTime: 2023-02-22 02:00:43
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -65,8 +65,8 @@
             @mouseenter="scrollToCurrentMusic('dropdown_', currentMusic.musicId, {behavior: 'auto', block: 'center'})"></i>
           </a>
           <DropdownTransition>
-            <ul class="music-dropdown" style="margin-top:-.5rem">
-              <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
+            <ul class="music-dropdown">
+              <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in musicList">
                 <div class="music-info" 
                 :id="'dropdown_' + item.musicId"
                 @click="getCurrentMusic('change', item)">
@@ -145,7 +145,7 @@
           <div style="display: flex;padding: 0.5rem 1rem;">
             <div class="catgBtns">
               <div class="listBtn" v-for="(catgItme, index) in catgList"
-              :class="{'listBtn_1':index == 0, 'listBtn_2' : index!=0 && index == catgList.length -1, 'selected': catgItme.id == currentMusic.playListId}"
+              :class="{'listBtn_1':index == 0, 'listBtn_2' : index!=0 && index == catgList.length -1, 'selected': !searchFlag && catgItme.id == currentMusic.playListId}"
                @click="getMusicList(catgItme.index, catgItme.id)">
                 <span>
                   {{ catgItme.name }}
@@ -156,14 +156,27 @@
               <i class="iconfont rays-shuaxin1"
                @click="getMusicList('refresh', playlistId)"></i>
             </div>
-            <div class="refreshBtn" style="margin-left: -1.5rem;">
+            <div class="locationBtn" style="margin-left: -1.5rem;">
               <i class="iconfont rays-dingwei"
                @click="getScoll('music_')"></i>
+            </div>
+            <div class="searchBox">
+              <i class="iconfont" :class="{'reco-search': !search.isRuning, 'rays-shuaxin': search.isRuning, 'refreshing': search.isRuning}"></i>
+              <input 
+              @input="searchHandle($event.target.value)"
+              :value="search.query"
+              :style="{width: search.query ? '60%': '0'}"
+              :class="{focused: searchFlag}"
+              aria-label="Search"
+              placeholder="搜索"
+              autocomplete="off"
+              spellcheck="false"
+              >
             </div>
           </div>
           <div style="width: 99%;height: calc(100% - 2.5rem);">
             <ul class="immerse-musicList-wapper" ref="musicList">
-              <li class="music-dropdown-item" :key="item.link || index" v-for="(item, index) in musicList">
+              <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in songsList">
                 <div class="music-info" 
                 :id="'music_' + item.musicId"
                 @click="getCurrentMusic('change', item)">
@@ -238,6 +251,33 @@
 <script>
 import axios from 'axios'
 import DropdownTransition from '@theme/components/DropdownTransition'
+
+/**
+ * @description: Add by RayShine 防抖
+ * @param {Fn} func
+ * @param {int} delay
+ * @return {*}
+ */ 
+const deounce = function (func, delay = 200) {
+  let timer = null
+
+  return function () {
+    let context = this
+    let args = arguments
+    // 清除上次还未发生的事件
+    timer && clearTimeout(timer)
+    // 设置一个新的定时器
+    timer = setTimeout(() =>{
+      func.apply(context, args)
+    }, delay)
+  }
+};
+/**
+ * @description: Add by RayShine 节流
+ * @param {Fn} func
+ * @param {int} delay
+ * @return {*}
+ */    
 const throttle = function (func, delay = 200) {
   let timer = null
   let startTime = Date.now()
@@ -266,6 +306,11 @@ export default {
       time: 0,
       loading: true,
       isPC: true,
+      search: {
+        isRuning: false,
+        placeholder: '搜索',
+        resultList: []
+      },
       playHistory: false,
       isPlaying: false,
       // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
@@ -296,7 +341,8 @@ export default {
       pageYOffset: 44,
       isFixed: false,
       isVisible: false,
-      isListRefresh: false
+      isListRefresh: false,
+      searchFlag: false
     }
   },
   computed: {
@@ -318,6 +364,9 @@ export default {
     defaultPlayType () {
       // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
       return this.$themeConfig.NavPlayer.playType || 'playloop'
+    },
+    songsList () {
+      return this.searchFlag ? this.search.resultList : this.musicList
     }
   },
   watch: {},
@@ -415,6 +464,8 @@ export default {
     getMusicList(type='first', playlistId = '144719593'){
       let that = this
       let sort = 0
+      that.searchFlag = false   // 重置搜索列表
+      that.search.query = ''
       that.isListRefresh = true
       // 刷新不换歌单
       if (type == 'refresh') {
@@ -455,7 +506,7 @@ export default {
                 return {
                   musicId: song.id,
                   name: song.name || '',
-                  artist: song.ar[0].name || '',
+                  artist: song.ar.map(ar => { return ar.name }).join('，') || '',
                   cover: song.al.picUrl || '',   // prettier-ignore
                   brList,
                   sort: sort++
@@ -521,27 +572,27 @@ export default {
       // 随机取，但是不能和当前歌曲相同
       if(this.playType == 'playrandom' && type !== 'change'){
         // 排除相同的歌曲
-        let musicList = this.musicList.filter((music) => {
+        let musicList = this.songsList.filter((music) => {
           return music.musicId != this.currentMusic.musicId
         })
         this.currentMusic = Object.assign({},this.currentMusic, musicList[Math.floor(Math.random() * musicList.length)])
       // 列表顺序或者列表循环，取下一首歌曲
       }else{
         if (type === 'first') {
-          this.currentMusic = Object.assign({},this.currentMusic, this.musicList[0])
+          this.currentMusic = Object.assign({},this.currentMusic, this.songsList[0])
         } else if (type === 'change'){
           this.currentMusic = Object.assign({},this.currentMusic, music)
         } else {
           // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
           let nextSort = type == 'prev' ? --this.currentMusic.sort : ++this.currentMusic.sort
-          if (type === 'next' && nextSort > this.musicList.length - 1) {
+          if (type === 'next' && nextSort > this.songsList.length - 1) {
             nextSort = 0
             if (this.playType == 'playorder') return
           } else if (type === 'prev' && nextSort < 0) {
-            nextSort = this.musicList.length - 1
+            nextSort = this.songsList.length - 1
           }
           this.currentMusic.sort = nextSort
-          this.currentMusic = Object.assign({},this.currentMusic, this.musicList[nextSort])
+          this.currentMusic = Object.assign({},this.currentMusic, this.songsList[nextSort])
         }
       }
       // 加载歌曲 获取最高音质
@@ -789,9 +840,9 @@ export default {
      */
     immerse(e) {
       this.open = !this.open
-      setTimeout(() => {
+      if (this.open) setTimeout(() => {
         this.scrollToCurrentMusic('music_', this.currentMusic.musicId, {behavior: 'auto'})
-      }, 500);
+      }, 1500);
     },
     getScoll (type = 'music_') {
       this.scrollToCurrentMusic(type, this.currentMusic.musicId, {behavior: 'auto'})
@@ -809,7 +860,52 @@ export default {
           block: options.block || 'center'
         })
       })    
-    }
+    },
+    /**
+     * @description: Add by RayShine 歌曲搜索
+     * @param {*} musicId 
+     */
+    searchHandle: deounce(function(query) {
+      let that = this
+      let sort = 0
+      that.search.query = query
+      // 输入框中没有结果显示原先的歌单
+      if (!query) that.searchFlag = false
+      that.search.resultList = []
+      if (query) {
+        that.search.isRuning = true
+        // 执行搜索 可选参数 limit用于分页，type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样)
+        axios({
+          baseURL: that.$themeConfig.back.musicUrl,
+          url:"/cloudsearch?keywords=" + query,
+          withCredentials: true
+        }).then(function(response) {
+          if (response.status === 200) {
+            
+            that.search.resultList = response.data.result.songs.map(song => {
+              let brList = [] 
+              brList.push(song.privilege.maxbr)
+              return {
+                musicId: song.id,
+                name: song.name || '',
+                artist: song.ar.map(ar => { return ar.name }).join('，') || '',
+                cover: song.al.picUrl || '',   // prettier-ignore
+                brList,
+                sort: sort++
+              }
+            })
+            that.searchFlag = true
+            setTimeout(() => {
+              that.search.isRuning = false
+            }, 1000);
+            console.log(response.data.result.songs)
+          }
+        },function(err){
+          that.search.isRuning = false
+          console.log(err)
+        })
+      }
+    }, 1500)
   }
 }
 </script>
@@ -927,6 +1023,9 @@ audio::-webkit-media-controls-timeline-container {
     hr {
       border-top: 1px solid rgba(255, 255, 255, .3) !important;
     }
+    input {
+      border: .1rem solid rgba(50,65,100,0.5) !important;
+    }
   }
   .immerse-footer {
     background-color: rgba(195, 197, 202,1) !important;
@@ -1038,7 +1137,8 @@ audio::-webkit-media-controls-timeline-container {
   .immerse-musicList {
     width: 25%;
     max-height: calc(100% - 0.1rem);
-    .refreshBtn {
+    .refreshBtn 
+    .locationBtn {
       display: flex; 
       align-items: center;
       padding: 0 1rem;
@@ -1050,6 +1150,50 @@ audio::-webkit-media-controls-timeline-container {
         font-size 1.5rem 
       }
     }
+    .searchBox {
+      display inline-block
+      position relative
+      margin-right 1rem
+      .iconfont {
+        position absolute
+        top .4rem
+        z-index 0
+        left .4rem
+        margin auto
+      }
+      input {
+        appearance: none;
+        text-align: center;
+        cursor text
+        width 0rem
+        height: 1.5rem
+        color var(--text-color) !important
+        display inline-block
+        border .1rem solid var(--text-color)
+        border-radius 25rem
+        font-size 0.9rem
+        font-weight 600
+        line-height 2rem
+        padding 0 0.5rem 0 1rem
+        outline none
+        transition all .2s ease
+        background transparent
+        background-size 1rem
+        &:focus {
+          width 60% !important
+          cursor auto
+          border-color $accentColor !important
+        }
+      }
+      &:hover input {
+        width: 60% !important
+      }
+      .focused {
+        cursor auto
+        border-color $accentColor !important
+      }
+    }
+
     .catgBtns {
       display flex
       .listBtn {
@@ -1308,6 +1452,8 @@ audio::-webkit-media-controls-timeline-container {
     white-space nowrap
     margin 0
     overflow: scroll-y;
+    margin-top:-.5rem;
+    overflow-x: hidden;
     &:hover {
       display block !important
     }
