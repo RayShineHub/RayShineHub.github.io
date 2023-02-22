@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-22 10:26:59
+ * @LastEditTime: 2023-02-22 15:29:04
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -103,10 +103,10 @@
       </div>
     </div>
     <!-- 沉浸模式   -->
-    <div class="immerse-wapper" :style="open? 'height: 100%;': 'height: 0;'" >
+    <div class="immerse-wapper" :style="open? 'height: 100%;': 'height: 0;'">
       <!-- 操作栏 -->
       <div class="immerse-action">
-        <span class="immerse-close" @click="immerse"></span>
+        <span class="immerse-close" @click="immerse" title="ESC"></span>
       </div>
       <!-- 歌曲主体 -->
       <div class="immerse-main">
@@ -141,7 +141,9 @@
           </ul>
         </div>
         <!-- 歌单列表 -->
-        <div class="immerse-musicList">
+        <div class="immerse-musicList" :class="{scollbarActive: scollbar, scollbarDisplay: !scollbar}" 
+        @mouseenter="scollbar = true"
+        @mouseleave="scollbar = false">
           <div style="display: flex;padding: 0.5rem 1rem;">
             <div class="catgBtns">
               <div class="listBtn" v-for="(catgItme, index) in catgList"
@@ -156,7 +158,7 @@
               <i class="iconfont rays-shuaxin1"
                @click="getMusicList('refresh', playlistId)"></i>
             </div>
-            <div class="locationBtn" style="margin-left: -1.5rem;">
+            <div class="locationBtn" style="margin-left: -.8rem;">
               <i class="iconfont rays-dingwei"
                @click="getScoll('music_')"></i>
             </div>
@@ -171,6 +173,8 @@
               placeholder="搜索"
               autocomplete="off"
               spellcheck="false"
+              @focus="focused = true"
+              @blur="focused = false"
               >
             </div>
           </div>
@@ -217,10 +221,10 @@
       <div class="immerse-footer">
         <div class="action-bar">
           <!-- <i class="iconfont rays-switch" @click="next"></i> -->
-          <i class="iconfont rays-prev-face" @click="prev"></i>
-          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;"></i>
-          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay" style="font-size: 3rem;"></i>
-          <i class="iconfont rays-next-face" @click="next"></i>
+          <i class="iconfont rays-prev-face" @click="prev" title="Ctrl + ←"></i>
+          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
+          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
+          <i class="iconfont rays-next-face" @click="next" title="Ctrl + →"></i>
           <!-- controls  controlslist="nodownload" -->
           <audio ref="audio"
           controls
@@ -236,9 +240,9 @@
           @ended="onEnded"
           ></audio>
           <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
-          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" title="↓" style="margin-left: 1rem" @click="onVolume('jian')"></i>
           <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
-          <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
+          <i class="iconfont rays-volume-add" title="↑" @click="onVolume('jia')"></i>
           <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" ></i>
         </div>
       </div>
@@ -303,6 +307,7 @@ export default {
     let that = this
     return {
       open: false,
+      scollbar: false,
       time: 0,
       loading: true,
       isPC: true,
@@ -311,6 +316,7 @@ export default {
         placeholder: '搜索',
         resultList: []
       },
+      focused: false,
       playHistory: false,
       isPlaying: false,
       // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
@@ -371,7 +377,7 @@ export default {
   },
   watch: {},
   mounted () {
-    
+    this.keyDown();
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
     } else {
@@ -387,6 +393,42 @@ export default {
     window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
   },
   methods:  {
+    keyDown() {
+      let that = this
+      //监听键盘按钮
+      document.onkeyup = function (event) {
+        var e = event || window.event;
+        var keyCode = e.keyCode || e.which;
+        if (!that.open) return;
+        // 沉浸模式关闭浏览器快捷键
+        e.returnValue = false;
+        // console.log(keyCode);
+        switch (keyCode) {
+          case 32:// spacebar
+            if (!that.focused) that.onPlay()
+            break;
+          case 27://ESC
+            that.immerse()
+            break;
+          case 37://Left + ctrl
+            if (e.ctrlKey) that.prev()
+            break;
+          case 39://Right + ctrl
+            if (e.ctrlKey) that.next()
+            break;
+          case 38://up
+            that.onVolume('jia')
+            break;
+          case 40://down
+            that.onVolume('jian')
+            break;
+          default:
+            break;
+        }
+        //关闭浏览器快捷键
+        e && e.preventDefault && e.preventDefault()
+      }
+    },
     handleLinksWrapWidth() {
       const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
       let that = this
@@ -557,7 +599,7 @@ export default {
      * @description: Add by RayShine 从歌单中选一首歌
      * @return {*}
      */    
-    getCurrentMusic(type = 'first', music = {}) {
+    getCurrentMusic:deounce(function (type = 'first', music = {}) {
       // 同一首歌不切换
       if (music && music.musicId == this.currentMusic.musicId) return
       // 滚动到当前音乐
@@ -597,7 +639,7 @@ export default {
       }
       // 加载歌曲 获取最高音质
       this.getMusic(this.currentMusic.musicId, this.currentMusic.brList[this.currentMusic.brList.length - 1], type)
-    },
+    }, 500),
     /**
      * @description: Add by RayShine 获取当前歌曲，支持自动播放
      * @param {*} musicId
@@ -726,9 +768,9 @@ export default {
      * @description: Add by RayShine 播放与暂停切换 需要防抖
      * @return {*}
      */    
-    onPlay () {
+    onPlay:deounce(function () {
       return this.isPlaying ? this.$refs.audio.pause() : this.$refs.audio.play()
-    },
+    }, 500),
     play () {
       this.playHistory = true
       this.isPlaying = true
@@ -742,7 +784,7 @@ export default {
      * @param {*} e
      * @return {*}
      */    
-    next (e) {
+    next(e) {
       // 暂停音乐
       // this.$refs.audio.pause()
       // 获取歌曲
@@ -753,7 +795,7 @@ export default {
      * @param {*} e
      * @return {*}
      */    
-    prev (e) {
+    prev(e) {
       // 暂停音乐
       // this.$refs.audio.pause()
       // 获取歌曲
@@ -814,7 +856,7 @@ export default {
      * @param {*} e
      * @return {*}
      */    
-    onVolume(e) {
+    onVolume:deounce(function(e) {
       let currentVolume = parseInt(this.$refs.audio.volume * 10)
       let step = this.volumeStep * 10
       if (typeof(e) == 'string') {
@@ -833,7 +875,7 @@ export default {
         }
       }
       this.currentMusic.volume = this.$refs.audio.volume
-    },
+    }, 200),
     /**
      * @description: Add by RayShine 沉浸模式开关
      * @param {*} e 
@@ -877,9 +919,9 @@ export default {
       let that = this
       let sort = 0
       // 输入框中没有结果显示原先的歌单
-      if (!query) that.searchFlag = false
+      if (!query.trim()) that.searchFlag = false,that.search.isRuning = false
       that.search.resultList = []
-      if (query) {
+      if (query.trim()) {
         that.search.isRuning = true
         // 执行搜索 可选参数 limit用于分页，type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样)
         axios({
@@ -984,12 +1026,12 @@ audio::-webkit-media-controls-timeline-container {
   display: none;
 }
 //  歌单列表滚动条
-.immerse-musicList-wapper::-webkit-scrollbar {
-  width: .3rem !important;
-}
+// .immerse-musicList-wapper::-webkit-scrollbar {
+//   width: .3rem !important;
+// }
 .immerse-musicList-wapper::-webkit-scrollbar-thumb {
   border-radius 10rem
-  background-color var(--text-color)
+  background-color var(--border-color)
 }
 
 // ::-webkit-scrollbar{}/*整体设置*/
@@ -1015,6 +1057,7 @@ audio::-webkit-media-controls-timeline-container {
     }
     }
   }
+  
   .immerse-wapper {
     color rgba(50, 65, 100, 1)
     .iconfont {
@@ -1087,7 +1130,8 @@ audio::-webkit-media-controls-timeline-container {
       right: 0.5rem;
       backdrop-filter: blur(1rem);
       -webkit-backdrop-filter: blur(1rem);
-      box-shadow var(--box-shadow)
+      box-shadow: var(--box-shadow)
+      cursor pointer
     }
     .immerse-close::before {
       content: "\2716"
@@ -1148,7 +1192,8 @@ audio::-webkit-media-controls-timeline-container {
     .locationBtn {
       display: flex; 
       align-items: center;
-      padding: 0 1rem;
+      padding: 0 .5rem;
+      text-shadow: 0 0 25px var(--text-color-sub);
       &:hover .iconfont{
         color $accentColor !important
       } 
@@ -1165,7 +1210,7 @@ audio::-webkit-media-controls-timeline-container {
         position absolute
         top .4rem
         z-index 0
-        left .4rem
+        left 0.35rem
         margin auto
       }
       input {
@@ -1287,6 +1332,16 @@ audio::-webkit-media-controls-timeline-container {
       }
     }
   }
+  .scollbarActive {
+    ::-webkit-scrollbar {
+      width 0.3rem !important
+    }
+  }
+  .scollbarDisplay {
+    ::-webkit-scrollbar {
+      width 0rem !important
+    }
+  }
   .immerse-footer {
     text-align: center;
     font-size 2rem;
@@ -1302,10 +1357,11 @@ audio::-webkit-media-controls-timeline-container {
       align-items: center;
       justify-content: center;
       .iconfont {
+        text-shadow: 0 0 30px var(--text-color-sub);
         font-size 2rem;
         margin .6rem;
         &:hover {
-          color $accentColor
+          color $accentColor !important
         }
       }
     }
