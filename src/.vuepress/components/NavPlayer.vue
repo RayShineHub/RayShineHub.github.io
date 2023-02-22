@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-22 02:00:43
+ * @LastEditTime: 2023-02-22 10:26:59
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -163,7 +163,7 @@
             <div class="searchBox">
               <i class="iconfont" :class="{'reco-search': !search.isRuning, 'rays-shuaxin': search.isRuning, 'refreshing': search.isRuning}"></i>
               <input 
-              @input="searchHandle($event.target.value)"
+              @input="inputChange($event.target.value)"
               :value="search.query"
               :style="{width: search.query ? '60%': '0'}"
               :class="{focused: searchFlag}"
@@ -865,10 +865,17 @@ export default {
      * @description: Add by RayShine 歌曲搜索
      * @param {*} musicId 
      */
+    inputChange(query) {
+      this.search.query = query
+      this.searchHandle(query)
+    },
+    /**
+     * @description: Add by RayShine 歌曲搜索
+     * @param {*} musicId 
+     */
     searchHandle: deounce(function(query) {
       let that = this
       let sort = 0
-      that.search.query = query
       // 输入框中没有结果显示原先的歌单
       if (!query) that.searchFlag = false
       that.search.resultList = []
@@ -898,7 +905,7 @@ export default {
             setTimeout(() => {
               that.search.isRuning = false
             }, 1000);
-            console.log(response.data.result.songs)
+            // console.log(response.data.result.songs)
           }
         },function(err){
           that.search.isRuning = false
