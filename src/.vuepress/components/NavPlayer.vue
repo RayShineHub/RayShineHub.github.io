@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-22 16:40:47
+ * @LastEditTime: 2023-02-22 17:42:10
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -1279,8 +1279,8 @@ audio::-webkit-media-controls-timeline-container {
         border-radius: 0 3.5rem 3.5rem 0;
       }
       .selected {
-        border-color $accentColor !important
-        color $accentColor !important
+        border-color $selectedColor !important
+        color $selectedColor !important
       }
     }
 
