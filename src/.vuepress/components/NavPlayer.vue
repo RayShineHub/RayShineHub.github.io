@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-22 15:29:04
+ * @LastEditTime: 2023-02-22 16:40:47
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -396,37 +396,46 @@ export default {
     keyDown() {
       let that = this
       //监听键盘按钮
-      document.onkeyup = function (event) {
+      document.onkeydown = function (event) {
         var e = event || window.event;
         var keyCode = e.keyCode || e.which;
         if (!that.open) return;
-        // 沉浸模式关闭浏览器快捷键
-        e.returnValue = false;
+        // 恢复浏览器快捷键
+        e.returnValue = true;
         // console.log(keyCode);
         switch (keyCode) {
           case 32:// spacebar
-            if (!that.focused) that.onPlay()
+            if (!that.focused) that.onPlay(), e && e.preventDefault && e.preventDefault()
             break;
           case 27://ESC
             that.immerse()
+            //阻止后续操作
+            e && e.preventDefault && e.preventDefault()
             break;
-          case 37://Left + ctrl
-            if (e.ctrlKey) that.prev()
+          case 37://Left + Alt
+            if (e.altKey) that.prev()
+            //阻止后续操作
+            e && e.preventDefault && e.preventDefault()
             break;
-          case 39://Right + ctrl
-            if (e.ctrlKey) that.next()
+          case 39://Right + Alt
+            if (e.altKey) that.next()
+            //阻止后续操作
+            e && e.preventDefault && e.preventDefault()
             break;
           case 38://up
             that.onVolume('jia')
+            //阻止后续操作
+            e && e.preventDefault && e.preventDefault()
             break;
           case 40://down
             that.onVolume('jian')
+            //阻止后续操作
+            e && e.preventDefault && e.preventDefault()
             break;
           default:
             break;
         }
-        //关闭浏览器快捷键
-        e && e.preventDefault && e.preventDefault()
+        
       }
     },
     handleLinksWrapWidth() {
@@ -926,7 +935,7 @@ export default {
         // 执行搜索 可选参数 limit用于分页，type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样)
         axios({
           baseURL: that.$themeConfig.back.musicUrl,
-          url:"/cloudsearch?keywords=" + query,
+          url:"/cloudsearch?keywords=" + query.trim(),
           withCredentials: true
         }).then(function(response) {
           if (response.status === 200) {
