@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-23 14:45:39
+ * @LastEditTime: 2023-02-23 16:03:41
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -222,10 +222,10 @@
       <div class="immerse-footer">
         <div class="action-bar">
           <!-- <i class="iconfont rays-switch" @click="next"></i> -->
-          <i class="iconfont rays-prev-face" @click="prev" title="Ctrl + ←"></i>
+          <i class="iconfont rays-prev-face" @click="prev" title="Alt + ←"></i>
           <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
           <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
-          <i class="iconfont rays-next-face" @click="next" title="Ctrl + →"></i>
+          <i class="iconfont rays-next-face" @click="next" title="Alt + →"></i>
           <!-- controls  controlslist="nodownload" -->
           <audio ref="audio"
           controls
@@ -241,9 +241,9 @@
           @ended="onEnded"
           ></audio>
           <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: 1rem"></i>
-          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" title="↓" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" title="Alt + ↓" style="margin-left: 1rem" @click="onVolume('jian')"></i>
           <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
-          <i class="iconfont rays-volume-add" title="↑" @click="onVolume('jia')"></i>
+          <i class="iconfont rays-volume-add" title="Alt + ↑" @click="onVolume('jia')"></i>
           <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" ></i>
         </div>
       </div>
@@ -424,12 +424,12 @@ export default {
             e && e.preventDefault && e.preventDefault()
             break;
           case 38://up
-            that.onVolume('jia')
+            if (e.altKey) that.onVolume('jia')
             //阻止后续操作
             e && e.preventDefault && e.preventDefault()
             break;
           case 40://down
-            that.onVolume('jian')
+            if (e.altKey) that.onVolume('jian')
             //阻止后续操作
             e && e.preventDefault && e.preventDefault()
             break;
@@ -612,6 +612,10 @@ export default {
     getCurrentMusic:deounce(function (type = 'first', music = {}) {
       // 同一首歌不切换
       if (music && music.musicId == this.currentMusic.musicId) return
+      // 列表顺序不循环
+      // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
+      let nextSort = type == 'prev' ? --this.currentMusic.sort : ++this.currentMusic.sort
+      if (this.playType == 'playorder'&& type == 'autoNext' && nextSort > this.songsList.length - 1) return
       // 滚动到当前音乐
       setTimeout(() => {
         this.scrollToCurrentMusic('music_',this.currentMusic.musicId)
@@ -635,13 +639,10 @@ export default {
         } else if (type === 'change'){
           this.currentMusic = Object.assign({},this.currentMusic, music)
         } else {
-          // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
-          let nextSort = type == 'prev' ? --this.currentMusic.sort : ++this.currentMusic.sort
-          if (type === 'next' && nextSort > this.songsList.length - 1) {
-            nextSort = 0
-            if (this.playType == 'playorder') return
-          } else if (type === 'prev' && nextSort < 0) {
+          if (type === 'prev' && nextSort < 0) {
             nextSort = this.songsList.length - 1
+          } else if (nextSort > this.songsList.length - 1) {
+            nextSort = 0
           }
           this.currentMusic.sort = nextSort
           this.currentMusic = Object.assign({},this.currentMusic, this.songsList[nextSort])
@@ -859,7 +860,9 @@ export default {
      * @return {*}
      */    
     onEnded (e) {
-      this.next()
+      // 获取歌曲
+      this.getCurrentMusic('autoNext')
+      // this.next()
     },
     /**
      * @description: Add by RayShine 声音控制器 需要节流
