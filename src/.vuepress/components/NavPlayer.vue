@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-23 16:03:41
+ * @LastEditTime: 2023-02-24 16:33:34
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -16,89 +16,94 @@
       fixed: isFixed,
       visible: isVisible
     }"
-    :style="[{right: linksWrapOffsetWidth ?  parseInt(linksWrapOffsetWidth)/16 + 'rem' : ''}]">
-    <div class="img-box">
-      <a class="point_box" @click="immerse">
-        <div class="point_1"></div>
-        <div class="point_2"></div>
-      </a>
-      <img class="avatar" :class="{playing: isPlaying}"
-      :src="currentMusic? currentMusic.cover : ''"
-      />
-    </div>
-    <div class="actions">
-      <div class="title">
-        <div class="time" v-if="currentMusic.currentTime != 0 && !loading">
-          <span style="margin-right: 0.1rem">
-            {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
-          </span>
-        </div>
-        <div class="loading" v-if="loading">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="title-name">
-          <span>
-            {{isPlaying && currentMusic.lrc ? currentMusic.lrc : (currentMusic.artist || '') + (currentMusic.name ? ' - ':'') + (currentMusic.name || '')}}  
-          </span>
-        </div>
+    :style="[{right: linksWrapOffsetWidth ?  linksWrapOffsetWidth + 'px' : ''}]">
+    <!-- mini播放器 -->
+    <div class="mini-container" style="display: flex;">
+      <div class="img-box">
+        <a class="point_box" @click="immerse">
+          <div class="point_1"></div>
+          <div class="point_2"></div>
+        </a>
+        <img class="avatar" :class="{playing: isPlaying}"
+        :src="currentMusic? currentMusic.cover : ''"
+        />
       </div>
-      <div class="action-bar">
-        <!-- <i class="iconfont rays-switch" @click="next"></i> -->
-        <i class="iconfont rays-prev-face" @click="prev"></i>
-        <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
-        <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
-        <i class="iconfont rays-next-face" @click="next"></i>
-        <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: .5rem"></i>
-        <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
-        <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
-        <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
-        <!-- 循环方式 -->
-        <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" style="font-size: 1.2rem;"></i>
-        <!-- 歌单列表 -->
-        <div class="dropdown-wrapper">
-          <a class="dropdown-box">
-            <i class="iconfont rays-songlist palylist" 
-            @mouseenter="scrollToCurrentMusic('dropdown_', currentMusic.musicId, {behavior: 'auto', block: 'center'})"></i>
-          </a>
-          <DropdownTransition>
-            <ul class="music-dropdown">
-              <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in musicList">
-                <div class="music-info" 
-                :id="'dropdown_' + item.musicId"
-                @click="getCurrentMusic('change', item)">
-                  <div style="display: flex;align-items: center;">
-                    <!-- 头像 -->
-                    <img class="avatar" :src="item? item.cover : ''"/>
-                    <div class="detail">
-                      <!-- 名称 -->
-                      <div class="title-name" :class="{'current-music': item.musicId == currentMusic.musicId}">
-                        <span>
-                          {{  item.name || ''}}  
-                        </span>
-                      </div>
-                      <!-- 歌手 -->
-                      <div class="title-name-sub">
-                        <span>
-                          {{item.artist || ''}}
-                        </span>
+      <div class="actions">
+        <div class="title">
+          <div class="time" v-if="currentMusic.currentTime != 0 && !loading">
+            <span style="margin-right: 0.1rem">
+              {{currentMusic.currentTime == 0 ? '' : currentMusic.currentTime}}
+            </span>
+          </div>
+          <div class="loading" v-if="loading">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+          <div class="title-name">
+            <span v-if="!loading">
+              {{isPlaying && currentMusic.lrc ? currentMusic.lrc : (currentMusic.artist || '') + (currentMusic.name ? ' - ':'') + (currentMusic.name || '')}}  
+            </span>
+            <span v-if="loading">正在加载...</span>
+          </div>
+        </div>
+        <div class="action-bar">
+          <!-- <i class="iconfont rays-switch" @click="next"></i> -->
+          <i class="iconfont rays-prev-face" @click="prev"></i>
+          <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay"></i>
+          <i v-if="isPlaying" class="iconfont rays-pause" @click="onPlay"></i>
+          <i class="iconfont rays-next-face" @click="next"></i>
+          <i v-if="currentMusic.volume <= 0" class="iconfont rays-mute" style="margin-left: .5rem"></i>
+          <i v-if="currentMusic.volume > 0" class="iconfont rays-volume-reduce" style="margin-left: 1rem" @click="onVolume('jian')"></i>
+          <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
+          <i class="iconfont rays-volume-add" @click="onVolume('jia')"></i>
+          <!-- 循环方式 -->
+          <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" style="font-size: 1.2rem;"></i>
+          <!-- 歌单列表 -->
+          <div class="dropdown-wrapper">
+            <a class="dropdown-box">
+              <i class="iconfont rays-songlist palylist" 
+              @mouseenter="scrollToCurrentMusic('dropdown_', currentMusic.musicId, {behavior: 'auto', block: 'center'})"></i>
+            </a>
+            <DropdownTransition>
+              <ul class="music-dropdown">
+                <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in songsList">
+                  <div class="music-info" 
+                  :id="'dropdown_' + item.musicId"
+                  @click="getCurrentMusic('change', item)">
+                    <div style="display: flex;align-items: center;">
+                      <!-- 头像 -->
+                      <img class="avatar" :src="item? item.cover : ''"/>
+                      <div class="detail">
+                        <!-- 名称 -->
+                        <div class="title-name" :class="{'current-music': item.musicId == currentMusic.musicId}">
+                          <span>
+                            {{  item.name || ''}}  
+                          </span>
+                        </div>
+                        <!-- 歌手 -->
+                        <div class="title-name-sub">
+                          <i class="iconfont rays-VIP" v-if="item.fee === 1 || item.fee === 4" style="color: #d58c09 !important"></i>
+                          <span>
+                            {{item.artist || ''}}
+                          </span>
+                        </div>
                       </div>
                     </div>
+                    <div class="heart-hot" v-if="isPlaying && item.musicId == currentMusic.musicId">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </div>
-                  <div class="heart-hot" v-if="isPlaying && item.musicId == currentMusic.musicId">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </DropdownTransition>
+                </li>
+              </ul>
+            </DropdownTransition>
+          </div>
         </div>
       </div>
     </div>
@@ -122,18 +127,20 @@
         <!-- 歌名 & 歌词 -->
         <div class="immerse-cover">
           <div class="immerse-title">
-            <span>
+            <span style="font-weight: 600">
               {{currentMusic.name || currentMusic.artist || ''}}  
             </span>
-            <!-- <span style="font-size: 1rem;">
-              {{ currentMusic.artist }}
-            </span> -->
+            <span style="font-size: 1rem;">
+              {{ currentMusic.artist || ''}}
+            </span>
           </div>
           <ul class="immerse-lrc" ref="lyric">
             <div style="max-width: 60rem;" :style="{margin: isArrow ? '30% 0' : '10% 0'}">
               <li class="lrc" ref="lrcLine"
-              :class="{active: isPlaying && (lrcItem.timestemp <= currentMusic.timestemp && (index != currentMusic.lrcList.length -1 && currentMusic.timestemp < parseInt(currentMusic.lrcList[index + 1].timestemp))),
-              lrcFlag: index === 0}"
+              :class="{
+                active: lrcItem.lineNo === currentMusic.lineNo,
+                lrcFlag: index === 0}
+              "
               v-if="lrcItem.str"
               :key="index" 
               v-for="(lrcItem, index) in currentMusic.lrcList"
@@ -142,9 +149,9 @@
           </ul>
         </div>
         <!-- 歌单列表 -->
-        <div class="immerse-musicList" :class="{scollbarActive: scollbar, scollbarDisplay: !scollbar}" 
-        @mouseenter="scollbar = true"
-        @mouseleave="scollbar = false">
+        <div class="immerse-musicList" :class="{scrollbarActive: scrollbar, scrollbarDisplay: !scrollbar}" 
+        @mouseenter="scrollbar = true"
+        @mouseleave="scrollbar = false">
           <div style="display: flex;padding: 0.5rem 1rem;">
             <div class="catgBtns">
               <div class="listBtn" v-for="(catgItme, index) in catgList"
@@ -161,7 +168,7 @@
             </div>
             <div class="locationBtn" style="margin-left: -.8rem;">
               <i class="iconfont rays-dingwei"
-               @click="getScoll('music_')"></i>
+               @click="getScroll('music_')"></i>
             </div>
             <div class="searchBox">
               <i class="iconfont" :class="{'reco-search': !search.isRuning, 'rays-shuaxin': search.isRuning, 'refreshing': search.isRuning}"></i>
@@ -179,7 +186,7 @@
               >
             </div>
           </div>
-          <div style="width: 99%;height: calc(100% - 2.5rem);">
+          <div>
             <ul class="immerse-musicList-wapper" ref="musicList">
               <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in songsList">
                 <div class="music-info" 
@@ -197,6 +204,7 @@
                       </div>
                       <!-- 歌手 -->
                       <div class="title-name-sub">
+                        <i class="iconfont rays-VIP" v-if="item.fee === 1 || item.fee === 4" style="color: #d58c09 !important"></i>
                         <span>
                           {{item.artist || ''}}
                         </span>
@@ -308,7 +316,7 @@ export default {
     let that = this
     return {
       open: false,
-      scollbar: false,
+      scrollbar: false,
       time: 0,
       loading: true,
       isPC: true,
@@ -335,6 +343,7 @@ export default {
         url: '',
         cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg', // prettier-ignore
         timestemp: 0,
+        lineNo: 0,
         lrc: '',
         lrcList:[],
         sort: 0,
@@ -446,7 +455,7 @@ export default {
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         that.linksWrapMaxWidth = null
       } else {
-        that.linksWrapOffsetWidth = (document.querySelector('.links') && document.querySelector('.links').offsetWidth) || 726
+        that.linksWrapOffsetWidth = document.querySelector('.links').offsetWidth || 726
       }
       if (that.linksWrapOffsetWidth == null || that.linksWrapOffsetWidth > navSubOffsetWidth) setTimeout(() => { this.handleLinksWrapWidth() }, 2000)
     },
@@ -561,7 +570,10 @@ export default {
                   artist: song.ar.map(ar => { return ar.name }).join('，') || '',
                   cover: song.al.picUrl || '',   // prettier-ignore
                   brList,
-                  sort: sort++
+                  sort: sort++,
+                  pop: song.pop,     // 热度
+                  fee: song.fee,    //  0: 免费   1: 2元购买单曲   4: 购买专辑   8: 低音质免费
+                  originCoverType: song.originCoverType  //0: 未知   1: 原曲   2: 翻唱
                 }
               })
               
@@ -744,12 +756,12 @@ export default {
       // 不支持滚动的歌词
       if (!that.isArrow) return
       // 查找时间相同的歌词
-      let musicList = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
+      let lrcList = that.currentMusic && that.currentMusic.lrcList.filter(lrc => {
         // return lrc.timestemp - 0.5 >= Math.floor(time * 100 ) / 100 >= lrc.timestemp + 0.5
         return lrc.timestemp <= time
       })
       // 提取歌词，准备mini模式的切换展示
-      let str = musicList.filter(lrc => {
+      let str = lrcList.filter(lrc => {
         return lrc.timestemp == parseInt(time)
       }).map(res => {
         return res.str
@@ -760,12 +772,12 @@ export default {
         that.currentMusic.lrc = str
       }
       // 找出当前行的行序号
-      let currentLineNo = Math.max.apply(null, musicList.map(res => {
+      let currentLineNo = Math.max.apply(null, lrcList.map(res => {
         return res.lineNo
       }))
-
+      that.currentMusic.lineNo = currentLineNo
       // 记录当前行歌词和歌词主体大小
-      let immerseLrcOffsetHeight = parseInt(that.$refs.lyric && that.$refs.lyric.offsetHeight * 0.12) || 85
+      let immerseLrcOffsetHeight = parseInt(that.$refs.lyric && that.$refs.lyric.offsetHeight * 0.01) || 65
       let lrcLineOffsetHetght = parseInt(that.$refs.lrcLine && that.$refs.lrcLine.length != 0 && that.$refs.lrcLine[0].offsetHeight) || 45
       // console.log('immerseLrcOffsetHeight->',immerseLrcOffsetHeight);
       // console.log('immerseLrcOffsetHeight->',lrcLineOffsetHetght);
@@ -895,11 +907,12 @@ export default {
      */
     immerse(e) {
       this.open = !this.open
+      // 滚动到当前歌词位置
       if (this.open) setTimeout(() => {
         this.scrollToCurrentMusic('music_', this.currentMusic.musicId, {behavior: 'auto'})
       }, 2000);
     },
-    getScoll (type = 'music_') {
+    getScroll (type = 'music_') {
       this.scrollToCurrentMusic(type, this.currentMusic.musicId, {behavior: 'auto'})
     },
     /**
@@ -953,7 +966,10 @@ export default {
                 artist: song.ar.map(ar => { return ar.name }).join('，') || '',
                 cover: song.al.picUrl || '',   // prettier-ignore
                 brList,
-                sort: sort++
+                sort: sort++,
+                pop: song.pop,     // 热度
+                fee: song.fee,    //  0: 免费   1: 2元购买单曲   4: 购买专辑   8: 低音质免费
+                originCoverType: song.originCoverType  //0: 未知   1: 原曲   2: 翻唱
               }
             })
             that.searchFlag = true

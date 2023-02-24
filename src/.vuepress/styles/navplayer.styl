@@ -90,33 +90,50 @@ audio::-webkit-media-controls-timeline-container {
     color $pagefullNavColor
     .title {
       .loading span {
-      background: $pagefullNavColor !important;
+        background: $pagefullNavColor !important;
+      }
     }
-    }
+    // i {
+    //   color rgba(50, 65, 100, .5) !important
+    // }
   }
-  
   .immerse-wapper {
-    color rgba(50, 65, 100, 1)
-    .iconfont {
-      color rgba(50, 65, 100, .5) !important
+    // color rgba(50, 65, 100, 1)
+    // .iconfont {
+    //   color rgba(50, 65, 100, .5) !important
+    // }
+    i {
+      color var(--text-color) !important
     }
     .listBtn {
-      color rgba(50, 65, 100, 1) !important
-      border 2px solid rgba(50, 65, 100, 1) !important
+      // color rgba(50, 65, 100, 1) !important
+      // border 2px solid rgba(50, 65, 100, 1) !important
     }
-    .music-info {
-      border-top: 1px solid rgba(255, 255, 255, .3) !important;
-    }
+    // .music-info {
+    //   border-top: 1px solid rgba(255, 255, 255, .3) !important;
+    // }
     hr {
       border-top: 1px solid rgba(255, 255, 255, .3) !important;
     }
     input {
-      border: .1rem solid rgba(50,65,100,0.5) !important;
+      border: .1rem solid var(--text-color) !important;
+    }
+    input::-webkit-input-placeholder {
+      color: var(--text-color-sub);
+    }
+    .searchBox {
+      i {
+        color var(--text-color-sub) !important
+      }
     }
   }
   .immerse-footer {
-    background-color: rgba(195, 197, 202,1) !important;
+    i {
+      color var(--text-color-sub) !important
+    }
   }
+  
+  
   
 }
 .fixed {
@@ -150,9 +167,11 @@ audio::-webkit-media-controls-timeline-container {
   // top: 0;
   left: 0;
   bottom: 100%
-  -webkit-backdrop-filter: blur(10rem);
-  backdrop-filter: blur(10rem);
+  // -webkit-backdrop-filter: blur(5rem);
+  // backdrop-filter: blur(5rem);
   // overflow-y: hidden;
+  background-color var(--background-color)
+  opacity .97
   overflow hidden;
   will-change: transform;
   transition: transform .3s ease-in-out
@@ -165,7 +184,7 @@ audio::-webkit-media-controls-timeline-container {
     align-items: center;
     justify-content: center;
     .immerse-title {
-      font-weight 500
+      font-weight 600
     }
     .immerse-close {
       width: 1.5rem;
@@ -178,7 +197,7 @@ audio::-webkit-media-controls-timeline-container {
       right: 0.5rem;
       backdrop-filter: blur(1rem);
       -webkit-backdrop-filter: blur(1rem);
-      box-shadow: var(--box-shadow)
+      box-shadow: 0 1px 8px 1px var(--text-color)
       cursor pointer
     }
     .immerse-close::before {
@@ -201,8 +220,9 @@ audio::-webkit-media-controls-timeline-container {
       text-align: center;
       .immerse-title {
         height 10%;
-        font-weight 500
         font-size 2rem
+        display: grid;
+        justify-content: center;
       }
       .immerse-lrc {
         scroll-behavior:smooth;
@@ -230,12 +250,12 @@ audio::-webkit-media-controls-timeline-container {
         font-size: 1.2rem;
         font-weight: 600;
         transform: scale(1.4)
+        text-shadow: 0px 0px 1.1rem
       }
     }
   }
   .immerse-musicList {
     width: 25%;
-    max-height: calc(100% - 0.1rem);
     .refreshBtn 
     .locationBtn {
       display: flex; 
@@ -255,6 +275,7 @@ audio::-webkit-media-controls-timeline-container {
       position relative
       margin-right 1rem
       .iconfont {
+        font-size: 1rem;
         position absolute
         top .4rem
         z-index 0
@@ -326,7 +347,7 @@ audio::-webkit-media-controls-timeline-container {
     .immerse-musicList-wapper {
       // max-height: 100%;
       width: 23%;
-      height: calc(95% - 6.5rem);
+      height: calc(95% - 6.8rem);
       overflow: hidden;
       box-sizing border-box;
       overflow-y auto
@@ -370,7 +391,21 @@ audio::-webkit-media-controls-timeline-container {
               color red
             }
             .title-name-sub {
+              display: flex
               font-size: .5rem;
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              word-break: keep-all;
+              display: inline-flex;
+              &:hover {
+                overflow: visible;
+                animation: 3s siderbar linear infinite normal;
+              }
+              .iconfont {
+                font-size: 2rem;
+              }
             }
           }
         }
@@ -381,12 +416,12 @@ audio::-webkit-media-controls-timeline-container {
       }
     }
   }
-  .scollbarActive {
+  .scrollbarActive {
     ::-webkit-scrollbar {
       width 0.3rem !important
     }
   }
-  .scollbarDisplay {
+  .scrollbarDisplay {
     ::-webkit-scrollbar {
       width 0rem !important
     }
@@ -603,7 +638,21 @@ audio::-webkit-media-controls-timeline-container {
             color red
           }
           .title-name-sub {
+            display: flex
             font-size: .5rem;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: keep-all;
+            display: inline-flex;
+            &:hover {
+              overflow: visible;
+              animation: 3s siderbar linear infinite normal;
+            }
+            .iconfont {
+              font-size: 2rem
+            }
           }
         }
       }
@@ -749,7 +798,8 @@ audio::-webkit-media-controls-timeline-container {
   .heart-hot {
     display: flex;
     width: 3rem;
-    padding: 0.5rem 1rem;
+    min-width 2rem
+    padding: 0.5rem .5rem;
     transform rotate(180deg)
   }
   .heart-hot span {
