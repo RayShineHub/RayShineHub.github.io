@@ -36,16 +36,25 @@
       const configMode = this.$themeConfig.mode || localStorage.getItem('mode') || 'light'
       this.currentMode = configMode === 'auto' ? this.getAutoMode() : configMode
 
-
       // Dark and Light autoswitches
       // 为了避免在 server-side 被执行，故在 Vue 组件中设置监听器
       var that = this
-      window.matchMedia('(prefers-color-scheme: dark)').addListener(() => {
-        that.$data.currentMode === 'auto' && applyMode(that.$data.currentMode)
-      })
-      window.matchMedia('(prefers-color-scheme: light)').addListener(() => {
-        that.$data.currentMode === 'auto' && applyMode(that.$data.currentMode)
-      })
+      let media = window.matchMedia('(prefers-color-scheme:dark)');
+      let callback = e => {
+        let prefersDarkMode = e.matches;
+        if (prefersDarkMode) {
+          that.currentMode = 'dark'
+        } else {
+          that.currentMode = 'light'
+        }
+        applyMode(that.currentMode)
+      }
+
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', callback);
+      } else if (typeof media.addListener === 'function') {
+        media.addListener(callback);
+      }
 
       applyMode(this.currentMode)
     },

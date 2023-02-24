@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-24 16:33:34
+ * @LastEditTime: 2023-02-24 18:32:53
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -189,7 +189,7 @@
           <div>
             <ul class="immerse-musicList-wapper" ref="musicList">
               <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in songsList">
-                <div class="music-info" 
+                <div class="music-info"
                 :id="'music_' + item.musicId"
                 @click="getCurrentMusic('change', item)">
                   <div style="display: flex;align-items: center;">
@@ -777,12 +777,10 @@ export default {
       }))
       that.currentMusic.lineNo = currentLineNo
       // 记录当前行歌词和歌词主体大小
-      let immerseLrcOffsetHeight = parseInt(that.$refs.lyric && that.$refs.lyric.offsetHeight * 0.01) || 65
       let lrcLineOffsetHetght = parseInt(that.$refs.lrcLine && that.$refs.lrcLine.length != 0 && that.$refs.lrcLine[0].offsetHeight) || 45
-      // console.log('immerseLrcOffsetHeight->',immerseLrcOffsetHeight);
       // console.log('immerseLrcOffsetHeight->',lrcLineOffsetHetght);
       // 歌词滚动 (每一行的高度是固定的)   排除 Infinity
-      if (currentLineNo && isFinite(currentLineNo)) that.$refs.lyric.scrollTop = lrcLineOffsetHetght * currentLineNo - immerseLrcOffsetHeight
+      if (currentLineNo && isFinite(currentLineNo)) that.$refs.lyric.scrollTop = lrcLineOffsetHetght * (currentLineNo - 1)
 
       // console.log('currentLineNo->', currentLineNo)
       // console.log(str)
