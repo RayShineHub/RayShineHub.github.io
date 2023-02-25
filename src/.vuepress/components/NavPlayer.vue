@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-24 18:32:53
+ * @LastEditTime: 2023-02-25 16:47:42
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -120,7 +120,7 @@
         <div class="immerse-avtar">
           <img class="avatar" :class="{playing: isPlaying}"
           :src="currentMusic? currentMusic.cover : ''"
-          style="width: 20rem;height: 20rem;border-radius: 500px;"
+          style="width: 15rem;height: 15rem;border-radius: 500px;"
           @click="onPlay"
           />
         </div>
@@ -188,7 +188,7 @@
           </div>
           <div>
             <ul class="immerse-musicList-wapper" ref="musicList">
-              <li class="music-dropdown-item" :key="item.musicId || index" v-for="(item, index) in songsList">
+              <li class="music-dropdown-item" :key="index" v-for="(item, index) in songsList">
                 <div class="music-info"
                 :id="'music_' + item.musicId"
                 @click="getCurrentMusic('change', item)">
@@ -219,8 +219,19 @@
                     <span></span>
                   </div>
                 </div>
-                
               </li>
+              <div class="searchTip">
+                <span v-if="search.isRuning || isListRefresh">正在加载...</span>
+                <span v-if="!isListRefresh && !search.isRuning && pageInfo.totalPage > pageInfo.pageNum">
+                  还剩 {{ pageInfo.totalPage - pageInfo.pageNum }} 页喔~      {{ pageInfo.pageNum }} / {{ pageInfo.totalPage }}
+                </span>
+                <span v-if="!isListRefresh && !search.isRuning && pageInfo.totalPage == pageInfo.pageNum">
+                  ~  我也是有底线的  {{ pageInfo.pageNum }} / {{ pageInfo.totalPage }}  ~
+                </span>
+                <span v-if="!isListRefresh && !search.isRuning && songsList.length === 0">
+                  ~  没有数据喔，试试其他的吧  ~
+                </span>
+              </div>
             </ul>
           </div>
         </div>
@@ -229,6 +240,10 @@
       <!-- 底部操作栏 -->
       <div class="immerse-footer">
         <div class="action-bar">
+          <a class="apiLogo" href="https://music.163.com/" target="_blank">
+            <img class="apiLogo" src="http://p3.music.126.net/tBTNafgjNnTL1KlZMt7lVA==/18885211718935735.jpg"/>
+          </a>
+          
           <!-- <i class="iconfont rays-switch" @click="next"></i> -->
           <i class="iconfont rays-prev-face" @click="prev" title="Alt + ←"></i>
           <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
@@ -321,6 +336,7 @@ export default {
       loading: true,
       isPC: true,
       search: {
+        searchStr: '',
         isRuning: false,
         placeholder: '搜索',
         resultList: []
@@ -331,6 +347,7 @@ export default {
       // playsingle 单曲循环, playloop 列表循环, playorder 列表顺序, playrandom 随机
       playType: that.defaultPlayType,
       musicList: [],
+      tracks:[],
       currentMusic: {
         playListId: '144719593',
         musicId: '',
@@ -341,7 +358,7 @@ export default {
         name: '',
         artist: '',
         url: '',
-        cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg', // prettier-ignore
+        cover: 'https://p2.music.126.net/3MaeDnsU61e96WlH5-hoaQ==/109951163195183343.jpg?param=50y50', // prettier-ignore
         timestemp: 0,
         lineNo: 0,
         lrc: '',
@@ -358,7 +375,12 @@ export default {
       isFixed: false,
       isVisible: false,
       isListRefresh: false,
-      searchFlag: false
+      searchFlag: false,
+      pageInfo:{
+        totalPage: 1,
+        pageNum: 1,
+        size: 20
+      }
     }
   },
   computed: {
@@ -387,6 +409,7 @@ export default {
   },
   watch: {},
   mounted () {
+    
     this.keyDown();
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
@@ -398,6 +421,12 @@ export default {
     this.handleLinksWrapWidth()
     window.addEventListener('resize', this.handleLinksWrapWidth, false)
     window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
+    this.$nextTick(()=>{
+      // 设置默认音量
+      this.$refs.audio.volume = this.defaultVolume
+      // 显示默认音量
+      this.currentMusic.volume = this.$refs.audio.volume
+    })
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
@@ -524,95 +553,122 @@ export default {
      */    
     async getMusicList(type='first', playlistId = '144719593'){
       let that = this
-      let sort = 0
       that.searchFlag = false   // 重置搜索列表
       that.search.query = ''
+      that.loading = true
       that.isListRefresh = true
       // 刷新不换歌单
       if (type == 'refresh') {
         playlistId = that.currentMusic.playListId
       } 
+      that.pageInfo.pageNum = 1
+      that.musicList = []
       // 获取音乐文件   https://autumnfish.cn
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
         url: "/playlist/detail?id=" + playlistId,
         withCredentials: true
         // timeout: 2000
-      }).then(function(response) {
+      }).then(async function(response) {
         if (response.status === 200 && response.data.code === 200) {
           // console.log(response)
-          let ids = response.data.playlist.trackIds.filter((trackId) => {
+          let tracks = response.data.playlist.trackIds.filter((trackId) => {
             return trackId.id
+          })
+          that.tracks = tracks
+          
+          that.pageInfo.totalPage = Math.ceil(tracks.length / that.pageInfo.size)
+          let ids =  tracks.filter((track, i) =>{
+            return i < that.pageInfo.size
           }).map((track) => {
             return track.id
           }).join(',')
-          // console.log(ids)
 
-          // 获取音乐详情   
-          // 记录一下获取歌词/lyric?id=  
-          axios({
-            baseURL: that.$themeConfig.back.musicUrl,
-            url: "/song/detail?ids=" + ids,
-            withCredentials: true
-          }).then(function(response) {
-            if (response.status === 200 && response.data.code === 200) {
-              that.musicList = response.data.songs.map((song) => {
-                let brList = response.data.privileges.filter((privilege) => {
-                  return privilege.id == song.id
-                }).map((br) => {
-                  return br.chargeInfoList.map((chargeInfo) => {
-                    return chargeInfo.rate
-                  })
-                })[0]
-                return {
-                  musicId: song.id,
-                  name: song.name || '',
-                  artist: song.ar.map(ar => { return ar.name }).join('，') || '',
-                  cover: song.al.picUrl || '',   // prettier-ignore
-                  brList,
-                  sort: sort++,
-                  pop: song.pop,     // 热度
-                  fee: song.fee,    //  0: 免费   1: 2元购买单曲   4: 购买专辑   8: 低音质免费
-                  originCoverType: song.originCoverType  //0: 未知   1: 原曲   2: 翻唱
-                }
-              })
-              
-              // 设置刷新标志
-              setTimeout(() => {
-                that.isListRefresh = false
-              }, 2000); 
-              // 第一次获取歌单，加载一首歌
-              if (type == 'first') {
-                // type = 'mine'
-                that.getCurrentMusic(type)
-                // 设置默认音量
-                that.$refs.audio.volume = that.defaultVolume
-                // 显示默认音量
-                that.currentMusic.volume = that.$refs.audio.volume
-              }
-
-              // 歌单赋值
-              that.currentMusic.playListId = playlistId
-              // console.log('musicList ->', that.musicList)
-              // console.log('currentMusic ->', that.currentMusic)
-              // 滚动到当前歌曲
-              setTimeout(() => {
-                that.scrollToCurrentMusic('music_', that.currentMusic.musicId)
-              }, 1500);
-            }
-            
-          }, function(err) {
-            that.loading = false
-            that.isListRefresh = false
-            that.currentMusic.artist = err.response.data.message
-            that.currentMusic.currentTime = 0
-            console.log(err);
-          });
+          await that.getMusicListDetail(type, ids, playlistId)
         }
       }, function(err) {
         that.loading = false
         that.isListRefresh = false
         that.currentMusic.artist = '歌单获取失败'
+        that.currentMusic.currentTime = 0
+        console.log(err);
+      });
+    },
+
+    musicListPageDown:deounce(async function () {
+      let that = this
+      that.pageInfo.pageNum++
+      let ids = that.tracks.filter((track, i) => {
+        return i >= (that.pageInfo.pageNum - 1) * that.pageInfo.size && i < that.pageInfo.pageNum * that.pageInfo.size
+      }).map((track) => {
+        return track.id
+      }).join(',')
+      await that.getMusicListDetail('pageDown', ids, that.currentMusic.playListId)
+    }, 3000),
+
+
+    getMusicListDetail(type = 'first', ids = '', playlistId = ''){
+      let that = this
+      let sort = 0
+      that.loading = true
+      that.isListRefresh = true
+      if (!ids) return
+      // console.log(ids)
+      // 获取音乐详情   
+      // 记录一下获取歌词/lyric?id=  
+      axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: "/song/detail?ids=" + ids,
+        withCredentials: true
+      }).then(function(response) {
+        if (response.status === 200 && response.data.code === 200) {
+
+          let res = response.data.songs.map((song) => {
+            let brList = response.data.privileges.filter((privilege) => {
+              return privilege.id == song.id
+            }).map((br) => {
+              return br.chargeInfoList.map((chargeInfo) => {
+                return chargeInfo.rate
+              })
+            })[0]
+            return {
+              musicId: song.id,
+              name: song.name || '',
+              artist: song.ar.map(ar => { return ar.name }).join('，') || '',
+              cover: song.al.picUrl ? song.al.picUrl + '?param=200y200' : '',   // prettier-ignore
+              brList,
+              sort: sort++,
+              pop: song.pop,     // 热度
+              fee: song.fee,    //  0: 免费   1: 2元购买单曲   4: 购买专辑   8: 低音质免费
+              originCoverType: song.originCoverType  //0: 未知   1: 原曲   2: 翻唱
+            }
+          })
+          that.musicList = that.musicList.concat(res)
+          // 设置刷新标志
+          setTimeout(() => {
+            that.loading = false
+            that.isListRefresh = false
+          }, 2000); 
+          // 第一次获取歌单，加载一首歌
+          if (type == 'first') {
+            // type = 'mine'
+            that.getCurrentMusic(type)
+          }
+
+          // 歌单赋值
+          that.currentMusic.playListId = playlistId
+          // console.log('musicList ->', that.musicList)
+          // console.log('currentMusic ->', that.currentMusic)
+          // 滚动到当前歌曲
+          // setTimeout(() => {
+          //   that.scrollToCurrentMusic('music_', that.currentMusic.musicId)
+          // }, 1500);
+        }
+        
+      }, function(err) {
+        that.loading = false
+        that.isListRefresh = false
+        that.currentMusic.artist = err.response.data.message
         that.currentMusic.currentTime = 0
         console.log(err);
       });
@@ -905,6 +961,7 @@ export default {
      */
     immerse(e) {
       this.open = !this.open
+      if (this.open) this.$refs.musicList.addEventListener('scroll',this.scroll)
       // 滚动到当前歌词位置
       if (this.open) setTimeout(() => {
         this.scrollToCurrentMusic('music_', this.currentMusic.musicId, {behavior: 'auto'})
@@ -912,6 +969,26 @@ export default {
     },
     getScroll (type = 'music_') {
       this.scrollToCurrentMusic(type, this.currentMusic.musicId, {behavior: 'auto'})
+    },
+    scroll(e){
+      let that = this
+      // console.log(e);
+      // 获取列表高度
+      let clientHeight = e.target.clientHeight
+      // 获取可滚动高度
+      let scrollHeight = e.target.scrollHeight
+      // 当前滚动高度
+      let scrollTop = e.target.scrollTop
+      // console.log('scrollHeight->'+ scrollHeight+ '||' + 'scrollTop->' + scrollTop);
+      let searchFlag = that.pageInfo.totalPage > that.pageInfo.pageNum
+      if (searchFlag && scrollHeight <= (scrollTop + clientHeight + 10)) {
+        // console.log('scrollHeight->'+ scrollHeight+ '||' + 'scrollTop->' + scrollTop)
+        if (that.searchFlag) {
+          that.searchHandle(that.search.query)
+        } else {
+          that.musicListPageDown()
+        }     
+      }
     },
     /**
      * @description: Add by RayShine 歌单列表定位
@@ -942,27 +1019,34 @@ export default {
     searchHandle: deounce(function(query) {
       let that = this
       let sort = 0
+      if (that.search.searchStr != query) that.search.resultList = [],that.$refs.musicList.scrollTop = 0,that.pageInfo.pageNum = 1
+      else that.pageInfo.pageNum++
       // 输入框中没有结果显示原先的歌单
       if (!query.trim()) that.searchFlag = false,that.search.isRuning = false
-      that.search.resultList = []
       if (query.trim()) {
         that.search.isRuning = true
         // 执行搜索 可选参数 limit用于分页，type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样)
         axios({
           baseURL: that.$themeConfig.back.musicUrl,
-          url:"/cloudsearch?keywords=" + query.trim(),
+          url:"/cloudsearch?keywords=" + query.trim() + '&offset=' + (that.pageInfo.pageNum - 1) * that.pageInfo.size + '&limit=' + that.pageInfo.size,
           withCredentials: true
         }).then(function(response) {
           if (response.status === 200) {
-            
-            that.search.resultList = response.data.result.songs.map(song => {
+            that.search.searchStr = query
+            if (response.data.result.songCount === 0) {
+              that.pageInfo.pageNum--
+              that.search.isRuning = false
+              return
+            }
+            that.pageInfo.totalPage = Math.ceil(response.data.result.songCount / that.pageInfo.size)
+            let res = response.data.result.songs.map(song => {
               let brList = [] 
               brList.push(song.privilege.maxbr)
               return {
                 musicId: song.id,
                 name: song.name || '',
                 artist: song.ar.map(ar => { return ar.name }).join('，') || '',
-                cover: song.al.picUrl || '',   // prettier-ignore
+                cover: song.al.picUrl ? song.al.picUrl + '?param=200y200' : '',   // prettier-ignore
                 brList,
                 sort: sort++,
                 pop: song.pop,     // 热度
@@ -970,6 +1054,7 @@ export default {
                 originCoverType: song.originCoverType  //0: 未知   1: 原曲   2: 翻唱
               }
             })
+            that.search.resultList = that.search.resultList.concat(res)
             that.searchFlag = true
             setTimeout(() => {
               that.search.isRuning = false
@@ -981,7 +1066,7 @@ export default {
           console.log(err)
         })
       }
-    }, 1500)
+    }, 2000)
   }
 }
 </script>

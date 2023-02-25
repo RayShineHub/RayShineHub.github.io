@@ -357,6 +357,12 @@ audio::-webkit-media-controls-timeline-container {
       white-space nowrap
       margin 0
       will-change: scroll-position
+      .searchTip {
+        height: 2rem;
+        text-align: center;
+        font-size: 1rem;
+        color: var(--text-color-sub);
+      }
       .music-dropdown-item {
         color inherit
         line-height 1.7rem
@@ -440,6 +446,15 @@ audio::-webkit-media-controls-timeline-container {
       display flex
       align-items: center;
       justify-content: center;
+      .apiLogo {
+        position: fixed;
+        left: 1rem;
+        border-radius: 20%;
+        cursor: pointer;
+        height: 2.6rem;
+        min-width: 2.6rem;
+        vertical-align: top;
+      }
       .iconfont {
         text-shadow: 0 0 30px var(--text-color-sub);
         font-size 2rem;
