@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-25 21:45:56
+ * @LastEditTime: 2023-02-26 01:04:23
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -459,7 +459,7 @@ export default {
   watch: {},
   mounted () {
     // 获取登录状态
-    this.getLoginStatus()
+    this.getLoginStatus(localStorage.getItem('cookie'))
     this.keyDown();
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
@@ -484,6 +484,9 @@ export default {
   methods:  {
     async login () {
       let that = this
+      // 重置登录状态
+      that.logout()
+
       let timer = null
       const res = await axios({
         baseURL: that.$themeConfig.back.musicUrl,
@@ -523,9 +526,9 @@ export default {
      * @description: Add by RayShine 获取登录状态
      * @return {*}
      */  
-    async getLoginStatus () {
+    async getLoginStatus (cookie = null) {
       let that = this
-      const cookie = localStorage.getItem('cookie')
+      if(cookie == null) return
       await axios({
         baseURL: that.$themeConfig.back.musicUrl,
         url: `/login/status?timestamp=${Date.now()}`,
@@ -538,8 +541,8 @@ export default {
       }).then(function(res) {
         if (res.status === 200 && res.data.data.account.status === 0) {
           that.userInfo = res.data.data.profile
-          // console.log(that.userInfo);
-          that.getVipInfo()
+          console.log(that.userInfo);
+          that.getVipInfo(cookie)
         } else if (res.data.data.account.status === -10) {
           // console.log('未登录');
         }
@@ -551,9 +554,8 @@ export default {
      * @description: Add by RayShine 获取会员信息
      * @return {*}
      */  
-    async getVipInfo () {
+    async getVipInfo (cookie = null) {
       let that = this
-      const cookie = localStorage.getItem('cookie')
       await axios({
         baseURL: that.$themeConfig.back.musicUrl,
         url: `/vip/info?timestamp=${Date.now()}`,
@@ -579,7 +581,7 @@ export default {
         baseURL: that.$themeConfig.back.musicUrl,
         url: `/logout`,
       }).then(function(res){
-        localStorage.setItem('cookie', null)
+        localStorage.removeItem('cookie')
         that.userInfo= {
           avatarUrl: '',
           nikename: '',
@@ -857,7 +859,7 @@ export default {
       // 滚动到当前音乐
       setTimeout(() => {
         this.scrollToCurrentMusic('music_',this.currentMusic.musicId)
-      }, 1500);
+      }, 1000);
       // 暂停
       this.$refs.audio.pause()
       // 清除歌词
@@ -899,14 +901,14 @@ export default {
       if (musicId === '') return
       that.loading = true
       const cookie = localStorage.getItem('cookie')
+      let method = cookie != null ? 'post' : 'get'
+      let data = cookie != null ? {'cookie': cookie}: {}
       // 检查音乐是否可用
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
         url:`/check/music?id=${ musicId }&br=${ br }&timestamp=${ Date.now() }`,
-        method: 'post',
-        data: {
-          cookie,
-        },
+        method,
+        data,
         withCredentials: true
       }).then(function(response) {
         // 返回 { success: true, message: 'ok' } 或者 { success: false, message: '亲爱的,暂无版权' }
@@ -916,11 +918,9 @@ export default {
           // 获取音乐文件
           axios({
             baseURL: that.$themeConfig.back.musicUrl,
-            url:"/song/url?id=" + musicId + '&br=' + br,
-            method: 'post',
-            data: {
-              cookie,
-            },
+            url:`/song/url?id=${ musicId }&br=${ br }&timestamp=${ Date.now() }`,
+            method,
+            data,
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200) {
@@ -1141,10 +1141,11 @@ export default {
     immerse(e) {
       this.open = !this.open
       if (this.open) this.$refs.musicList.addEventListener('scroll',this.scroll)
+      if (!this.open) this.$refs.musicList.removeEventListener('scroll', this.scroll)
       // 滚动到当前歌词位置
       if (this.open) setTimeout(() => {
         this.scrollToCurrentMusic('music_', this.currentMusic.musicId, {behavior: 'auto'})
-      }, 2000);
+      }, 1000);
     },
     getScroll (type = 'music_') {
       this.scrollToCurrentMusic(type, this.currentMusic.musicId, {behavior: 'auto'})
