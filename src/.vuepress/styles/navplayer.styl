@@ -446,14 +446,38 @@ audio::-webkit-media-controls-timeline-container {
       display flex
       align-items: center;
       justify-content: center;
-      .apiLogo {
+      .user-info {
+        display: flex
+        align-items: center;
         position: fixed;
         left: 1rem;
-        border-radius: 20%;
-        cursor: pointer;
-        height: 2.6rem;
-        min-width: 2.6rem;
-        vertical-align: top;
+        .avater-img {
+          height: 2.6rem;
+          cursor: pointer;
+          border-radius: 20%;
+          min-width: 2.6rem;
+        }
+        .user-detail {
+          display: flex;
+          margin: 0 0.5rem
+          flex-direction: column;
+          .user-name {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+          }
+          .level {
+            display: flex;
+            padding: 0.1rem 0;
+            .vip-img {
+              height: 1.3rem;
+              margin-right: 0.3rem;
+              min-width: 2.6rem;
+            }
+          }
+          
+        }
       }
       .iconfont {
         text-shadow: 0 0 30px var(--text-color-sub);

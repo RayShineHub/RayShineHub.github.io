@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-25 16:47:42
+ * @LastEditTime: 2023-02-25 21:45:56
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -119,9 +119,15 @@
         <!-- 头像 -->
         <div class="immerse-avtar">
           <img class="avatar" :class="{playing: isPlaying}"
+          v-if="!isLogin"
           :src="currentMusic? currentMusic.cover : ''"
           style="width: 15rem;height: 15rem;border-radius: 500px;"
           @click="onPlay"
+          />
+          <img class="avatar"
+          v-if="isLogin"
+          :src="qrcodeImgUrl || ''"
+          style="width: 15rem;height: 15rem;border-radius: 0;"
           />
         </div>
         <!-- 歌名 & 歌词 -->
@@ -225,7 +231,7 @@
                 <span v-if="!isListRefresh && !search.isRuning && pageInfo.totalPage > pageInfo.pageNum">
                   还剩 {{ pageInfo.totalPage - pageInfo.pageNum }} 页喔~      {{ pageInfo.pageNum }} / {{ pageInfo.totalPage }}
                 </span>
-                <span v-if="!isListRefresh && !search.isRuning && pageInfo.totalPage == pageInfo.pageNum">
+                <span v-if="!isListRefresh && !search.isRuning && pageInfo.totalPage == pageInfo.pageNum && songsList.length != 0">
                   ~  我也是有底线的  {{ pageInfo.pageNum }} / {{ pageInfo.totalPage }}  ~
                 </span>
                 <span v-if="!isListRefresh && !search.isRuning && songsList.length === 0">
@@ -240,10 +246,31 @@
       <!-- 底部操作栏 -->
       <div class="immerse-footer">
         <div class="action-bar">
-          <a class="apiLogo" href="https://music.163.com/" target="_blank">
-            <img class="apiLogo" src="http://p3.music.126.net/tBTNafgjNnTL1KlZMt7lVA==/18885211718935735.jpg"/>
-          </a>
-          
+          <!-- 登录信息 -->
+          <div class="user-info">
+            <a class="avater-img" href="https://music.163.com/" target="_blank">
+              <img class="avater-img" :src="userInfo.avatarUrl || 'http://p3.music.126.net/tBTNafgjNnTL1KlZMt7lVA==/18885211718935735.jpg'"/>
+            </a>
+            <div class="user-detail">
+              <span class="user-name" v-show="userInfo.nickname">
+                 {{ userInfo.nickname || '' }}
+                 <span style="margin-left: 1rem;" @click="logout">退出</span>
+              </span>
+              <span v-show="!userInfo.nickname" class="user-name" style="font-size: .8rem;">
+                <div :href="loginUrl" style="margin-right: .2rem;" @click="login">登录</div>  
+                后才可以听
+                <i class="iconfont rays-VIP" style="color: #d58c09 !important;margin: 0;text-shadow: none;"></i>
+                音乐
+              </span>
+              <div class="level">
+                <!-- <span>lv {{ userInfo.level }}</span> -->
+                <img class="vip-img" v-show="isVip && vipInfo.musicPackage.isSign" :src="vipInfo.musicPackage.dynamicIconUrl || vipInfo.musicPackage.iconUrl || ''" style="width: 1.3rem;"/>
+                <img class="vip-img" v-show="isVip && vipInfo.associator.isSign" :src="vipInfo.associator.dynamicIconUrl || vipInfo.associator.iconUrl || ''"/>
+                <img class="vip-img" v-show="isVip && vipInfo.redplus.isSign" :src="vipInfo.redplus.dynamicIconUrl || vipInfo.redplus.iconUrl || ''"/>
+              </div>
+            </div>
+          </div>
+          <!-- 播放条 -->
           <!-- <i class="iconfont rays-switch" @click="next"></i> -->
           <i class="iconfont rays-prev-face" @click="prev" title="Alt + ←"></i>
           <i v-if="!isPlaying" class="iconfont rays-play" @click="onPlay" style="font-size: 3rem;" title="Space"></i>
@@ -335,6 +362,25 @@ export default {
       time: 0,
       loading: true,
       isPC: true,
+      userInfo: {
+        avatarUrl: '',
+        nikename: '',
+        level: 0,
+      },
+      vipInfo: {
+        musicPackage:{
+          isSign: false
+        },
+        associator:{
+          isSign: false
+        },
+        redplus:{
+          isSign: false
+        }
+      },
+      isVip: false,
+      isLogin: false,
+      qrcodeImgUrl: '',
       search: {
         searchStr: '',
         isRuning: false,
@@ -384,6 +430,9 @@ export default {
     }
   },
   computed: {
+    loginUrl () {
+      return this.$themeConfig.back.musicUrl + '/qrlogin.html' || ''
+    },
     playlistId () {
       return this.$themeConfig.NavPlayer.playlistId || ''
     },
@@ -409,7 +458,8 @@ export default {
   },
   watch: {},
   mounted () {
-    
+    // 获取登录状态
+    this.getLoginStatus()
     this.keyDown();
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
@@ -432,6 +482,126 @@ export default {
     window.removeEventListener('scroll', this.throttle(this.handleScroll, 1000))
   },
   methods:  {
+    async login () {
+      let that = this
+      let timer = null
+      const res = await axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/login/qr/key?timerstamp=${Date.now()}`,
+      })
+      const key = res.data.data.unikey
+      const res2 = await axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/login/qr/create?key=${key}&qrimg=true&timerstamp=${Date.now()}`,
+      })
+      that.isLogin = true
+      that.qrcodeImgUrl = res2.data.data.qrimg
+
+      timer = setInterval(async () => {
+        const statusRes = await this.checkStatus(key)
+        if (statusRes.code === 800) {
+          clearInterval(timer)
+        }
+        if (statusRes.code === 803) {
+          // 这一步会返回cookie
+          clearInterval(timer)
+          that.isLogin = false
+          await this.getLoginStatus(statusRes.cookie)
+          localStorage.setItem('cookie', statusRes.cookie)
+        }
+      }, 3000)
+    },
+    async checkStatus(key) {
+      let that = this
+      const res = await axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/login/qr/check?key=${key}&timerstamp=${Date.now()}`,
+      })
+      return res.data
+    },
+    /**
+     * @description: Add by RayShine 获取登录状态
+     * @return {*}
+     */  
+    async getLoginStatus () {
+      let that = this
+      const cookie = localStorage.getItem('cookie')
+      await axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/login/status?timestamp=${Date.now()}`,
+        // url: `/login/status`,
+        method: 'post',
+        data: {
+          cookie,
+        },
+        // withCredentials: true
+      }).then(function(res) {
+        if (res.status === 200 && res.data.data.account.status === 0) {
+          that.userInfo = res.data.data.profile
+          // console.log(that.userInfo);
+          that.getVipInfo()
+        } else if (res.data.data.account.status === -10) {
+          // console.log('未登录');
+        }
+      }, function(err) {
+        console.log(err);
+      })
+    },
+    /**
+     * @description: Add by RayShine 获取会员信息
+     * @return {*}
+     */  
+    async getVipInfo () {
+      let that = this
+      const cookie = localStorage.getItem('cookie')
+      await axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/vip/info?timestamp=${Date.now()}`,
+        method: 'post',
+        data: {
+          cookie,
+        },
+        withCredentials: true
+      }).then(function(res){
+        if(res.status === 200) that.vipInfo = res.data.data, that.isVip = true
+        // console.log(res.data)
+      }, function(err) {
+        console.log(err);
+      })
+    },
+    /**
+     * @description: Add by RayShine 登出
+     * @return {*}
+     */
+    logout() {
+      let that = this
+      axios({
+        baseURL: that.$themeConfig.back.musicUrl,
+        url: `/logout`,
+      }).then(function(res){
+        localStorage.setItem('cookie', null)
+        that.userInfo= {
+          avatarUrl: '',
+          nikename: '',
+          level: 0,
+        }
+        that.vipInfo= {
+          musicPackage:{
+            isSign: false
+          },
+          associator:{
+            isSign: false
+          },
+          redplus:{
+            isSign: false
+          }
+        }
+      })
+    },
+    /**
+     * @description: Add by RayShine 绑定快捷键
+     * @return {*}
+     */  
     keyDown() {
       let that = this
       //监听键盘按钮
@@ -728,10 +898,15 @@ export default {
       let that = this
       if (musicId === '') return
       that.loading = true
+      const cookie = localStorage.getItem('cookie')
       // 检查音乐是否可用
       axios({
         baseURL: that.$themeConfig.back.musicUrl,
-        url:"/check/music?id=" + musicId + '&br=' + br,
+        url:`/check/music?id=${ musicId }&br=${ br }&timestamp=${ Date.now() }`,
+        method: 'post',
+        data: {
+          cookie,
+        },
         withCredentials: true
       }).then(function(response) {
         // 返回 { success: true, message: 'ok' } 或者 { success: false, message: '亲爱的,暂无版权' }
@@ -742,6 +917,10 @@ export default {
           axios({
             baseURL: that.$themeConfig.back.musicUrl,
             url:"/song/url?id=" + musicId + '&br=' + br,
+            method: 'post',
+            data: {
+              cookie,
+            },
             withCredentials: true
           }).then(function(response) {
             if (response.status === 200) {
