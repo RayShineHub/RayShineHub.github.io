@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-26 01:04:23
+ * @LastEditTime: 2023-02-27 15:13:09
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -254,10 +254,10 @@
             <div class="user-detail">
               <span class="user-name" v-show="userInfo.nickname">
                  {{ userInfo.nickname || '' }}
-                 <span style="margin-left: 1rem;" @click="logout">退出</span>
+                 <span class="logout" style="margin-left: 1rem;" @click="logout">退出</span>
               </span>
               <span v-show="!userInfo.nickname" class="user-name" style="font-size: .8rem;">
-                <div :href="loginUrl" style="margin-right: .2rem;" @click="login">登录</div>  
+                <div class="login" :href="loginUrl" style="margin-right: .2rem;" @click="login">登录</div>  
                 后才可以听
                 <i class="iconfont rays-VIP" style="color: #d58c09 !important;margin: 0;text-shadow: none;"></i>
                 音乐
@@ -541,7 +541,7 @@ export default {
       }).then(function(res) {
         if (res.status === 200 && res.data.data.account.status === 0) {
           that.userInfo = res.data.data.profile
-          console.log(that.userInfo);
+          // console.log(that.userInfo);
           that.getVipInfo(cookie)
         } else if (res.data.data.account.status === -10) {
           // console.log('未登录');

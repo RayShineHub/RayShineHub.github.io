@@ -13,17 +13,45 @@ function render (mode) {
   rootElement.classList.remove(opposite)
   rootElement.classList.add(mode)
 
-  nightMask(display)
+  nightMask(mode)
 }
 
 /**
  * @description: night-mask for website
  * @param {string} display
  */
- function nightMask (display = 'none') {
-  const rootElement = document.querySelector('#night-mask')
-  rootElement && rootElement.style.setProperty('display', display)
+ function nightMask (mode) {
+  const opacity = mode === 'dark' ? 0.5 : 0
+  const maskElement = document.querySelector('#night-mask')
+  !maskElement && createNightMask(opacity)
+  maskElement && maskElement.style.setProperty('opacity', opacity)
 }
+
+/**
+ * @description: create element night-mask for website
+ * @param {string} display
+ */
+function createNightMask (opacity = 0) {
+  const maskDiv = document.createElement("div");
+  maskDiv.innerHTML=`<style>.filter-blue{
+    z-index:2147483646;
+    mix-blend-mode:multiply;
+    top:0px!important;
+    left:0px!important;
+    right:0px!important;
+    bottom:0px!important;
+    position:fixed!important;
+    pointer-events:none!important;
+    transition:opacity 1.5s ease 0s;
+    background:rgb(255,185,105);
+    overflow:hidden!important}</style>`;
+    
+  maskDiv.className="filter-blue";
+  maskDiv.id = "night-mask";
+  maskDiv.style.setProperty('opacity', opacity)
+  document && document.body.appendChild(maskDiv)
+}
+
 
 /**
  * Sets a color scheme for the website.
