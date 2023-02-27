@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-27 15:13:09
+ * @LastEditTime: 2023-02-27 17:53:35
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -460,7 +460,9 @@ export default {
   mounted () {
     // 获取登录状态
     this.getLoginStatus(localStorage.getItem('cookie'))
+    // 绑定快捷键
     this.keyDown();
+    // 只有桌面端加载
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
     } else {
@@ -468,9 +470,11 @@ export default {
       this.isPC = true
       this.getMusicList('first',this.playlistId)
     }
+    // 计算偏移位置
     this.handleLinksWrapWidth()
     window.addEventListener('resize', this.handleLinksWrapWidth, false)
     window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
+    
     this.$nextTick(()=>{
       // 设置默认音量
       this.$refs.audio.volume = this.defaultVolume
