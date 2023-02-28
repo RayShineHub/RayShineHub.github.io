@@ -26,7 +26,7 @@ export default defineComponent({
   render (h) {
     return h('ul', {
       class: { 'sub-sidebar-wrapper': true },
-      style: { width: this.headers.length > 0 ? '18rem' : '0' }
+      style: { width: this.headers.length > 0 ? '15%' : '0' }
     }, [
       ...this.headers.map(header => {
         return h('li', {

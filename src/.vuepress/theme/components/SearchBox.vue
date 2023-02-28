@@ -174,12 +174,12 @@ export default defineComponent({
   i
     color rgba(255, 255, 255, 0.6)
 .search-box
-  display inline-block
+  display inline-flex
   position relative
   margin-right 1rem
   .iconfont
     position absolute
-    top .1rem
+    top -0.1rem
     bottom 0
     z-index 0
     left .6rem
@@ -187,7 +187,7 @@ export default defineComponent({
   input
     cursor text
     width 6rem
-    height: 2rem
+    height: 1.8rem
     color lighten($textColor, 25%)
     display inline-block
     border 1px solid var(--text-color)
@@ -237,15 +237,21 @@ export default defineComponent({
       width 0
       border-color transparent
       position relative
+      border: 0 !important;
       &:focus
         cursor text
         left 0
-        width 10rem
+        width 6rem
+        border: 1px solid $accentColor !important
 // Match IE11
 @media all and (-ms-high-contrast: none)
   .search-box input
     height 2rem
 @media (max-width: $MQNarrow) and (min-width: $MQMobile)
+  .pagefull
+    input
+      // color lighten(rgba(255, 255, 255, 0.8), 80%)
+      // 
   .search-box
     margin-right 0
     .suggestions

@@ -130,7 +130,7 @@ export default defineComponent({
 .pagefull
   input
     color lighten(rgba(255, 255, 255, 0.8), 80%)
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    // border: 1px solid rgba(255, 255, 255, 0.8);
   i
     color rgba(255, 255, 255, 0.6)
 .algolia-search-wrapper

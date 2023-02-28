@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-27 17:53:35
+ * @LastEditTime: 2023-02-28 14:57:26
  * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -463,7 +463,7 @@ export default {
     // 绑定快捷键
     this.keyDown();
     // 只有桌面端加载
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    if (/Android|webOS|iPhone|BlackBerry/i.test(navigator.userAgent)) {
       this.isPC = false
     } else {
       this.playType = this.defaultPlayType
@@ -655,12 +655,15 @@ export default {
     },
     handleLinksWrapWidth() {
       const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
+      const IPAD_DESKTOP_BREAKPOINT = 959 // refer to config.styl
       let that = this
       let navSubOffsetWidth = (document.querySelector('.nav-sub') && document.querySelector('.nav-sub').offsetWidth) || 1872
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
         that.linksWrapMaxWidth = null
       } else {
         that.linksWrapOffsetWidth = document.querySelector('.links').offsetWidth || 726
+        if (document.documentElement.clientWidth <= IPAD_DESKTOP_BREAKPOINT) that.linksWrapOffsetWidth += 70
+        
       }
       if (that.linksWrapOffsetWidth == null || that.linksWrapOffsetWidth > navSubOffsetWidth) setTimeout(() => { this.handleLinksWrapWidth() }, 2000)
     },

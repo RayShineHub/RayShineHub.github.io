@@ -217,6 +217,21 @@ export default defineComponent({
         color $accentColor
       &:hover
         color $accentColor
+
+@media (max-width: $MQNarrow)
+  .abstract-item
+    .cover-wrap
+      width 0 !important
+    
+    .abstract-content-wrap
+      width 100% !important
+      margin 0 !important
+
+    .flyr
+      float left !important
+
+
+
 @media (max-width: $MQMobile)
   .tags
     display block
