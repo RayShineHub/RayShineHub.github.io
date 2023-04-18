@@ -23,7 +23,6 @@
 import { defineComponent, h, ref, onMounted } from 'vue'
 import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import { useInstance } from '@theme/helpers/composable'
-// import { HitComponent } from './AlgoliaSearchHit.jsx'
 
 export default defineComponent({
   components: { RecoIcon },
@@ -53,13 +52,9 @@ export default defineComponent({
       //       searchParameters: Object.assign({
       //         'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
       //       }, algoliaOptions),
-      //       hitComponent: ({ hit, children }) => {
-      //         // return () => h(HitComponent, {
-      //         //   hit: hit,
-      //         //   children: children
-      //         // })
-      //         return HitComponent(hit, children)
-      //       },
+      //       // hitComponent: ({ hit, children }) => {
+      //       //   return HitComponent({ hit, children })
+      //       // },
       //       transformItems: (items) => {
       //         // console.log(items)
       //         return items.map((item) => ({

@@ -1,9 +1,9 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: SPF spf1773@gmail.com
- * @LastEditTime: 2023-01-15 23:16:49
- * @FilePath: /RayShineBlog/src/.vuepress/config/nav/index.js
+ * @LastEditors: Ray Shine spf1773@gmail.com
+ * @LastEditTime: 2023-03-01 15:24:03
+ * @FilePath: \RayShineHub\src\.vuepress\config\nav\index.js
  * @Description: 统一自定义NavLinks配置中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -58,7 +58,7 @@ module.exports = [
           },
           {
             text: "图标工具",
-            link: "https://img.shields.io/",
+            link: "https://badgen.net/",
             icon: "iconfont rays-link"
           },
           {
