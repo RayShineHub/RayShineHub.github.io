@@ -183,6 +183,7 @@ export default defineComponent({
 
     onBeforeMount(() => {
       AosInit()
+      firstLoad.value = instance.$frontmatter.home && sessionStorage.getItem('firstLoad') == undefined
     })
 
     onMounted(() => {

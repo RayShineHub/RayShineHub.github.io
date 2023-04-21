@@ -113,7 +113,8 @@ export default defineComponent({
     refreshIndex()
 
     onMounted(() => {
-      activationLink()
+      // 与锚点跳转冲突  后面有问题再修改
+      // activationLink()
       isInViewPortOfOne()
     })
 

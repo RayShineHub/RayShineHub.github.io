@@ -10,13 +10,13 @@
     <img 
       v-if="pageInfo.frontmatter.reprint"
       class="article-type-img" 
-      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/reprint.png'" alt="">
-    </img>
+      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/reprint.png'" alt=""
+    />
     <img 
       v-else
       class="article-type-img" 
-      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/original.png'" alt="">
-    </img>
+      :src="$themeConfig.back.sourceUrl + '/imgs/article-type/original.png'" alt=""
+    />
     <span class="iconfont reprintUrl" @click.stop="goHome()">
       {{ pageInfo.frontmatter.author || $themeConfig.author || $site.title }}
     </span>
@@ -168,6 +168,7 @@ export default defineComponent({
   span, div
     color var(--text-color-sub)
 .reprintUrl
+  cursor: pointer;
   color var(--text-color-sub)
   &:hover
     color $accentColor

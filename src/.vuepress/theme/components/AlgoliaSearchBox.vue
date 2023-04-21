@@ -1,6 +1,5 @@
 <template>
 <div>
-  <!-- <HitComponent></HitComponent> -->
   <form
     id="search-form"
     class="algolia-search-wrapper search-box"
@@ -20,7 +19,7 @@
 </template>
 
 <script>
-import { defineComponent, h, ref, onMounted } from 'vue'
+import { defineComponent, h, ref, onMounted  } from 'vue'
 import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import { useInstance } from '@theme/helpers/composable'
 
@@ -33,47 +32,11 @@ export default defineComponent({
     const instance = useInstance()
 
     const placeholder = ref(undefined)
-    
+
     const initialize = (userOptions, lang) => {
-      // Promise.all([
-      //   import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
-      //   import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
-      // ]).then(([docsearch]) => {
-      //   docsearch = docsearch.default
-      //   const { algoliaOptions = {} } = userOptions
-      //   docsearch(Object.assign(
-      //     {},
-      //     userOptions,
-      //     {
-      //       debug: true,
-      //       container: '.search-box',
-      //       placeholder: placeholder.value,
-      //       // #697 Make docsearch work well at i18n mode.
-      //       searchParameters: Object.assign({
-      //         'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
-      //       }, algoliaOptions),
-      //       // hitComponent: ({ hit, children }) => {
-      //       //   return HitComponent({ hit, children })
-      //       // },
-      //       transformItems: (items) => {
-      //         // console.log(items)
-      //         return items.map((item) => ({
-      //           ...item,
-      //           url: item.url && item.url.replace('https://blog.rayshine.site','')
-      //         }));
-      //       },
-      //       // navigator: {
-      //       //   navigate ({ itemUrl }) {
-      //       //     console.log(itemUrl);
-      //       //     instance.$router.push(`${itemUrl}`)
-      //       //   },
-      //       // }
-      //     }
-      //   ))
-      // })
       Promise.all([
-        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
-        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
+        import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
+        import(/* webpackChunkName: "docsearch" */ '@docsearch/css')
       ]).then(([docsearch]) => {
         docsearch = docsearch.default
         const { algoliaOptions = {} } = userOptions
@@ -81,19 +44,75 @@ export default defineComponent({
           {},
           userOptions,
           {
-            inputSelector: '#algolia-search-input',
+            debug: true,
+            container: '.search-box',
+            placeholder: placeholder.value,
             // #697 Make docsearch work well at i18n mode.
-            algoliaOptions: Object.assign({
-              'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || []),
-              'hitsPerPage': 10,
+            searchParameters: Object.assign({
+              'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
             }, algoliaOptions),
-            handleSelected: (input, event, suggestion) => {
-              const { pathname, hash } = new URL(suggestion.url)
-              instance.$router.push(`${pathname}${hash}`)
-            }
+            // transformItems: (items) => {
+            //   // console.log(items)
+            //   return items.map((item) => ({
+            //     ...item,
+            //     url: item.url && item.url.replace('https://blog.rayshine.site','')
+            //   }));
+            // },
+            hitComponent({hit, children}){
+              return {
+                // The HTML `tag`
+                type: 'a',
+                ref: undefined,
+                constructor: undefined,
+                key: hit.url,
+                // Its props
+                props: {
+                  href: hit.url,
+                  onClick: (e) => {
+                    e.preventDefault()
+                    const { pathname, hash } = new URL(hit.url)
+                    setTimeout(() => {
+                      instance.$router.push(`${pathname}${hash}`)
+                    }, 200);
+                  },
+                  // Raw text rendered in the HTML element
+                  children: children,
+                },
+                __v: null,
+              };
+            },
+            // navigator: {
+            //   navigate ({ itemUrl }) {
+            //     console.log(itemUrl);
+            //     instance.$router.push(`${itemUrl}`)
+            //   },
+            // }
           }
         ))
       })
+      // Promise.all([
+      //   import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
+      //   import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
+      // ]).then(([docsearch]) => {
+      //   docsearch = docsearch.default
+      //   const { algoliaOptions = {} } = userOptions
+      //   docsearch(Object.assign(
+      //     {},
+      //     userOptions,
+      //     {
+      //       inputSelector: '#algolia-search-input',
+      //       // #697 Make docsearch work well at i18n mode.
+      //       algoliaOptions: Object.assign({
+      //         'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || []),
+      //         'hitsPerPage': 10,
+      //       }, algoliaOptions),
+      //       handleSelected: (input, event, suggestion) => {
+      //         const { pathname, hash } = new URL(suggestion.url)
+      //         instance.$router.push(`${pathname}${hash}`)
+      //       }
+      //     }
+      //   ))
+      // })
     }
 
     const update = (options, lang) => {
