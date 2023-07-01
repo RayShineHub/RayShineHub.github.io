@@ -212,7 +212,7 @@ $navbar-horizontal-padding = 1.5rem
     .links
       padding-left .2rem
 
-@media (max-width: $MQNarrow) and (min-width: $MQMobile)
+@media (max-width: $MQMobile)
   .site-name
     display none !important
 </style>
