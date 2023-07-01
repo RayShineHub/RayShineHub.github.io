@@ -3,6 +3,7 @@ const envConfig = {
   development: {
     sourceUrl: 'http://source.rayshine.site/blog',
     musicUrl: 'http://localhost:3000',
+    // musicUrl: 'https://music.rayshine.site',
     // algolia: false
     algolia: {
       apiKey: '3ebf6ff353a168338d5b9221e99e3d11',

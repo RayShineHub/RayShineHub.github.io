@@ -368,6 +368,11 @@ audio::-webkit-media-controls-timeline-container {
         line-height 1.7rem
         padding: .2rem
         height: 3.6rem;
+        transition .2s
+        &:hover {
+          // transform scale(1.05)
+          transform: translateX(-.6rem)
+        } 
         .music-info {
           display flex
           justify-content: space-between;
@@ -658,6 +663,10 @@ audio::-webkit-media-controls-timeline-container {
       line-height 1.7rem
       padding: .2rem
       height: 3.6rem;
+      transition: .2s
+      &:hover {
+        transform: translateX(-.3rem)
+      }
       .music-info {
         display flex
         justify-content: space-between;

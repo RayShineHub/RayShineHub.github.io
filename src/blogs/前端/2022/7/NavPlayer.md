@@ -1,5 +1,5 @@
 ---
-title: '博客篇 -- Vuepress 音乐播放器'
+title: '博客篇 -- Vuepress 音乐播放器 & 沉浸式'
 date: 2022-07-10
 showSponsor: true
 isShowComment: true
@@ -32,11 +32,10 @@ sticky: 1
 
 ## Step 1 功能设计
 
-- [x] 获取歌单
 - [X] 获取歌单
 - [X] 检查歌曲是否可用
 - [X] 获取音乐文件
-- [ ] 获取歌词
+- [X] 获取歌词
 - [X] 播放
 - [X] 自动播放
 - [X] 上一首
@@ -45,16 +44,16 @@ sticky: 1
 - [X] 显示歌曲写真，暂停时固定，播放时旋转
 - [X] 显示制作人、歌名
 - [X] 显示播放时长
-- [ ] 显示歌单
-- [ ] 通过歌单播放
-- [ ] 显示歌词
-- [ ] 控制播放时长
-- [ ] 单曲循环
-- [ ] 顺序播放
-- [ ] 歌单循环
-- [ ] 随机播放
-- [ ] 节流（按钮，audio时间）
-- [ ] 全局播放
+- [X] 显示歌单
+- [X] 显示歌词
+- [X] 控制播放时长
+- [X] 循环播放：单曲循环、顺序播放、歌单循环、随机播放
+- [X] 节流（按钮，audio时间）
+- [X] 全局播放
+- [X] 导航栏Mini播放器：模式切换、播放控制、音量控制、循环类型切换、获取歌单
+- [X] 沉浸式播放器：登录登出、歌词滚动、获取歌单、歌单定位、歌单刷新、歌曲搜索、 绑定快捷键
+
+[完整代码参考](https://github.com/RayShineHub/RayShineHub.github.io/blob/main/src/.vuepress/components/NavPlayer.vue)
 
 ## Step 2 集成环境
 1. [NeteaseCloudMusicApi](https://neteasecloudmusicapi.vercel.app/)
