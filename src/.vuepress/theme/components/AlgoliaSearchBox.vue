@@ -81,12 +81,15 @@ export default defineComponent({
                 __v: null,
               };
             },
-            // navigator: {
-            //   navigate ({ itemUrl }) {
-            //     console.log(itemUrl);
-            //     instance.$router.push(`${itemUrl}`)
-            //   },
-            // }
+            // open link in websit by EnterKey
+            navigator: {
+              navigate ({ itemUrl }) {
+                const { pathname, hash } = new URL(itemUrl)
+                setTimeout(() => {
+                  instance.$router.push(`${pathname}${hash}`)
+                }, 200);
+              },
+            }
           }
         ))
       })
