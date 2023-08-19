@@ -1,39 +1,45 @@
 <template>
-  <div class="footer-wrapper">
-    <!-- <span>
-      <reco-icon icon="reco-theme" />
-      <a target="blank" href="https://vuepress-theme-reco.recoluan.com">{{`vuepress-theme-reco@${version}`}}</a>
-    </span> -->
-    <span v-if="$themeConfig.record">
-      <reco-icon icon="reco-beian" />
-      <a :href="$themeConfig.recordLink || '#'">{{ $themeConfig.record }}</a>
-    </span>
-    <span>
-      <reco-icon icon="reco-copyright" />
-      <a>
-        <span v-if="$themeConfig.author">{{ $themeConfig.author }}</span>
-        &nbsp;&nbsp;
-        <span v-if="$themeConfig.startYear && $themeConfig.startYear != (new Date().getFullYear())">{{ $themeConfig.startYear }} - </span>
-        {{ new Date().getFullYear() }}
-      </a>
-    </span>
-    <span v-show="showAccessNumber">
-      <reco-icon icon="reco-eye" />
-      <AccessNumber idVal="/" />
-    </span>
-    <p class="cyber-security" v-if="$themeConfig.cyberSecurityRecord">
-      <img src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png" alt="">
-      <a :href="$themeConfig.cyberSecurityLink || '#'">{{ $themeConfig.cyberSecurityRecord }}</a>
-    </p>
-    <Comments :isShowComments="false"/>
+  <div>
+    <div id="jsi-flying-fish-container">
+      <canvas width="0" height="0"/>
+    </div>  
+    <div class="footer-wrapper">
+      <!-- <span>
+        <reco-icon icon="reco-theme" />
+        <a target="blank" href="https://vuepress-theme-reco.recoluan.com">{{`vuepress-theme-reco@${version}`}}</a>
+      </span> -->
+      <span v-if="$themeConfig.record">
+        <reco-icon icon="reco-beian" />
+        <a :href="$themeConfig.recordLink || '#'">{{ $themeConfig.record }}</a>
+      </span>
+      <span>
+        <reco-icon icon="reco-copyright" />
+        <a>
+          <span v-if="$themeConfig.author">{{ $themeConfig.author }}</span>
+          &nbsp;&nbsp;
+          <span v-if="$themeConfig.startYear && $themeConfig.startYear != (new Date().getFullYear())">{{ $themeConfig.startYear }} - </span>
+          {{ new Date().getFullYear() }}
+        </a>
+      </span>
+      <span v-show="showAccessNumber">
+        <reco-icon icon="reco-eye" />
+        <AccessNumber idVal="/" />
+      </span>
+      <p class="cyber-security" v-if="$themeConfig.cyberSecurityRecord">
+        <img src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png" alt="">
+        <a :href="$themeConfig.cyberSecurityLink || '#'">{{ $themeConfig.cyberSecurityRecord }}</a>
+      </p>
+      <Comments :isShowComments="false"/>
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import { version } from '../package.json'
 import { useInstance } from '@theme/helpers/composable'
+import { fishInit } from '../helpers/footer_fish.js'
 
 export default defineComponent({
   components: { RecoIcon },
@@ -47,6 +53,11 @@ export default defineComponent({
 
       return vc && vc.visitor != false
     })
+
+    onMounted(() => {
+      fishInit()
+    })
+    
     return { version, showAccessNumber }
   }
 })
@@ -54,8 +65,9 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
   .footer-wrapper {
+    margin-top: -4.5rem
     padding: 1.5rem 2.5rem;
-    border-top: 1px solid var(--border-color);
+    // border-top: 1px solid var(--border-color);
     text-align: center;
     color: lighten($textColor, 25%);
     a {
