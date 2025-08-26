@@ -1,9 +1,9 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-18 17:35:16
- * @FilePath: \RayShineHube:\Font Project\RayshineHub1.x\src\.vuepress\config\plugins\index.js
+ * @LastEditors SPF spf1773@gmail.com
+ * @LastEditTime 2025-08-26 18:09:47
+ * @FilePath /RayShineBlog/src/.vuepress/config/plugins/index.js
  * @Description: 统一插件（plugins）管理中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -13,7 +13,7 @@ module.exports = {
 	{
 		showIcon: "https://cdn.rayshine.site/blog/home/favicon.ico",
 		showText: "Welcome Back !",
-		hideIcon: "https://cdn.rayshine.site/blog/home/favicon1.ico",
+		hideIcon: "https://cdn.rayshine.site/blog/home/favicon.ico",
 		hideText: "Wait ...",
 		recoverTime: 2000
 	},
@@ -46,3 +46,12 @@ module.exports = {
 	// 
 	'@vuepress-reco/extract-code': {}
 }
+
+
+
+
+
+
+
+
+

@@ -2,8 +2,9 @@ const envConfig = {
   // 开发环境
   development: {
     sourceUrl: 'http://source.rayshine.site/blog',
-    musicUrl: 'http://localhost:3000',
-    // musicUrl: 'https://music.rayshine.site',
+    // sourceUrl: 'http://123.57.202.77/blog',
+    // musicUrl: 'http://localhost:3000',
+    musicUrl: 'https://music.rayshine.site',
     // algolia: false
     algolia: {
       apiKey: '3ebf6ff353a168338d5b9221e99e3d11',
@@ -14,7 +15,7 @@ const envConfig = {
   },
   // 生产环境
   production: {
-    // sourceUrl: "https://blog.rayshine.site/source/blog"
+    // sourceUrl: 'http://source.rayshine.site/blog',
     sourceUrl: 'https://cdn.rayshine.site/blog',
     musicUrl: 'https://music.rayshine.site',
     algolia: {

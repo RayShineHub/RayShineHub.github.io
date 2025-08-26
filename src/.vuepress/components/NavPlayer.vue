@@ -1,9 +1,9 @@
 <!--
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-02-28 14:57:26
- * @FilePath: \RayShineHub\src\.vuepress\components\NavPlayer.vue
+ * @LastEditors SPF spf1773@gmail.com
+ * @LastEditTime 2025-08-26 11:11:57
+ * @FilePath /RayShineBlog/src/.vuepress/components/NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -295,6 +295,17 @@
           <span class="volume">{{parseInt(currentMusic.volume * 10)}}</span>
           <i class="iconfont rays-volume-add" title="Alt + ↑" @click="onVolume('jia')"></i>
           <i class="iconfont palylist" :class="'rays-' + playType" @click="playTypeHandle" ></i>
+          <!-- 版权声明 -->
+          <div class="copyright-music">
+            <div>
+             *本播放器由
+              <a href="https://music.163.com/" target="_blank">
+              网易云音乐
+              </a>提供授权支持，歌曲版权归相应唱片公司所有。
+            </div>
+            <div>仅限个人学习欣赏，非商业用途，禁止下载、翻录或商业传播。</div>  
+            <div>如遇版权问题，请及时联系我们删除处理。</div>
+          </div>
         </div>
       </div>
       
