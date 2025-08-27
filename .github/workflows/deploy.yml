@@ -86,7 +86,7 @@ jobs:
           server: '${{ secrets.SERVER_IP_ALIYUN }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
           local_path: './dist/*'
-          remote_path: '/blog'
+          remote_path: '/opt/blog'
 
       # - name: Deploy blog To Aliyun Remote Server
       #   uses: easingthemes/ssh-deploy@main
