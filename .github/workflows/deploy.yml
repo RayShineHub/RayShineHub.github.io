@@ -79,24 +79,24 @@ jobs:
           
           
       # 部署到阿里云远程服务器 
-      # - name: Deploy blog To Aliyun Remote Server
-      #   uses: wlixcc/SFTP-Deploy-Action@v1.0
-      #   with:
-      #     username: '${{ secrets.SERVER_SFTP_USERNAME }}'
-      #     server: '${{ secrets.SERVER_IP_ALIYUN }}'
-      #     ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
-      #     local_path: './dist/*'
-      #     remote_path: '/blog'
-
       - name: Deploy blog To Aliyun Remote Server
-        uses: easingthemes/ssh-deploy@main
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          SSH_PRIVATE_KEY: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
-          REMOTE_USER: '${{ secrets.SERVER_SFTP_USERNAME }}'
-          REMOTE_HOST: '${{ secrets.SERVER_IP_ALIYUN }}'
-          SOURCE: './dist/*'
-          TARGET: '/blog'
-          ARGS: "-avz --chown=deployer:deployer"
+          username: '${{ secrets.SERVER_SFTP_USERNAME }}'
+          server: '${{ secrets.SERVER_IP_ALIYUN }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
+          local_path: './dist/*'
+          remote_path: '/blog'
+
+      # - name: Deploy blog To Aliyun Remote Server
+      #   uses: easingthemes/ssh-deploy@main
+      #   with:
+      #     SSH_PRIVATE_KEY: '${{ secrets.SSH_PRIVATE_KEY_ALIYUN }}'
+      #     REMOTE_USER: '${{ secrets.SERVER_SFTP_USERNAME }}'
+      #     REMOTE_HOST: '${{ secrets.SERVER_IP_ALIYUN }}'
+      #     SOURCE: './dist/*'
+      #     TARGET: '/blog'
+      #     ARGS: "-avz --chown=deployer:deployer"
           
           
       # 部署到腾讯云远程服务器

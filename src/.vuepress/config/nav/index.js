@@ -1,9 +1,9 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
- * @LastEditors: Ray Shine spf1773@gmail.com
- * @LastEditTime: 2023-03-01 15:24:03
- * @FilePath: \RayShineHub\src\.vuepress\config\nav\index.js
+ * @LastEditors SPF spf1773@gmail.com
+ * @LastEditTime 2025-08-27 08:56:16
+ * @FilePath /RayShineBlog/src/.vuepress/config/nav/index.js
  * @Description: 统一自定义NavLinks配置中心
  * 
  * Copyright (c) 2022 by pengfei.shao 570165036@qq.com, All Rights Reserved. 
@@ -64,7 +64,7 @@ module.exports = [
           {
             text: "CodePen",
             link: "https://codepen.io/your-work/?item_type=pen",
-            imgUrl: "https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
+            imgUrl: "https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg"
           },
 					{
 						text: "站联导航",
