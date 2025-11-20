@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import { defineComponent, computed, onMounted } from 'vue'
+import { defineComponent, computed, onMounted, onBeforeUnmount } from 'vue'
 import { RecoIcon } from '@vuepress-reco/core/lib/components'
 import { version } from '../package.json'
 import { useInstance } from '@theme/helpers/composable'
-import { fishInit } from '../helpers/footer_fish.js'
+import { fishInit, fishStop } from '../helpers/footer_fish.js'
 
 export default defineComponent({
   components: { RecoIcon },
@@ -56,6 +56,10 @@ export default defineComponent({
 
     onMounted(() => {
       fishInit()
+    })
+
+    onBeforeUnmount(() => {
+      fishStop()
     })
     
     return { version, showAccessNumber }

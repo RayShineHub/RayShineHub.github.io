@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-22 20:25:06
  * @LastEditors SPF spf1773@gmail.com
- * @LastEditTime 2025-08-26 10:41:12
+ * @LastEditTime 2025-11-18 11:28:49
  * @FilePath /RayShineBlog/src/.vuepress/config/sidebar/index.js
  * @Description: 自动生成侧边栏配置
  * sidebar: {
@@ -32,5 +32,15 @@ module.exports = {
 		// CSS
 		'/blogs/前端/CSS/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/CSS/'), false),
 		// JS
-		'/blogs/前端/JavaScript/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/JavaScript/'), false)
+		'/blogs/前端/JavaScript/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/JavaScript/'), false),
+		// HTML
+		'/blogs/前端/HTML/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/HTML/'), false),
+		// Vue2
+		'/blogs/前端/Vue2/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/Vue2/'), false),
+		// Vue3
+		'/blogs/前端/Vue3/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/Vue3/'), false),
+		// TypeScript
+		'/blogs/前端/TypeScript/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/前端/TypeScript/'), false),
+		// 大模型
+		'/blogs/大模型/': autoGetSidebarOptionBySrcDir(path.resolve(__dirname,'../../../blogs/大模型/'), false)
 };

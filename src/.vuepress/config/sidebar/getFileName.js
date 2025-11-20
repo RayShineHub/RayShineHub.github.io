@@ -1,9 +1,9 @@
 /*
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-22 20:25:06
- * @LastEditors: pengfei.shao 570165036@qq.com
- * @LastEditTime: 2022-07-22 00:09:07
- * @FilePath: \RayShineHub\src\.vuepress\config\sidebar\getFileName.js
+ * @LastEditors SPF spf1773@gmail.com
+ * @LastEditTime 2025-11-18 10:37:30
+ * @FilePath /RayShineBlog/src/.vuepress/config/sidebar/getFileName.js
  * @Description: 自动生成siderbar
  * 							 使用方法：var siderbarhelper = require('./utils/getFilenames.js')
  * 							 siderbarhelper("/views/technology-sharing/vuepress/")
@@ -62,7 +62,8 @@
 			// 所以相对路径就是'docs'后面的部分
 			// 最后把扩展名去掉, 就是路由的路径
 			if (!v.path.split("src")[1]) return ""
-			return [v.path.split("src")[1].replace(/\.md$/, ""), v.path.split("/")[v.path.split("/").length - 1].replace(/\.md$/, "")];
+			const finalRoutePath = encodeURI(v.path.split("src")[1].replace(/\.md$/, ""));
+			return [finalRoutePath, v.path.split("/")[v.path.split("/").length - 1].replace(/\.md$/, "")];
 		}
 	})
  }

@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors SPF spf1773@gmail.com
- * @LastEditTime 2025-08-26 18:09:47
+ * @LastEditTime 2025-11-18 10:30:45
  * @FilePath /RayShineBlog/src/.vuepress/config/plugins/index.js
  * @Description: 统一插件（plugins）管理中心
  * 
@@ -41,7 +41,7 @@ module.exports = {
 	// 著作权
 	'copyright': {
 		authorName: 'Ray Shine', // 选中的文字将无法被复制
-		minLength: 10, // 如果长度超过  30 个字符
+		minLength: 30, // 如果长度超过  30 个字符
 	},
 	// 
 	'@vuepress-reco/extract-code': {}

@@ -35,7 +35,7 @@ module.exports = (options, ctx) => ({
     }],
     '@vuepress/plugin-nprogress',
     ['@vuepress/plugin-blog', {
-      permalink: '/:regular',
+      permalink: ({ regularPath }) => encodeURI(regularPath),
       frontmatters: [
         {
           id: 'tags',

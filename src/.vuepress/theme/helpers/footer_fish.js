@@ -12,6 +12,17 @@ var RENDERER = {
 		this.bindEvent();
 		this.render();
 	},
+	stop : function(){
+		cancelAnimationFrame(this.animationFrameId);
+		this.$canvas.remove();
+		this.points.length = 0;
+		this.fishes.length = 0;
+		this.watchIds.length = 0;
+		this.$window.off('resize', this.watchWindowSize);
+		this.$container.off('mouseenter', this.startEpicenter);
+		this.$container.off('mousemove', this.moveEpicenter);
+		this.$container.off('click', this.reverseVertical);
+	},
 	setParameters : function(){
 		this.$window = $(window);
 		this.$container = $('#jsi-flying-fish-container');
@@ -139,7 +150,7 @@ var RENDERER = {
 		}
 	},
 	render : function(){
-		requestAnimationFrame(this.render);
+		this.animationFrameId = requestAnimationFrame(this.render);
 		this.controlStatus();
 		this.context.clearRect(0, 0, this.width, this.height);
 		this.context.fillStyle = 'hsl(0, 0%, 95%,.6)';
@@ -335,4 +346,8 @@ FISH.prototype = {
 
 export function fishInit() {
 	RENDERER.init();
+}
+
+export function fishStop() {
+	RENDERER.stop();
 }

@@ -29,7 +29,7 @@
         <span>{{ formatDateValue(item.frontmatter.date) }}</span>
       </reco-icon>
     </div>
-    <div class="abstract-content-wrap" :class="num%2==0?'flyl':'flyr'" :style="num%2==0?{'margin-left':'5%'}:{'margin-right':'5%'}">
+    <div class="abstract-content-wrap" :class="num%2==0?'flyl':'flyr'" :style="num%2==0?{'margin-left':'5%'}:{'margin-right':'5%'}" >
       <reco-icon v-if="item.frontmatter.sticky" icon="reco-sticky" />
       <div class="title">
         <reco-icon v-if="item.frontmatter.keys" icon="reco-lock" />
@@ -211,6 +211,13 @@ export default defineComponent({
       visibility visible
       -webkit-transform: scaleX(1);
       transform: scaleX(1);
+  .abstract
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
   .tags
     .tag-item
       &.active

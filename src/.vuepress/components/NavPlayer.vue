@@ -2,7 +2,7 @@
  * @Author: pengfei.shao 570165036@qq.com
  * @Date: 2022-06-17 15:24:10
  * @LastEditors SPF spf1773@gmail.com
- * @LastEditTime 2025-08-26 11:11:57
+ * @LastEditTime 2025-11-05 16:17:44
  * @FilePath /RayShineBlog/src/.vuepress/components/NavPlayer.vue
  * @Description: Create by RayShine 自己实现的音频播放器
  * 代办：歌词、循环随机播放
@@ -517,9 +517,9 @@ export default {
 
       timer = setInterval(async () => {
         const statusRes = await this.checkStatus(key)
-        if (statusRes.code === 800) {
-          clearInterval(timer)
-        }
+        // add by Rayshine 2025-9-12 二维码扫描登陆获取不了授权结果
+        if (statusRes.code === 404) clearInterval(timer)
+        if (statusRes.code === 800) clearInterval(timer)
         if (statusRes.code === 803) {
           // 这一步会返回cookie
           clearInterval(timer)
