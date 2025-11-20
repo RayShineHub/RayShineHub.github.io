@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>知识篇 -- 【Linux】大模型部署 | 一ξひβθ光 i</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    <script language="javascript" type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://hm.baidu.com/hm.js?9f41253f09999faf9afb7881ac96ccf9" async="true"></script>
+    <script language="javascript" type="text/javascript" src="/js/noConsole.js" async="true"></script>
+    <script language="javascript" type="text/javascript" src="/js/fairyDustCursor.js" async="true"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="preconnect" href="https://5KJPBBG282-dsn.algolia.net" crossorigin="true">
+    <meta name="description" content="基于Linux大模型部署命令">
+    <meta name="keywords" content="linux llm 大模型集群 linux命令 cuda cuDNN TensorFlow Kubernetes">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="baidu-site-verification" content="code-U0ZDB2tiQp">
+    
+    <link rel="preload" href="/assets/css/0.styles.a11dccbe.css" as="style"><link rel="preload" href="/assets/js/app.34b97d4e.js" as="script"><link rel="preload" href="/assets/js/123.047a3f02.js" as="script"><link rel="preload" href="/assets/js/7.fdeef97c.js" as="script"><link rel="preload" href="/assets/js/5.e03f900d.js" as="script"><link rel="prefetch" href="/assets/js/10.fe0ecbbd.js"><link rel="prefetch" href="/assets/js/100.d6265d65.js"><link rel="prefetch" href="/assets/js/101.c0af8dd1.js"><link rel="prefetch" href="/assets/js/102.d691bb3b.js"><link rel="prefetch" href="/assets/js/103.6c097202.js"><link rel="prefetch" href="/assets/js/104.a0187c5f.js"><link rel="prefetch" href="/assets/js/105.d9843b38.js"><link rel="prefetch" href="/assets/js/106.0acd8f19.js"><link rel="prefetch" href="/assets/js/107.dd9fe9fd.js"><link rel="prefetch" href="/assets/js/108.d9a7ea56.js"><link rel="prefetch" href="/assets/js/109.3773d811.js"><link rel="prefetch" href="/assets/js/11.56bbb670.js"><link rel="prefetch" href="/assets/js/110.d22be1d9.js"><link rel="prefetch" href="/assets/js/111.8c29f8aa.js"><link rel="prefetch" href="/assets/js/112.263f65f3.js"><link rel="prefetch" href="/assets/js/113.282af5d3.js"><link rel="prefetch" href="/assets/js/114.cbfe93e3.js"><link rel="prefetch" href="/assets/js/115.2d415d6e.js"><link rel="prefetch" href="/assets/js/116.c1c1a3cd.js"><link rel="prefetch" href="/assets/js/117.0ef00252.js"><link rel="prefetch" href="/assets/js/118.3b7b1dc3.js"><link rel="prefetch" href="/assets/js/119.f18e0cba.js"><link rel="prefetch" href="/assets/js/12.232a4782.js"><link rel="prefetch" href="/assets/js/120.4aec6976.js"><link rel="prefetch" href="/assets/js/121.04db0819.js"><link rel="prefetch" href="/assets/js/122.64241eba.js"><link rel="prefetch" href="/assets/js/124.7fb6365a.js"><link rel="prefetch" href="/assets/js/125.ee0c65d3.js"><link rel="prefetch" href="/assets/js/126.bfa62367.js"><link rel="prefetch" href="/assets/js/127.ddaac52c.js"><link rel="prefetch" href="/assets/js/128.c72be7e1.js"><link rel="prefetch" href="/assets/js/129.30450f9b.js"><link rel="prefetch" href="/assets/js/13.253ba708.js"><link rel="prefetch" href="/assets/js/130.de8c851d.js"><link rel="prefetch" href="/assets/js/131.8c824fba.js"><link rel="prefetch" href="/assets/js/132.57ae7683.js"><link rel="prefetch" href="/assets/js/133.5e33e259.js"><link rel="prefetch" href="/assets/js/134.9f1ee32c.js"><link rel="prefetch" href="/assets/js/135.8c41c668.js"><link rel="prefetch" href="/assets/js/136.4bc84eda.js"><link rel="prefetch" href="/assets/js/137.662a1fd3.js"><link rel="prefetch" href="/assets/js/138.fd1b685b.js"><link rel="prefetch" href="/assets/js/139.4ebca09a.js"><link rel="prefetch" href="/assets/js/14.eec961dc.js"><link rel="prefetch" href="/assets/js/140.0b269c5c.js"><link rel="prefetch" href="/assets/js/141.895d5c9e.js"><link rel="prefetch" href="/assets/js/142.52c959a8.js"><link rel="prefetch" href="/assets/js/143.d2d45c89.js"><link rel="prefetch" href="/assets/js/144.5efbd2f7.js"><link rel="prefetch" href="/assets/js/15.5f5d8b70.js"><link rel="prefetch" href="/assets/js/16.4ee6b26d.js"><link rel="prefetch" href="/assets/js/17.50e50ec7.js"><link rel="prefetch" href="/assets/js/18.cab1d0da.js"><link rel="prefetch" href="/assets/js/19.ae959080.js"><link rel="prefetch" href="/assets/js/20.f856b703.js"><link rel="prefetch" href="/assets/js/21.98905cca.js"><link rel="prefetch" href="/assets/js/22.d95eab9e.js"><link rel="prefetch" href="/assets/js/23.d5796e50.js"><link rel="prefetch" href="/assets/js/24.019a63f9.js"><link rel="prefetch" href="/assets/js/25.d57fcfa5.js"><link rel="prefetch" href="/assets/js/26.9a0f757d.js"><link rel="prefetch" href="/assets/js/27.da171d0a.js"><link rel="prefetch" href="/assets/js/28.45184f42.js"><link rel="prefetch" href="/assets/js/29.29dcb38a.js"><link rel="prefetch" href="/assets/js/3.bf261c9b.js"><link rel="prefetch" href="/assets/js/30.0d67399b.js"><link rel="prefetch" href="/assets/js/31.84c78a5e.js"><link rel="prefetch" href="/assets/js/32.45707435.js"><link rel="prefetch" href="/assets/js/33.c2e6cf67.js"><link rel="prefetch" href="/assets/js/34.62690592.js"><link rel="prefetch" href="/assets/js/35.83cf1ce1.js"><link rel="prefetch" href="/assets/js/36.0d6d0df9.js"><link rel="prefetch" href="/assets/js/37.9d275919.js"><link rel="prefetch" href="/assets/js/38.8baa2e54.js"><link rel="prefetch" href="/assets/js/39.b298d62f.js"><link rel="prefetch" href="/assets/js/4.ca6aefee.js"><link rel="prefetch" href="/assets/js/40.b4867322.js"><link rel="prefetch" href="/assets/js/41.6ab97dbe.js"><link rel="prefetch" href="/assets/js/42.bcbdcff3.js"><link rel="prefetch" href="/assets/js/43.b4aa4628.js"><link rel="prefetch" href="/assets/js/44.ca40cbdc.js"><link rel="prefetch" href="/assets/js/45.9ff1eea1.js"><link rel="prefetch" href="/assets/js/46.74b99a9b.js"><link rel="prefetch" href="/assets/js/47.db3e3b3a.js"><link rel="prefetch" href="/assets/js/48.243173b4.js"><link rel="prefetch" href="/assets/js/49.3e750b3f.js"><link rel="prefetch" href="/assets/js/50.8bb8e19d.js"><link rel="prefetch" href="/assets/js/51.7ff65bc4.js"><link rel="prefetch" href="/assets/js/52.c80e7ead.js"><link rel="prefetch" href="/assets/js/53.c33d566d.js"><link rel="prefetch" href="/assets/js/54.d4e867a2.js"><link rel="prefetch" href="/assets/js/55.f44678e9.js"><link rel="prefetch" href="/assets/js/56.d40d0f7a.js"><link rel="prefetch" href="/assets/js/57.7747fa5a.js"><link rel="prefetch" href="/assets/js/58.b780b3fe.js"><link rel="prefetch" href="/assets/js/59.3ac4eebe.js"><link rel="prefetch" href="/assets/js/6.d36e96b3.js"><link rel="prefetch" href="/assets/js/60.05a5defa.js"><link rel="prefetch" href="/assets/js/61.8c9a82f1.js"><link rel="prefetch" href="/assets/js/62.1fa23b16.js"><link rel="prefetch" href="/assets/js/63.eba3d56d.js"><link rel="prefetch" href="/assets/js/64.ade4c908.js"><link rel="prefetch" href="/assets/js/65.f84be7e9.js"><link rel="prefetch" href="/assets/js/66.e7bcd875.js"><link rel="prefetch" href="/assets/js/67.d067fdef.js"><link rel="prefetch" href="/assets/js/68.d8039102.js"><link rel="prefetch" href="/assets/js/69.37cbabf3.js"><link rel="prefetch" href="/assets/js/70.3c41b9e3.js"><link rel="prefetch" href="/assets/js/71.7b205d32.js"><link rel="prefetch" href="/assets/js/72.40326f13.js"><link rel="prefetch" href="/assets/js/73.1e8204af.js"><link rel="prefetch" href="/assets/js/74.a600446d.js"><link rel="prefetch" href="/assets/js/75.477ee325.js"><link rel="prefetch" href="/assets/js/76.b9b8514e.js"><link rel="prefetch" href="/assets/js/77.17b2a253.js"><link rel="prefetch" href="/assets/js/78.8174c769.js"><link rel="prefetch" href="/assets/js/79.a5298036.js"><link rel="prefetch" href="/assets/js/8.2eae6d63.js"><link rel="prefetch" href="/assets/js/80.d009a21a.js"><link rel="prefetch" href="/assets/js/81.9a6daa7f.js"><link rel="prefetch" href="/assets/js/82.d603ab96.js"><link rel="prefetch" href="/assets/js/83.440fd249.js"><link rel="prefetch" href="/assets/js/84.d79c529b.js"><link rel="prefetch" href="/assets/js/85.f1b4154e.js"><link rel="prefetch" href="/assets/js/86.86474f63.js"><link rel="prefetch" href="/assets/js/87.e420a12e.js"><link rel="prefetch" href="/assets/js/88.9bfcd453.js"><link rel="prefetch" href="/assets/js/89.c882224f.js"><link rel="prefetch" href="/assets/js/9.f9523f94.js"><link rel="prefetch" href="/assets/js/90.b6579033.js"><link rel="prefetch" href="/assets/js/91.14ffa4f0.js"><link rel="prefetch" href="/assets/js/92.d94948f4.js"><link rel="prefetch" href="/assets/js/93.84917758.js"><link rel="prefetch" href="/assets/js/94.a8da7191.js"><link rel="prefetch" href="/assets/js/95.e81193c8.js"><link rel="prefetch" href="/assets/js/96.92451629.js"><link rel="prefetch" href="/assets/js/97.69e4e593.js"><link rel="prefetch" href="/assets/js/98.77f772dd.js"><link rel="prefetch" href="/assets/js/99.8217cfff.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.b1c74a26.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a11dccbe.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout" class="background"><div class="theme-container no-sidebar" data-v-56c559b3><div data-v-56c559b3><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-56c559b3 data-v-56c559b3><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-57cd0bc8 data-v-56c559b3 data-v-56c559b3><h3 class="title" data-v-57cd0bc8>一ξひβθ光 i</h3> <p class="description" data-v-57cd0bc8>当才华不足以支持野心的时候，你就应该努力了！</p> <label id="box" class="inputBox" data-v-57cd0bc8><input type="password" value="" data-v-57cd0bc8> <span data-v-57cd0bc8>Konck! Knock!</span> <button data-v-57cd0bc8>OK</button></label> <div class="footer" data-v-57cd0bc8><span data-v-57cd0bc8><i class="iconfont reco-theme" data-v-57cd0bc8></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-57cd0bc8>vuePress-theme-reco</a></span> <span data-v-57cd0bc8><i class="iconfont reco-copyright" data-v-57cd0bc8></i> <a data-v-57cd0bc8><span data-v-57cd0bc8>Ray Shine</span>
+          
+        <span data-v-57cd0bc8>2022 - </span>
+        2025
+      </a></span></div></div> <div class="hide" data-v-56c559b3><header class="navbar" data-v-56c559b3><div class="nav-sub"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="https://cdn.rayshine.site/blog/home/rainbow-logo.png" alt="一ξひβθ光 i" class="logo"> <span class="site-name">一ξひβθ光 i</span></a> <div class="links"><div><form id="search-form" role="search" class="algolia-search-wrapper search-box"><i class="iconfont reco-search"></i> <input id="algolia-search-input" class="search-query"></form></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/大模型/" class="nav-link"><i class="undefined"></i>
+  大模型
+</a></li><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link"><i class="undefined"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/旅游攻略/" class="nav-link"><i class="undefined"></i>
+  旅游攻略
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link"><i class="undefined"></i>
+  服务端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link"><i class="undefined"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont rays-favicon-star-face"></i>
+      收藏
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>文档</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://cn.vuejs.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-vuejs"></i>
+  Vue.js
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://react.docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-react"></i>
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-javascript"></i>
+  MDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://uniapp.dcloud.net.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/d23e842c-58fc-4574-998d-17fdc7811cc3.png?v=1556263038788" class="link-img">
+  uniapp
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docsearch.algolia.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://docsearch.algolia.com/img/favicon.ico" class="link-img">
+  DocSearch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>导航 &amp; 工具</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://c.runoob.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  菜鸟工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://badgen.net/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  图标工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://codepen.io/your-work/?item_type=pen" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" class="link-img">
+  CodePen
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://www.zhanlian.net/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://www.zhanlian.net/wp-content/uploads/2021/12/%E4%BA%92%E8%81%94%E7%BD%91.png" class="link-img">
+  站联导航
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>其他</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-picture"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  印记中文
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div> <!----></nav> <div id="dayNightSwitch" class="generalWrapper" data-v-2b09a001><a class="click" data-v-2b09a001><div class="onOff daySwitch" data-v-2b09a001><div class="star star1" data-v-2b09a001></div> <div class="star star2" data-v-2b09a001></div> <div class="star star3" data-v-2b09a001></div> <div class="star star4" data-v-2b09a001></div> <div class="star star5" data-v-2b09a001></div> <div class="star sky" data-v-2b09a001></div> <div class="sunMoon" data-v-2b09a001><div class="crater crater1" data-v-2b09a001></div> <div class="crater crater2" data-v-2b09a001></div> <div class="crater crater3" data-v-2b09a001></div> <div class="cloud part1" data-v-2b09a001></div> <div class="cloud part2" data-v-2b09a001></div></div></div></a></div></div></div></header> <div class="sidebar-mask" data-v-56c559b3></div> <aside class="sidebar" data-v-56c559b3><div class="personal-info-wrapper" data-v-5de6852a data-v-56c559b3><img src="https://cdn.rayshine.site/blog/avatar/avatar.webp" alt="author-avatar" class="personal-img" data-v-5de6852a> <h3 class="name" data-v-5de6852a>
+    Ray Shine
+  </h3> <div class="social-links" data-v-5de6852a><a href="https://github.com/RayshineHub" title="gitHub" target="_blank" class="social-items" data-v-5de6852a><i class="big iconfont reco-github" style="color:#849b87;" data-v-5de6852a></i></a><a href="https://gitee.com/RayshineHub" title="gitee" target="_blank" class="social-items" data-v-5de6852a><i class="big iconfont reco-mayun" style="color:crimson;" data-v-5de6852a></i></a><!----><!----><!----><!----><!----><!----><!----><!----><!----> <!----><!----><!----><!----><!----><!----><!----><!----><!----><div title="wechat" target="_blank" class="social-items" data-v-5de6852a><i class="big iconfont reco-wechat" style="color:forestgreen;" data-v-5de6852a></i> <div class="popup-window-wrapper" data-v-5de6852a data-v-5de6852a><div class="popup-window" style="left:0;top:0;" data-v-5de6852a><div class="info" data-v-5de6852a><div class="title" data-v-5de6852a><h4 data-v-5de6852a>一ξひβθ光 i</h4></div> <div class="logo" data-v-5de6852a><img src="https://cdn.rayshine.site/blog/persnoal/wechat.png" data-v-5de6852a></div> <p data-v-5de6852a>扫一扫，填加我为朋友</p></div></div></div></div><div title="qq" target="_blank" class="social-items" data-v-5de6852a><i class="big iconfont reco-qq" style="color:#2ca5f1;" data-v-5de6852a></i> <div class="popup-window-wrapper" data-v-5de6852a data-v-5de6852a><div class="popup-window" style="left:0;top:0;" data-v-5de6852a><div class="info" data-v-5de6852a><div class="title" data-v-5de6852a><h4 data-v-5de6852a>╰╯Nâ有動情是ぺ憶waI</h4></div> <div class="logo" data-v-5de6852a><img src="https://cdn.rayshine.site/blog/persnoal/qq.png" data-v-5de6852a></div> <p data-v-5de6852a>扫一扫，添加我为朋友</p></div></div></div></div> <h1 class="longcang" data-v-5de6852a></h1></div> <hr data-v-5de6852a></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/大模型/" class="nav-link"><i class="undefined"></i>
+  大模型
+</a></li><li class="dropdown-item"><!----> <a href="/categories/收藏/" class="nav-link"><i class="undefined"></i>
+  收藏
+</a></li><li class="dropdown-item"><!----> <a href="/categories/旅游攻略/" class="nav-link"><i class="undefined"></i>
+  旅游攻略
+</a></li><li class="dropdown-item"><!----> <a href="/categories/服务端/" class="nav-link"><i class="undefined"></i>
+  服务端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/心得感悟/" class="nav-link"><i class="undefined"></i>
+  心得感悟
+</a></li><li class="dropdown-item"><!----> <a href="/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont rays-favicon-star-face"></i>
+      收藏
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>文档</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://cn.vuejs.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-vuejs"></i>
+  Vue.js
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://react.docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-react"></i>
+  React
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-javascript"></i>
+  MDN
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://uniapp.dcloud.net.cn/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/d23e842c-58fc-4574-998d-17fdc7811cc3.png?v=1556263038788" class="link-img">
+  uniapp
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docsearch.algolia.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://docsearch.algolia.com/img/favicon.ico" class="link-img">
+  DocSearch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>导航 &amp; 工具</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://c.runoob.com/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  菜鸟工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://badgen.net/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  图标工具
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://codepen.io/your-work/?item_type=pen" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" class="link-img">
+  CodePen
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://www.zhanlian.net/" target="_blank" rel="noopener noreferrer" class="nav-link external"><img src="https://www.zhanlian.net/wp-content/uploads/2021/12/%E4%BA%92%E8%81%94%E7%BD%91.png" class="link-img">
+  站联导航
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>其他</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-picture"></i>
+  精美壁纸
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://docschina.org/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont rays-link"></i>
+  印记中文
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-57cd0bc8 data-v-56c559b3><h3 class="title" data-v-57cd0bc8>知识篇 -- 【Linux】大模型部署</h3> <!----> <label id="box" class="inputBox" data-v-57cd0bc8><input type="password" value="" data-v-57cd0bc8> <span data-v-57cd0bc8>Konck! Knock!</span> <button data-v-57cd0bc8>OK</button></label> <div class="footer" data-v-57cd0bc8><span data-v-57cd0bc8><i class="iconfont reco-theme" data-v-57cd0bc8></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-57cd0bc8>vuePress-theme-reco</a></span> <span data-v-57cd0bc8><i class="iconfont reco-copyright" data-v-57cd0bc8></i> <a data-v-57cd0bc8><span data-v-57cd0bc8>Ray Shine</span>
+          
+        <span data-v-57cd0bc8>2022 - </span>
+        2025
+      </a></span></div></div> <div data-v-56c559b3><main class="page"><section class="article"><div class="page-title"><h1 class="title">知识篇 -- 【Linux】大模型部署</h1> <div data-v-4c142ffb><img src="https://cdn.rayshine.site/blog/article-type/original.png" alt class="article-type-img" data-v-4c142ffb> <span class="iconfont reprintUrl" data-v-4c142ffb>
+    Ray Shine
+  </span> <i class="iconfont reco-date" data-v-4c142ffb><span data-v-4c142ffb>2025/11/2</span></i> <i class="iconfont reco-eye" data-v-4c142ffb><span id="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html" data-flag-title="Your Article Title" class="leancloud-visitors" data-v-4c142ffb><a class="leancloud-visitors-count" style="font-size:.9rem;font-weight:normal;color:#999;"></a></span></i> <i class="tags iconfont reco-tag" data-v-4c142ffb><span class="tag-item" data-v-4c142ffb>Linux</span><span class="tag-item" data-v-4c142ffb>大模型</span></i> <div class="copyright" data-v-4c142ffb><i class="iconfont reco-copyright" style="margin:auto;font-size: inherit;" data-v-4c142ffb></i> <span data-v-4c142ffb>
+      本文为博主原创文章，遵循
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/" title="版权协议" target="_blank" class="reprintUrl" data-v-4c142ffb>
+        CC 4.0 BY-SA
+      </a>
+      版权协议，转载请附上原文出处链接和本声明。
+    </span> <div data-v-4c142ffb>
+      如有侵权，请联系
+      <a href="/" class="reprintUrl" data-v-4c142ffb>
+        本博主
+      </a>
+      删除。
+    </div></div></div></div> <div class="theme-reco-content content__default"><div id="boxx" data-v-f4ca0dac><div data-v-f4ca0dac><p v-if="true" class="custom-block-title" data-v-f4ca0dac></p> <p v-if="true" data-v-f4ca0dac></p></div></div> <p>大模型在Linux集群中的命令手册</p> <h2 id="_1-前期准备-集群节点初始化"><a href="#_1-前期准备-集群节点初始化" class="header-anchor">#</a> 1. 前期准备：集群节点初始化</h2> <h3 id="_1-1-设置主机名"><a href="#_1-1-设置主机名" class="header-anchor">#</a> 1.1 设置主机名</h3> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 节点1（主节点）</span>
+hostnamectl set-hostname llm-master-01
+<span class="token comment"># 节点2（从节点）</span>
+hostnamectl set-hostname llm-worker-01
+<span class="token comment"># 生效（无需重启）</span>
+<span class="token function">bash</span>
+</code></pre></div><h3 id="_1-2-配置ssh免密登录"><a href="#_1-2-配置ssh免密登录" class="header-anchor">#</a> 1.2 配置SSH免密登录</h3> <p>生成密钥对（主节点执行）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>ssh-keygen -t rsa -b <span class="token number">4096</span> -C <span class="token string">&quot;llm-cluster&quot;</span>
+<span class="token comment"># 按回车键默认保存到~/.ssh/id_rsa</span>
+</code></pre></div><p>复制密钥到所有节点：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 复制到主节点自身</span>
+ssh-copy-id llm-master-01
+<span class="token comment"># 复制到从节点（需输入密码）</span>
+ssh-copy-id llm-worker-01
+</code></pre></div><p>验证免密登录：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">ssh</span> llm-worker-01
+<span class="token comment"># 无需密码即可登录表示成功</span>
+</code></pre></div><h3 id="_1-3-时间同步-chrony"><a href="#_1-3-时间同步-chrony" class="header-anchor">#</a> 1.3 时间同步（chrony）</h3> <p>安装 <code>chrony</code>：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>yum <span class="token function">install</span> -y chrony
+</code></pre></div><p>配置时间服务器（所有节点）： 编辑<code>/etc/chrony.conf</code> ，添加阿里云时间服务器：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>server ntp.aliyun.com  iburst
+</code></pre></div><p>启动并设置开机自启：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>systemctl <span class="token builtin class-name">enable</span> chronyd --now
+<span class="token comment"># 验证时间同步状态</span>
+chronyc sources
+</code></pre></div><h3 id="_1-4-关闭防火墙与selinux"><a href="#_1-4-关闭防火墙与selinux" class="header-anchor">#</a> 1.4 关闭防火墙与SELinux</h3> <p>关闭firewalld：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>systemctl stop firewalld
+systemctl disable firewalld
+</code></pre></div><p>临时关闭SELinux：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>setenforce <span class="token number">0</span>
+</code></pre></div><p>永久关闭SELinux（需重启）： 编辑/etc/selinux/config，将SELINUX=enforcing改为：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token assign-left variable">SELINUX</span><span class="token operator">=</span>permissive
+</code></pre></div><h2 id="_2-环境搭建-gpu与框架配置"><a href="#_2-环境搭建-gpu与框架配置" class="header-anchor">#</a> 2. 环境搭建：GPU与框架配置</h2> <h3 id="_2-1-安装nvidia-gpu驱动"><a href="#_2-1-安装nvidia-gpu驱动" class="header-anchor">#</a> 2.1 安装NVIDIA GPU驱动</h3> <h4 id="方式1-yum安装-推荐"><a href="#方式1-yum安装-推荐" class="header-anchor">#</a> 方式1：yum安装（推荐）：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 添加NVIDIA yum源</span>
+<span class="token function">curl</span> -s -L https://nvidia.github.io/nvidia-driver-rpm/centos7/x86_64/nvidia-driver.repo  <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/yum.repos.d/nvidia-driver.repo 
+<span class="token comment"># 安装最新驱动</span>
+yum <span class="token function">install</span> -y nvidia-driver-latest-dkms
+<span class="token comment"># 重启生效</span>
+<span class="token function">reboot</span>
+</code></pre></div><h4 id="方式2-run文件安装-手动指定版本"><a href="#方式2-run文件安装-手动指定版本" class="header-anchor">#</a> 方式2：run文件安装（手动指定版本）：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 下载驱动（示例：535.113.01）</span>
+<span class="token function">wget</span> https://us.download.nvidia.com/XFree86/Linux-x86_64/535.113.01/NVIDIA-Linux-x86_64-535.113.01.run 
+<span class="token comment"># 关闭图形界面（避免冲突）</span>
+init <span class="token number">3</span>
+<span class="token comment"># 安装（--silent表示静默安装）</span>
+<span class="token function">sh</span> NVIDIA-Linux-x86_64-535.113.01.run  --silent --no-nouveau-check
+<span class="token comment"># 重启</span>
+<span class="token function">reboot</span>
+</code></pre></div><p>验证驱动：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvidia-smi
+<span class="token comment"># 输出GPU信息表示成功</span>
+</code></pre></div><h3 id="_2-2-安装cuda与cudnn"><a href="#_2-2-安装cuda与cudnn" class="header-anchor">#</a> 2.2 安装CUDA与cuDNN</h3> <h4 id="安装cuda-11-8-示例"><a href="#安装cuda-11-8-示例" class="header-anchor">#</a> 安装CUDA 11.8（示例）：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 下载CUDA安装包</span>
+<span class="token function">wget</span> https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run 
+<span class="token comment"># 安装（仅安装工具包，不覆盖驱动）</span>
+<span class="token function">sh</span> cuda_11.8.0_520.61.05_linux.run  --silent --toolkit --override
+<span class="token comment"># 配置环境变量（~/.bashrc）</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'export PATH=/usr/local/cuda-11.8/bin:$PATH'</span> <span class="token operator">&gt;&gt;</span> ~/.bashrc
+<span class="token builtin class-name">echo</span> <span class="token string">'export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH'</span> <span class="token operator">&gt;&gt;</span> ~/.bashrc
+<span class="token comment"># 生效</span>
+<span class="token builtin class-name">source</span> ~/.bashrc
+</code></pre></div><h4 id="安装cudnn-8-9-2-示例"><a href="#安装cudnn-8-9-2-示例" class="header-anchor">#</a> 安装cuDNN 8.9.2（示例）：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 下载cuDNN（需NVIDIA账号）</span>
+<span class="token function">wget</span> https://developer.download.nvidia.com/compute/cudnn/v8.9.2/local_installers/cudnn-linux-x86_64-8.9.2.26_cuda11-archive.tar.xz 
+<span class="token comment"># 解压</span>
+<span class="token function">tar</span> -xvf cudnn-linux-x86_64-8.9.2.26_cuda11-archive.tar.xz 
+<span class="token comment"># 复制文件到CUDA目录</span>
+<span class="token function">sudo</span> <span class="token function">cp</span> cudnn-linux-x86_64-8.9.2.26_cuda11-archive/include/cudnn*.h /usr/local/cuda-11.8/include
+<span class="token function">sudo</span> <span class="token function">cp</span> cudnn-linux-x86_64-8.9.2.26_cuda11-archive/lib/libcudnn* /usr/local/cuda-11.8/lib64
+<span class="token comment"># 设置权限</span>
+<span class="token function">sudo</span> <span class="token function">chmod</span> a+r /usr/local/cuda-11.8/include/cudnn*.h /usr/local/cuda-11.8/lib64/libcudnn*
+</code></pre></div><p>验证CUDA：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvcc -V
+<span class="token comment"># 输出CUDA版本表示成功</span>
+</code></pre></div><h3 id="_2-3-配置python环境"><a href="#_2-3-配置python环境" class="header-anchor">#</a> 2.3 配置Python环境</h3> <h4 id="安装anaconda"><a href="#安装anaconda" class="header-anchor">#</a> 安装Anaconda：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 下载Anaconda（Python 3.10版本）</span>
+<span class="token function">wget</span> https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh 
+<span class="token comment"># 安装（默认路径~/.anaconda3）</span>
+<span class="token function">sh</span> Anaconda3-2023.09-0-Linux-x86_64.sh  -b
+<span class="token comment"># 配置环境变量（~/.bashrc）</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'export PATH=~/.anaconda3/bin:$PATH'</span> <span class="token operator">&gt;&gt;</span> ~/.bashrc
+<span class="token builtin class-name">source</span> ~/.bashrc
+</code></pre></div><h4 id="创建虚拟环境"><a href="#创建虚拟环境" class="header-anchor">#</a> 创建虚拟环境：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code>conda create -n llm-env <span class="token assign-left variable">python</span><span class="token operator">=</span><span class="token number">3.10</span> -y
+conda activate llm-env
+</code></pre></div><h4 id="安装大模型框架"><a href="#安装大模型框架" class="header-anchor">#</a> 安装大模型框架：</h4> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># PyTorch（支持CUDA 11.8）</span>
+pip <span class="token function">install</span> torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 
+<span class="token comment"># TensorFlow（支持CUDA 11.8）</span>
+pip <span class="token function">install</span> tensorflow<span class="token punctuation">[</span>and-cuda<span class="token punctuation">]</span>
+<span class="token comment"># 其他依赖</span>
+pip <span class="token function">install</span> transformers datasets accelerate vllm deepspeed
+</code></pre></div><h2 id="_3-模型部署-集群训练与推理"><a href="#_3-模型部署-集群训练与推理" class="header-anchor">#</a> 3. 模型部署：集群训练与推理</h2> <h3 id="_3-1-pytorch-distributed-分布式训练"><a href="#_3-1-pytorch-distributed-分布式训练" class="header-anchor">#</a> 3.1 PyTorch Distributed 分布式训练</h3> <p>命令格式：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>torchrun <span class="token punctuation">\</span>
+  --nproc_per_node<span class="token operator">=</span><span class="token number">4</span> <span class="token punctuation">\</span>  <span class="token comment"># 每个节点的GPU数</span>
+  --nnodes<span class="token operator">=</span><span class="token number">2</span> <span class="token punctuation">\</span>           <span class="token comment"># 集群节点总数</span>
+  --node_rank<span class="token operator">=</span><span class="token number">0</span> <span class="token punctuation">\</span>        <span class="token comment"># 当前节点排名（主节点为0）</span>
+  --master_addr<span class="token operator">=</span><span class="token string">&quot;192.168.1.100&quot;</span> <span class="token punctuation">\</span>  <span class="token comment"># 主节点IP</span>
+  --master_port<span class="token operator">=</span><span class="token number">29500</span> <span class="token punctuation">\</span>  <span class="token comment"># 主节点端口（需开放）</span>
+  train.py  <span class="token punctuation">\</span>             <span class="token comment"># 训练脚本</span>
+  --batch_size<span class="token operator">=</span><span class="token number">32</span> <span class="token punctuation">\</span>      <span class="token comment"># 自定义参数</span>
+  --lr<span class="token operator">=</span>1e-5
+</code></pre></div><p>示例（2节点×4 GPU）：</p> <p>主节点（node_rank=0）：
+<code>torchrun --nproc_per_node=4 --nnodes=2 --node_rank=0 --master_addr=&quot;192.168.1.100&quot; --master_port=29500 train.py</code>
+从节点（node_rank=1）：
+<code>torchrun --nproc_per_node=4 --nnodes=2 --node_rank=1 --master_addr=&quot;192.168.1.100&quot; --master_port=29500 train.py</code></p> <h3 id="_3-2-vllm-推理部署-支持张量并行"><a href="#_3-2-vllm-推理部署-支持张量并行" class="header-anchor">#</a> 3.2 vLLM 推理部署（支持张量并行）</h3> <p>命令格式：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>vllm serve <span class="token punctuation">\</span>
+  --model meta-llama/Llama-2-7b-chat-hf <span class="token punctuation">\</span>  <span class="token comment"># 模型名称（Hugging Face）</span>
+  --tensor-parallel-size <span class="token number">4</span> <span class="token punctuation">\</span>               <span class="token comment"># 张量并行的GPU数</span>
+  --gpu-memory-utilization <span class="token number">0.9</span> <span class="token punctuation">\</span>           <span class="token comment"># GPU内存使用率（建议0.8-0.9）</span>
+  --port <span class="token number">8000</span> <span class="token punctuation">\</span>                            <span class="token comment"># 推理服务端口</span>
+  --served-model-name llama-2-7b-chat      <span class="token comment"># 服务名称（可选）</span>
+</code></pre></div><p>示例（4 GPU张量并行）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>vllm serve --model meta-llama/Llama-2-7b-chat-hf --tensor-parallel-size <span class="token number">4</span> --gpu-memory-utilization <span class="token number">0.9</span> --port <span class="token number">8000</span>
+</code></pre></div><p>验证推理：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">curl</span> -X POST http://localhost:8000/v1/chat/completions <span class="token punctuation">\</span>
+  -H <span class="token string">&quot;Content-Type: application/json&quot;</span> <span class="token punctuation">\</span>
+  -d <span class="token string">'{
+    &quot;model&quot;: &quot;llama-2-7b-chat&quot;,
+    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;解释什么是大模型？&quot;}]
+  }'</span>
+</code></pre></div><h3 id="_3-3-kubernetes-容器化部署"><a href="#_3-3-kubernetes-容器化部署" class="header-anchor">#</a> 3.3 Kubernetes 容器化部署</h3> <p>编写部署文件（llm-deployment.yaml ）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-vllm-deployment
+spec:
+  replicas: <span class="token number">2</span>  <span class="token comment"># 副本数（从节点数量）</span>
+  template:
+    metadata:
+      labels:
+        app: llm-vllm
+    spec:
+      containers:
+      - name: vllm-container
+        image: llm-vllm:latest  <span class="token comment"># 自定义镜像（包含vLLM和模型）</span>
+        resources:
+          limits:
+            nvidia.com/gpu:  <span class="token number">1</span>  <span class="token comment"># 每个Pod占用1块GPU</span>
+        ports:
+        - containerPort: <span class="token number">8000</span>
+      nodeSelector:
+        node-role.kubernetes.io/worker:  <span class="token string">&quot;true&quot;</span>  <span class="token comment"># 调度到从节点</span>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-vllm-service
+spec:
+  type: NodePort
+  ports:
+  - port: <span class="token number">8000</span>
+    targetPort: <span class="token number">8000</span>
+    nodePort: <span class="token number">30000</span>  <span class="token comment"># 集群外部访问端口</span>
+  selector:
+    app: llm-vllm
+</code></pre></div><p>部署到Kubernetes集群：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 应用部署文件</span>
+kubectl apply -f llm-deployment.yaml 
+<span class="token comment"># 查看Pod状态</span>
+kubectl get pods -l <span class="token assign-left variable">app</span><span class="token operator">=</span>llm-vllm
+<span class="token comment"># 查看Service状态（获取外部访问地址）</span>
+kubectl get <span class="token function">service</span> llm-vllm-service
+</code></pre></div><h2 id="_4-集群管理-监控与运维"><a href="#_4-集群管理-监控与运维" class="header-anchor">#</a> 4. 集群管理：监控与运维</h2> <h3 id="_4-1-kubernetes-集群管理"><a href="#_4-1-kubernetes-集群管理" class="header-anchor">#</a> 4.1 Kubernetes 集群管理</h3> <p>查看节点状态：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>kubectl get nodes
+<span class="token comment"># 输出节点列表及状态（Ready表示正常）</span>
+</code></pre></div><p>查看Pod日志：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 查看指定Pod的日志（实时更新）</span>
+kubectl logs -f llm-vllm-deployment-xxxx-xxxx
+<span class="token comment"># 查看Pod的资源使用情况</span>
+kubectl <span class="token function">top</span> pod llm-vllm-deployment-xxxx-xxxx
+</code></pre></div><p>扩容/缩容：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 扩容到3个副本（3个从节点）</span>
+kubectl scale deployment llm-vllm-deployment --replicas<span class="token operator">=</span><span class="token number">3</span>
+<span class="token comment"># 缩容到1个副本</span>
+kubectl scale deployment llm-vllm-deployment --replicas<span class="token operator">=</span><span class="token number">1</span>
+</code></pre></div><h3 id="_4-2-监控-prometheus-grafana"><a href="#_4-2-监控-prometheus-grafana" class="header-anchor">#</a> 4.2 监控：Prometheus + Grafana</h3> <p>安装Prometheus：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>helm repo <span class="token function">add</span> prometheus-community https://prometheus-community.github.io/helm-charts 
+helm repo update
+helm <span class="token function">install</span> prometheus prometheus-community/prometheus
+</code></pre></div><p>安装Grafana：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>helm repo <span class="token function">add</span> grafana https://grafana.github.io/helm-charts 
+helm <span class="token function">install</span> grafana grafana/grafana
+</code></pre></div><p>访问Dashboard：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 端口转发（Prometheus）</span>
+kubectl port-forward service/prometheus-server <span class="token number">9090</span>:80
+<span class="token comment"># 端口转发（Grafana）</span>
+kubectl port-forward service/grafana <span class="token number">3000</span>:80
+Prometheus：http://localhost:9090
+Grafana：http://localhost:3000（默认账号：admin，密码：kubectl get secret grafana -o <span class="token assign-left variable">jsonpath</span><span class="token operator">=</span><span class="token string">&quot;{.data.admin-password}&quot;</span>  <span class="token operator">|</span> base64 --decode）
+</code></pre></div><p>导入大模型监控仪表盘：</p> <p>Grafana官网搜索<code>LLM Monitoring</code>或<code>vLLM</code>，导入对应的仪表盘ID（如1860 for Prometheus）。</p> <h3 id="_4-3-日志管理-elk-stack"><a href="#_4-3-日志管理-elk-stack" class="header-anchor">#</a> 4.3 日志管理：ELK Stack</h3> <p>安装Elasticsearch：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>helm repo <span class="token function">add</span> elastic https://helm.elastic.co 
+helm <span class="token function">install</span> elasticsearch elastic/elasticsearch --version <span class="token number">8.11</span>.1
+</code></pre></div><p>安装Kibana：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>helm <span class="token function">install</span> kibana elastic/kibana --version <span class="token number">8.11</span>.1
+</code></pre></div><p>收集Pod日志（Fluentd）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>helm <span class="token function">install</span> fluentd bitnami/fluentd --set elasticsearch.hosts<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span>elasticsearch-master:9200 
+</code></pre></div><p>访问Kibana：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>kubectl port-forward service/kibana <span class="token number">5601</span>:5601
+Kibana：http://localhost:5601（默认账号：elastic，密码：kubectl get secret elasticsearch-master-credentials -o <span class="token assign-left variable">jsonpath</span><span class="token operator">=</span><span class="token string">&quot;{.data.elastic}&quot;</span>  <span class="token operator">|</span> base64 --decode）
+</code></pre></div><h2 id="_5-性能优化-提升集群效率"><a href="#_5-性能优化-提升集群效率" class="header-anchor">#</a> 5. 性能优化：提升集群效率</h2> <h3 id="_5-1-混合精度训练-pytorch"><a href="#_5-1-混合精度训练-pytorch" class="header-anchor">#</a> 5.1 混合精度训练（PyTorch）</h3> <p>代码中的命令：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">import</span> torch
+from torch.cuda.amp  <span class="token function">import</span> autocast, GradScaler
+
+<span class="token comment"># 初始化混合精度</span>
+scaler <span class="token operator">=</span> GradScaler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 训练循环</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">batch</span> <span class="token keyword">in</span> dataloader:
+    inputs, targets <span class="token operator">=</span> batch
+    inputs <span class="token operator">=</span> inputs.cuda<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    targets <span class="token operator">=</span> targets.cuda<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    
+    <span class="token comment"># 自动混合精度（FP16）</span>
+    with autocast<span class="token punctuation">(</span><span class="token punctuation">)</span>:
+        outputs <span class="token operator">=</span> model<span class="token punctuation">(</span>inputs<span class="token punctuation">)</span>
+        loss <span class="token operator">=</span> criterion<span class="token punctuation">(</span>outputs, targets<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 反向传播（缩放梯度）</span>
+    scaler.scale<span class="token punctuation">(</span>loss<span class="token punctuation">)</span>.backward<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    scaler.step<span class="token punctuation">(</span>optimizer<span class="token punctuation">)</span> 
+    scaler.update<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    optimizer.zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+</code></pre></div><h3 id="_5-2-分布式优化器-fusedadam"><a href="#_5-2-分布式优化器-fusedadam" class="header-anchor">#</a> 5.2 分布式优化器（FusedAdam）</h3> <p>命令格式：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>from torch.optim  <span class="token function">import</span> AdamW
+
+<span class="token comment"># 使用FusedAdam优化器（需CUDA支持）</span>
+optimizer <span class="token operator">=</span> AdamW<span class="token punctuation">(</span>
+    model.parameters<span class="token punctuation">(</span><span class="token punctuation">)</span>, 
+    <span class="token assign-left variable">lr</span><span class="token operator">=</span>1e-5,
+    <span class="token assign-left variable">fused</span><span class="token operator">=</span>True  <span class="token comment"># 开启融合操作（提升速度）</span>
+<span class="token punctuation">)</span>
+</code></pre></div><h3 id="_5-3-张量并行-pytorch-tensorparallel"><a href="#_5-3-张量并行-pytorch-tensorparallel" class="header-anchor">#</a> 5.3 张量并行（PyTorch TensorParallel）</h3> <p>命令格式：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>from torch.nn.parallel  <span class="token function">import</span> TensorParallel
+
+<span class="token comment"># 加载模型</span>
+model <span class="token operator">=</span> AutoModelForCausalLM.from_pretrained<span class="token punctuation">(</span><span class="token string">&quot;meta-llama/Llama-2-7b-chat-hf&quot;</span><span class="token punctuation">)</span> 
+<span class="token comment"># 张量并行（分配到4块GPU）</span>
+model <span class="token operator">=</span> TensorParallel<span class="token punctuation">(</span>model, <span class="token assign-left variable">device_ids</span><span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0,1</span>,2,3<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># 移动到GPU</span>
+model <span class="token operator">=</span> model.cuda<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+</code></pre></div><h2 id="_6-故障排查-常见问题解决"><a href="#_6-故障排查-常见问题解决" class="header-anchor">#</a> 6. 故障排查：常见问题解决</h2> <h3 id="_6-1-gpu故障"><a href="#_6-1-gpu故障" class="header-anchor">#</a> 6.1 GPU故障</h3> <p>查看GPU状态：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvidia-smi -l <span class="token number">1</span>  <span class="token comment"># 实时监控GPU使用率</span>
+</code></pre></div><p>查看驱动日志：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> nvidia  <span class="token comment"># 查找NVIDIA驱动错误</span>
+</code></pre></div><p>重启GPU驱动：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">sudo</span> rmmod nvidia  <span class="token comment"># 卸载驱动模块</span>
+<span class="token function">sudo</span> modprobe nvidia  <span class="token comment"># 重新加载驱动模块</span>
+</code></pre></div><h3 id="_6-2-网络故障-分布式训练失败"><a href="#_6-2-网络故障-分布式训练失败" class="header-anchor">#</a> 6.2 网络故障（分布式训练失败）</h3> <p>验证节点连通性：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">ping</span> llm-worker-01  <span class="token comment"># 主节点ping从节点</span>
+</code></pre></div><p>查看端口开放情况：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">netstat</span> -tuln <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">29500</span>  <span class="token comment"># 检查主节点端口是否开放</span>
+</code></pre></div><p>抓包分析网络流量：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>tcpdump -i eth0 port <span class="token number">29500</span> -n  <span class="token comment"># 捕获端口29500的流量</span>
+</code></pre></div><h3 id="_6-3-进程与日志排查"><a href="#_6-3-进程与日志排查" class="header-anchor">#</a> 6.3 进程与日志排查</h3> <p>查看Python进程：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> python  <span class="token comment"># 查找大模型训练进程</span>
+</code></pre></div><p>终止异常进程：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">kill</span> -9 <span class="token operator">&lt;</span>pid<span class="token operator">&gt;</span>  <span class="token comment"># &lt;pid&gt;为进程ID（从ps命令输出中获取）</span>
+</code></pre></div><p>查看训练日志：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">tail</span> -f logs/train.log   <span class="token comment"># 实时查看日志最后10行</span>
+<span class="token function">grep</span> <span class="token string">&quot;Error&quot;</span> logs/train.log   <span class="token comment"># 查找日志中的错误信息</span>
+</code></pre></div><h2 id="_7-最佳实践-安全与效率"><a href="#_7-最佳实践-安全与效率" class="header-anchor">#</a> 7. 最佳实践：安全与效率</h2> <h3 id="_7-1-容器化最佳实践"><a href="#_7-1-容器化最佳实践" class="header-anchor">#</a> 7.1 容器化最佳实践</h3> <p>编写Dockerfile（包含vLLM与模型）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+ENV <span class="token assign-left variable">DEBIAN_FRONTEND</span><span class="token operator">=</span>noninteractive
+
+<span class="token comment"># 安装依赖</span>
+RUN <span class="token function">apt-get</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt-get</span> <span class="token function">install</span> -y python3-pip python3-dev <span class="token function">git</span>
+
+<span class="token comment"># 安装vLLM</span>
+RUN pip3 <span class="token function">install</span> vllm transformers
+
+<span class="token comment"># 下载模型（示例：Llama-2-7b-chat）</span>
+RUN <span class="token function">git</span> clone https://huggingface.co/meta-llama/Llama-2-7b-chat-hf  /models/llama-2-7b-chat-hf
+RUN <span class="token builtin class-name">echo</span> <span class="token string">&quot;MODEL_PATH=/models/llama-2-7b-chat-hf&quot;</span> <span class="token operator">&gt;&gt;</span> /etc/environment
+
+<span class="token comment"># 暴露端口</span>
+EXPOSE <span class="token number">8000</span>
+
+<span class="token comment"># 启动vLLM服务</span>
+CMD <span class="token punctuation">[</span><span class="token string">&quot;vllm&quot;</span>, <span class="token string">&quot;serve&quot;</span>, <span class="token string">&quot;--model&quot;</span>, <span class="token string">&quot;/models/llama-2-7b-chat-hf&quot;</span>, <span class="token string">&quot;--tensor-parallel-size&quot;</span>, <span class="token string">&quot;4&quot;</span><span class="token punctuation">]</span>
+</code></pre></div><p>构建镜像：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">docker</span> build -t llm-vllm:latest <span class="token builtin class-name">.</span>
+</code></pre></div><h3 id="_7-2-安全性配置"><a href="#_7-2-安全性配置" class="header-anchor">#</a> 7.2 安全性配置</h3> <p>限制SSH登录权限： 编辑<code>/etc/ssh/sshd_config</code>：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>PermitRootLogin no  <span class="token comment"># 禁止root用户登录</span>
+AllowUsers llm-user  <span class="token comment"># 允许指定用户登录</span>
+</code></pre></div><p>重启SSH服务：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>systemctl restart sshd
+</code></pre></div><p>配置SSL证书（HTTPS）： 使用Certbot获取免费SSL证书（Let's Encrypt）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>yum <span class="token function">install</span> -y certbot python3-certbot-nginx
+certbot --nginx -d llm-cluster.example.com 
+</code></pre></div><h3 id="_7-3-资源调度优化-kubernetes"><a href="#_7-3-资源调度优化-kubernetes" class="header-anchor">#</a> 7.3 资源调度优化（Kubernetes）</h3> <p>设置QoS等级（Guaranteed）：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>spec:
+  containers:
+  - name: llm-container
+    image: llm-vllm:latest
+    resources:
+      limits:
+        cpu: <span class="token string">&quot;8&quot;</span>
+        memory: <span class="token string">&quot;64Gi&quot;</span>
+        nvidia.com/gpu:  <span class="token number">1</span>
+      requests:
+        cpu: <span class="token string">&quot;8&quot;</span>
+        memory: <span class="token string">&quot;64Gi&quot;</span>
+        nvidia.com/gpu:  <span class="token number">1</span>
+  qosClass: Guaranteed  <span class="token comment"># 保证资源分配（优先调度）</span>
+</code></pre></div><h2 id="附录-常用命令速查"><a href="#附录-常用命令速查" class="header-anchor">#</a> 附录：常用命令速查</h2> <p>功能	命令示例
+查看GPU状态</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvidia-smi
+</code></pre></div><p>查看集群节点状态</p> <div class="language-bash extra-class"><pre class="language-bash"><code>kubectl get nodes
+</code></pre></div><p>查看Pod日志</p> <div class="language-bash extra-class"><pre class="language-bash"><code>kubectl logs -f <span class="token operator">&lt;</span>pod-name<span class="token operator">&gt;</span>
+</code></pre></div><p>实时监控GPU使用率</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvidia-smi -l <span class="token number">1</span>
+</code></pre></div><p>检查CUDA版本</p> <div class="language-bash extra-class"><pre class="language-bash"><code>nvcc -V
+</code></pre></div><p>启动vLLM推理服务</p> <div class="language-bash extra-class"><pre class="language-bash"><code>vllm serve --model meta-llama/Llama-2-7b-chat-hf --tensor-parallel-size <span class="token number">4</span>
+</code></pre></div><p>分布式训练（PyTorch）</p> <div class="language-bash extra-class"><pre class="language-bash"><code>torchrun --nproc_per_node<span class="token operator">=</span><span class="token number">4</span> --nnodes<span class="token operator">=</span><span class="token number">2</span> --node_rank<span class="token operator">=</span><span class="token number">0</span> --master_addr<span class="token operator">=</span><span class="token string">&quot;192.168.1.100&quot;</span> --master_port<span class="token operator">=</span><span class="token number">29500</span> train.py
+</code></pre></div><p>备注：手册中的命令需根据集群环境（如节点数量、GPU数量、模型名称）调整参数。建议在测试环境中验证后再部署到生产集群。</p></div></section> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">最后更新时间: </span> <span class="time">2025/11/20 14:59:30</span></div></footer> <!----> <div class="comments-wrapper"><!----></div> <div class="sub-sidebar-tip" style="display:;" data-v-58dee56a>ON THIS PAGE</div> <ul class="sub-sidebar-wrapper" style="width:15%;" data-v-505b496a><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_1-前期准备-集群节点初始化" class="sidebar-link reco-side-_1-前期准备-集群节点初始化 depth-2" data-v-505b496a>1. 前期准备：集群节点初始化</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_1-1-设置主机名" class="sidebar-link reco-side-_1-1-设置主机名 depth-3" data-v-505b496a>1.1 设置主机名</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_1-2-配置ssh免密登录" class="sidebar-link reco-side-_1-2-配置ssh免密登录 depth-3" data-v-505b496a>1.2 配置SSH免密登录</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_1-3-时间同步-chrony" class="sidebar-link reco-side-_1-3-时间同步-chrony depth-3" data-v-505b496a>1.3 时间同步（chrony）</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_1-4-关闭防火墙与selinux" class="sidebar-link reco-side-_1-4-关闭防火墙与selinux depth-3" data-v-505b496a>1.4 关闭防火墙与SELinux</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_2-环境搭建-gpu与框架配置" class="sidebar-link reco-side-_2-环境搭建-gpu与框架配置 depth-2" data-v-505b496a>2. 环境搭建：GPU与框架配置</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_2-1-安装nvidia-gpu驱动" class="sidebar-link reco-side-_2-1-安装nvidia-gpu驱动 depth-3" data-v-505b496a>2.1 安装NVIDIA GPU驱动</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_2-2-安装cuda与cudnn" class="sidebar-link reco-side-_2-2-安装cuda与cudnn depth-3" data-v-505b496a>2.2 安装CUDA与cuDNN</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_2-3-配置python环境" class="sidebar-link reco-side-_2-3-配置python环境 depth-3" data-v-505b496a>2.3 配置Python环境</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_3-模型部署-集群训练与推理" class="sidebar-link reco-side-_3-模型部署-集群训练与推理 depth-2" data-v-505b496a>3. 模型部署：集群训练与推理</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_3-1-pytorch-distributed-分布式训练" class="sidebar-link reco-side-_3-1-pytorch-distributed-分布式训练 depth-3" data-v-505b496a>3.1 PyTorch Distributed 分布式训练</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_3-2-vllm-推理部署-支持张量并行" class="sidebar-link reco-side-_3-2-vllm-推理部署-支持张量并行 depth-3" data-v-505b496a>3.2 vLLM 推理部署（支持张量并行）</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_3-3-kubernetes-容器化部署" class="sidebar-link reco-side-_3-3-kubernetes-容器化部署 depth-3" data-v-505b496a>3.3 Kubernetes 容器化部署</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_4-集群管理-监控与运维" class="sidebar-link reco-side-_4-集群管理-监控与运维 depth-2" data-v-505b496a>4. 集群管理：监控与运维</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_4-1-kubernetes-集群管理" class="sidebar-link reco-side-_4-1-kubernetes-集群管理 depth-3" data-v-505b496a>4.1 Kubernetes 集群管理</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_4-2-监控-prometheus-grafana" class="sidebar-link reco-side-_4-2-监控-prometheus-grafana depth-3" data-v-505b496a>4.2 监控：Prometheus + Grafana</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_4-3-日志管理-elk-stack" class="sidebar-link reco-side-_4-3-日志管理-elk-stack depth-3" data-v-505b496a>4.3 日志管理：ELK Stack</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_5-性能优化-提升集群效率" class="sidebar-link reco-side-_5-性能优化-提升集群效率 depth-2" data-v-505b496a>5. 性能优化：提升集群效率</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_5-1-混合精度训练-pytorch" class="sidebar-link reco-side-_5-1-混合精度训练-pytorch depth-3" data-v-505b496a>5.1 混合精度训练（PyTorch）</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_5-2-分布式优化器-fusedadam" class="sidebar-link reco-side-_5-2-分布式优化器-fusedadam depth-3" data-v-505b496a>5.2 分布式优化器（FusedAdam）</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_5-3-张量并行-pytorch-tensorparallel" class="sidebar-link reco-side-_5-3-张量并行-pytorch-tensorparallel depth-3" data-v-505b496a>5.3 张量并行（PyTorch TensorParallel）</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_6-故障排查-常见问题解决" class="sidebar-link reco-side-_6-故障排查-常见问题解决 depth-2" data-v-505b496a>6. 故障排查：常见问题解决</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_6-1-gpu故障" class="sidebar-link reco-side-_6-1-gpu故障 depth-3" data-v-505b496a>6.1 GPU故障</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_6-2-网络故障-分布式训练失败" class="sidebar-link reco-side-_6-2-网络故障-分布式训练失败 depth-3" data-v-505b496a>6.2 网络故障（分布式训练失败）</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_6-3-进程与日志排查" class="sidebar-link reco-side-_6-3-进程与日志排查 depth-3" data-v-505b496a>6.3 进程与日志排查</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_7-最佳实践-安全与效率" class="sidebar-link reco-side-_7-最佳实践-安全与效率 depth-2" data-v-505b496a>7. 最佳实践：安全与效率</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_7-1-容器化最佳实践" class="sidebar-link reco-side-_7-1-容器化最佳实践 depth-3" data-v-505b496a>7.1 容器化最佳实践</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_7-2-安全性配置" class="sidebar-link reco-side-_7-2-安全性配置 depth-3" data-v-505b496a>7.2 安全性配置</a></li><li class="level-3" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#_7-3-资源调度优化-kubernetes" class="sidebar-link reco-side-_7-3-资源调度优化-kubernetes depth-3" data-v-505b496a>7.3 资源调度优化（Kubernetes）</a></li><li class="level-2" data-v-505b496a><a href="/blogs/%E6%9C%8D%E5%8A%A1%E7%AB%AF/2025/11/Linux%E4%B8%AD%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html#附录-常用命令速查" class="sidebar-link reco-side-附录-常用命令速查 depth-2" data-v-505b496a>附录：常用命令速查</a></li></ul></main> <!----></div></div></div></div> <!----></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div><div></div><!----><!----></div></div>
+    <script src="/assets/js/app.34b97d4e.js" defer></script><script src="/assets/js/123.047a3f02.js" defer></script><script src="/assets/js/7.fdeef97c.js" defer></script><script src="/assets/js/5.e03f900d.js" defer></script>
+  </body>
+</html>
